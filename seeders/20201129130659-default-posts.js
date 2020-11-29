@@ -1,9 +1,8 @@
 'use strict';
-const fs = require('fs');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    queryInterface.bulkInsert('Posts', postObjs.map(({ }) => ({})));
+
   },
 
   down: (queryInterface, Sequelize) => {
