@@ -3,8 +3,8 @@ const fs = require('fs');
 
 const userObjs = [];
 for (let i = 1; i <= 50; i++) {
-  const fileBuffer = fs.readFileSync(`/home/josh/appIO/Project1/JavaScriptJungle/utils/userObjsPage${i}.txt`, 'utf8');
-  fileBuffer.split('\n').forEach((userJSON, idx) => {
+  const fileBuffer = fs.readFileSync(`/home/josh/appIO/Project1/JavaScriptJungle/utils/users/userObjsPage${i}.txt`, 'utf8');
+  fileBuffer.split('\n').forEach(userJSON => {
     if (userJSON) {
       userObjs.push(JSON.parse(userJSON));
     }
