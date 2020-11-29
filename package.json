@@ -1,0 +1,39 @@
+{
+  "name": "javascriptjungle",
+  "version": "0.1.0",
+  "description": "First group project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jtype33/jsj-josh.git"
+  },
+  "keywords": [
+    "javascript",
+    "stackoverflow",
+    "questions",
+    "answers",
+    "webdev",
+    "fullstack"
+  ],
+  "author": "Andrew, Giiaga, Jacob, Josh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jtype33/jsj-josh/issues"
+  },
+  "homepage": "https://github.com/jtype33/jsj-josh#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  },
+  "dependencies": {
+    "csurf": "^1.11.0",
+    "express": "^4.17.1",
+    "faker": "^5.1.0",
+    "pg": "^8.5.1",
+    "pug": "^3.0.0",
+    "sequelize": "^5.22.3",
+    "sequelize-cli": "^5.5.1"
+  }
+}
