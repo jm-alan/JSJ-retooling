@@ -7,6 +7,7 @@ const routes = require('./routes.js');
 const app = express();
 
 app.set('view engine', 'pug');
+app.use(express.static(__dirname + '/utils/public'));
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));

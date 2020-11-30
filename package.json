@@ -4,6 +4,8 @@
   "description": "First group project",
   "main": "index.js",
   "scripts": {
+    "start": "per-env",
+    "start:development": "nodemon -r dotenv/config ./bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,17 +27,23 @@
   },
   "homepage": "https://github.com/jtype33/jsj-josh#readme",
   "devDependencies": {
-    "nodemon": "^2.0.6"
+    "dotenv": "^8.2.0",
+    "dotenv-cli": "^4.0.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.6",
+    "sequelize-cli": "^5.5.1"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
+    "cookie-parser": "^1.4.5",
     "csurf": "^1.11.0",
     "express": "^4.17.1",
+    "express-validator": "^6.7.0",
     "faker": "^5.1.0",
     "materialize-css": "^1.0.0",
+    "per-env": "^1.0.2",
     "pg": "^8.5.1",
     "pug": "^3.0.0",
-    "sequelize": "^5.22.3",
-    "sequelize-cli": "^5.5.1"
+    "sequelize": "^5.22.3"
   }
 }

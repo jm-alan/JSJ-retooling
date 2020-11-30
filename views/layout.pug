@@ -1,8 +1,17 @@
 doctype html
 html(lang="en")
     head
+        link(rel="stylesheet", href="https://fonts.googleapis.com/icon?family=Material+Icons")
+        link(rel="stylesheet", type="text/css" href="/Materialize/css/materialize.css")
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        script(src="/Materialize/js/materialize.js")
         title= pageTitle
+    nav.nav-extended
+        .nav-wrapper
+            a.brand-logo.left(href="#") JavaScript Jungle
+            a.sidenav-trigger(href="#")
+                i.material-icons menu
+            ul#nav-mobile.right.hide-on-med-and-down
     body
 block content
