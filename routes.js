@@ -33,85 +33,73 @@ const questionValidators = [
     .withMessage('Body cannot be empty')
 ];
 
-router.post('/book/add', csrfProtection, bookValidators,
+router.post('/book/add', csrfProtection, questionValidators,
   asyncHandler(async (req, res) => {
     const {
       title,
-      author,
-      releaseDate,
-      pageCount,
-      publisher
+      body
     } = req.body;
 
-    const book = db.Book.build({
-      title,
-      author,
-      releaseDate,
-      pageCount,
-      publisher
+    const thread = db.Thread.build({
+      title
+    });
+
+    const post = db.Post.build({
+      body
     });
 
     const validatorErrors = validationResult(req);
 
     if (validatorErrors.isEmpty()) {
-      await book.save();
-      res.redirect('/');
+      await thread.save();
+      await post.save();
+      res.redirect(`/questions/${thread.id}`);
     } else {
       const errors = validatorErrors.array().map((error) => error.msg);
-      res.render('book-add', {
-        title: 'Add Book',
-        book,
+      res.render('/', {
+        pageTitle: 'Ask a Question',
+        title,
+        body,
         errors,
         csrfToken: req.csrfToken()
       });
     }
   }));
 
-router.get('/book/edit/:id(\\d+)', csrfProtection,
+router.get('/question/:id(\\d+)/edit', csrfProtection,
   asyncHandler(async (req, res) => {
     const bookId = parseInt(req.params.id, 10);
     const book = await db.Book.findByPk(bookId);
-    res.render('book-edit', {
-      title: 'Edit Book',
+    res.render('post-edit', {
+      pageTitle: 'Edit Post',
       book,
       csrfToken: req.csrfToken()
     });
   }));
 
-router.post('/book/edit/:id(\\d+)', csrfProtection, bookValidators,
+router.post('/question/:id(\\d+)/edit', csrfProtection, questionValidators,
   asyncHandler(async (req, res) => {
-    const bookId = parseInt(req.params.id, 10);
-    const bookToUpdate = await db.Book.findByPk(bookId);
+    const postId = parseInt(req.params.id, 10);
+    const postToUpdate = await db.Post.findByPk(postId);
 
     const {
-      title,
-      author,
-      releaseDate,
-      pageCount,
-      publisher
+      body
     } = req.body;
 
     const book = {
-      title,
-      author,
-      releaseDate,
-      pageCount,
-      publisher
+      body
     };
 
     const validatorErrors = validationResult(req);
 
     if (validatorErrors.isEmpty()) {
-      await bookToUpdate.update(book);
+      await postToUpdate.update(book);
       res.redirect('/');
     } else {
       const errors = validatorErrors.array().map((error) => error.msg);
-      res.render('book-edit', {
-        title: 'Edit Book',
-        book: {
-          ...book,
-          id: bookId
-        },
+      res.render('post-edit', {
+        pageTitle: 'Edit Post',
+        body,
         errors,
         csrfToken: req.csrfToken()
       });
@@ -119,20 +107,29 @@ router.post('/book/edit/:id(\\d+)', csrfProtection, bookValidators,
   })
 );
 
-router.get('/book/delete/:id(\\d+)', csrfProtection, asyncHandler(async (req, res) => {
-  const bookId = parseInt(req.params.id, 10);
-  const book = await db.Book.findByPk(bookId);
-  res.render('book-delete', {
-    title: 'Delete Book',
-    book,
+router.get('/post/:id(\\d+)/delete', csrfProtection, asyncHandler(async (req, res) => {
+  const postId = parseInt(req.params.id, 10);
+  const post = await db.Book.findByPk(postId);
+  const isQuestion = post.isQuestion;
+  res.render('post-delete', {
+    title: 'Delete Post',
+    post,
+    isQuestion,
     csrfToken: req.csrfToken()
   });
 }));
 
-router.post('/book/delete/:id(\\d+)', csrfProtection, asyncHandler(async (req, res) => {
-  const bookId = parseInt(req.params.id, 10);
-  const book = await db.Book.findByPk(bookId);
-  await book.destroy();
+router.post('/post/:id(\\d+)/delete', csrfProtection, asyncHandler(async (req, res) => {
+  const postId = parseInt(req.params.id, 10);
+  const post = await db.Book.findByPk(postId);
+  const thread = post.isQuestion ? post.threadId : null;
+  const allPosts = thread ? db.Post.findAll({ where: { threadId: thread.id } }) : null;
+  if (allPosts) {
+    allPosts.forEach(post => {
+      post.destroy();
+    });
+    thread.destroy();
+  } else await post.destroy();
   res.redirect('/');
 }));
 

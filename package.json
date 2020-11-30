@@ -32,6 +32,7 @@
     "csurf": "^1.11.0",
     "express": "^4.17.1",
     "faker": "^5.1.0",
+    "materialize-css": "^1.0.0",
     "pg": "^8.5.1",
     "pug": "^3.0.0",
     "sequelize": "^5.22.3",
