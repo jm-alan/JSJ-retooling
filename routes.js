@@ -11,7 +11,15 @@ const csrfProtection = csrf({ cookie: true });
 const asyncHandler = (handler) => (req, res, next) => handler(req, res, next).catch(next);
 
 router.get('/', asyncHandler(async (req, res) => {
-  res.render('home', { pageTitle: 'Home' });
+  res.redirect('/page/1');
+}));
+
+router.get('/page/:pg(\\d+)', asyncHandler(async (req, res) => {
+  const threads = await db.Thread.findAll({ limit: 10, offset: (req.params.pg * 10) - 10 });
+  res.render('home', {
+    pageTitle: 'Home',
+    threads
+  });
 }));
 
 router.get('/book/add', csrfProtection, (req, res) => {

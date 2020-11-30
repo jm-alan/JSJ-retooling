@@ -6,12 +6,21 @@ html(lang="en")
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         script(src="/Materialize/js/materialize.js")
+        script(src="/pageControl.js")
         title= pageTitle
     nav.nav-extended
         .nav-wrapper
-            a.brand-logo.left(href="#") JavaScript Jungle
-            a.sidenav-trigger(href="#")
+            a.brand-logo.right(href="#") JavaScript Jungle
+            a.sidenav-trigger(href="#", data-target="mobile-demo")
                 i.material-icons menu
             ul#nav-mobile.right.hide-on-med-and-down
+                li
+                    a(href="/ask") Ask a Question
+    ul#mobile-demo.sidenav
+        li
+            a(href='/') Home
+        li
+            a(href="/ask") Ask a Question
+            
     body
 block content

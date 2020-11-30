@@ -1,1 +1,8 @@
 extends layout.pug
+block content
+    each thread in threads
+        .row
+            .col.s12.m6
+                .card.green.darken-3
+                    span.card-title= thread.title
+                    p This is where I'd put content...IF I HAD ANY
