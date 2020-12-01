@@ -1,0 +1,15 @@
+                                       List of roles
+     Role name     |                         Attributes                         | Member of 
+-------------------+------------------------------------------------------------+-----------
+ app_academy       | Create DB                                                  | {}
+ enrollment_app    |                                                            | {}
+ josh              | Superuser                                                  | {}
+ jsjungle_admin    | Create DB                                                  | {}
+ junglemaster      | Create DB                                                  | {}
+ jwt_test          | Create DB                                                  | {}
+ local_storage_app |                                                            | {}
+ postgres          | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+ reading_list_app  |                                                            | {}
+ redux             | Create DB                                                  | {}
+ twitter_lite_app  | Create DB                                                  | {}
+
