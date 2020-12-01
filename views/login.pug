@@ -7,10 +7,11 @@ block content
                 each error in errors
                     li=error
     h1(id="heading")=title
-    form(action="/login" method="post" id="formContainer")
-        label(for="userName" id="labelUser") User Name
-        +field("userName", "text", "userName")
-        label(for="password" id="labelPass") Password
-        +field("password", "password", "password")
-        input(type="submit" value="Log In" id="loginButton")
-        a(href="/signup" id="signupLink") Sign Up
+    div#formContainer
+        form(action="/login" method="post" id="form")
+            label(for="userName" id="labelUser") User Name
+            +field("userName", "text", "userName")
+            label(for="password" id="labelPass") Password
+            +field("password", "password", "password")
+            input(type="submit" value="Log In" id="loginButton")
+            a(href="/signup" id="signupLink") Sign Up
