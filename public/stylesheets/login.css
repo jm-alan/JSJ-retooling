@@ -29,9 +29,9 @@
 }
 #userName {
     grid-area: userName;
-
+    font-size: large;
     width: 180px;
-    height: 25px;
+    height: 35px;
     margin-bottom: 12px;
     border-radius: 4px;
 }
@@ -39,7 +39,8 @@
 #password {
     grid-area: password;
     width: 180px;
-    height: 25px;
+    height: 35px;
+    font-size: large;
     margin-bottom: 15px;
     border-radius: 4px;
 }
