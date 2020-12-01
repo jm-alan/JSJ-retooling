@@ -1,0 +1,46 @@
+#errorDiv {
+    display: flex;
+    flex-direction: row;
+
+    border: 3px solid rgb(59, 33, 3);
+    background-color: rgb(59, 33, 3);
+}
+
+#heading {
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+#formContainer {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    grid-template-areas: "labelUser ."
+                        "userName ."
+                        "labelPass ."
+                        "password ."
+                        "login ."
+                        "signup .";
+    }
+
+#userName {
+    grid-area: userName;
+    width: 150px;
+    height: 24px;
+}
+
+#password {
+    grid-area: password;
+}
+#labelUser {
+    grid-area: labelUser;
+}
+#labelPass {
+    grid-area: labelPass;
+}
+#loginButton {
+    grid-area: login;
+}
+#signupLink {
+    grid-area: signup;
+}

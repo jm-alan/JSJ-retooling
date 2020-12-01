@@ -1,13 +1,16 @@
 extends layout
 include utils
 block content
-    div
+    div#errorDiv
         if errors
-            ul
+             ul
                 each error in errors
                     li=error
-    form(action="/login" method="post")
-        +field("User Name:", "userName", "text")
-        +field("Password:", "password", "password")
-        input(type="submit" value="Log In")
-        a(href="/signup") Sign Up
+    h1(id="heading")=title
+    form(action="/login" method="post" id="formContainer")
+        label(for="userName" id="labelUser") User Name
+        +field("userName", "text", "userName")
+        label(for="password" id="labelPass") Password
+        +field("password", "password", "password")
+        input(type="submit" value="Log In" id="loginButton")
+        a(href="/signup" id="signupLink") Sign Up

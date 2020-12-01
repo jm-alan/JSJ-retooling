@@ -1,3 +1,3 @@
-mixin field(fieldLabel, fieldName, fieldType, fieldValue=null)
+mixin field( fieldName, fieldType, id, fieldValue=null, fieldLabel)
     label(for=fieldName)=fieldLabel
-    input(type=fieldType name=fieldName value=fieldValue)
+    input(type=fieldType name=fieldName id=id value=fieldValue)
