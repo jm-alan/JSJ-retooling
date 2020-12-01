@@ -2,7 +2,15 @@ doctype html
 html
   head
       block head
-        title="Express Starter App"
-        link(rel='stylesheet' href='/stylesheets/reset.css')
+        title=title
+        link(rel='stylesheet' href='/stylesheets/main.css')
   body
+    nav
+      a(href='/') Home
+      if true
+        a(href='/users/1') User's Name
+        //- /users/#{user.id}
+      else
+        a(href='/login') Log In
+      input(type="text" placeholder="Search" name='searchbar')
     block content
