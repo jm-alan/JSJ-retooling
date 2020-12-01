@@ -1,0 +1,69 @@
+#errorDiv {
+    display: flex;
+    flex-direction: row;
+    border: 3px solid rgb(59, 33, 3);
+    background-color: rgb(59, 33, 3);
+}
+
+#heading {
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+#form {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    grid-template-areas: "labelUser ."
+                        "userName ."
+                        "labelPass ."
+                        "password ."
+                        "login ."
+                        "signup .";
+    }
+#formContainer {
+    background-color: rgb(146, 67, 22);
+    width: 50%;
+    margin: auto;
+    height: 200px;
+}
+#userName {
+    grid-area: userName;
+    font-size: large;
+    width: 180px;
+    height: 35px;
+    margin-bottom: 12px;
+    border-radius: 4px;
+}
+
+#password {
+    grid-area: password;
+    width: 180px;
+    height: 35px;
+    font-size: large;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+#labelUser {
+    grid-area: labelUser;
+    margin-top: 15px;
+    font-size: 19px;
+}
+#labelPass {
+    grid-area: labelPass;
+    font-size: 19px;
+}
+#loginButton {
+    grid-area: login;
+    justify-self: center;
+    width: 100px;
+    height: 29px;
+    margin-bottom: 15px;
+    border-radius: 3px;
+    font-size: 15px;
+}
+#signupLink {
+    grid-area: signup;
+    justify-self: center;
+
+}
