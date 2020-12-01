@@ -4,4 +4,15 @@ const port = process.env.PORT || '8080';
 
 const app = require('../app');
 
+const db = require('../db/models');
+
+db.sequelize.authenticate()
+  .then(() => {
+    console.log('Database connection successful.');
+  })
+  .catch(err => {
+    console.log('Database connection failure:');
+    console.log(err);
+  });
+
 app.listen(port, () => console.log(`Listening on port ${port}...`));
