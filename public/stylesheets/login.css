@@ -1,14 +1,36 @@
 #errorDiv {
     display: flex;
-    flex-direction: row;
-    border: 3px solid rgb(59, 33, 3);
-    background-color: rgb(59, 33, 3);
+    justify-content: center;
+    border: 1px solid rgb(59, 33, 3);
+    background-color: rgb(196, 145, 86);
+    border-radius: 10px;
+    margin-bottom: 10px;
 }
+.errorsList {
+    padding: 10px 0 10px 0px;
 
+}
+.wholePageContainer {
+    height: 470px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 #heading {
     text-align: center;
-    margin-top: 50px;
-    margin-bottom: 50px;
+    margin-bottom: 10px;
+
+}
+.pageWidthContainer {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 35%;
 }
 #form {
     display: grid;
@@ -23,9 +45,11 @@
     }
 #formContainer {
     background-color: rgb(146, 67, 22);
-    width: 50%;
+    width: 100%;
     margin: auto;
-    height: 200px;
+    height: 230px;
+    border-radius: 15px;
+    border: 1px solid rgb(59, 33, 3);
 }
 #userName {
     grid-area: userName;
@@ -47,11 +71,11 @@
 #labelUser {
     grid-area: labelUser;
     margin-top: 15px;
-    font-size: 19px;
+    font-size: large;
 }
 #labelPass {
     grid-area: labelPass;
-    font-size: 19px;
+    font-size: large;
 }
 #loginButton {
     grid-area: login;
@@ -61,6 +85,7 @@
     margin-bottom: 15px;
     border-radius: 3px;
     font-size: 15px;
+    font-size: large;
 }
 #signupLink {
     grid-area: signup;

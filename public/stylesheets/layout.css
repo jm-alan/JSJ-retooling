@@ -9,8 +9,9 @@
 }
 
 .searchIcon {
+    justify-self: right;
     align-self: center;
-    padding-left: 10px;
+    padding-right: 10px;
 }
 
 #searchBar {
