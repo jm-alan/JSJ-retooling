@@ -1,0 +1,17 @@
+extends layout
+include utils
+block content
+    div
+        if errors
+            ul
+                each error in errors
+                    li=error
+    form(action="/signup" method="post")
+        +field("First Name:", "firstName", "text")
+        +field("Last Name:", "lastName", "text")
+        +field("Email:", "email", "email")
+        +field("User Name:", "userName", "text")
+        +field("Password:", "password", "password")
+        +field("Confirm Password:", "confirmPassword", "password")
+        input(type="submit" value="Sign Up")
+        a(href="/login") Log In

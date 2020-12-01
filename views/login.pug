@@ -1,1 +1,13 @@
-//- placeholder
+extends layout
+include utils
+block content
+    div
+        if errors
+            ul
+                each error in errors
+                    li=error
+    form(action="/login" method="post")
+        +field("User Name:", "userName", "text")
+        +field("Password:", "password", "password")
+        input(type="submit" value="Log In")
+        a(href="/signup") Sign Up
