@@ -36,33 +36,36 @@ const getUserToken = (user) => {
   return token;
 };
 
-const restoreUser = (req, res, next) => {
-  const { token } = req;
+const loginUser = (req, res, user) => {
+  req.session.auth = { userId: user.id };
+};
 
-  if (!token) {
-    return res.set("WWW-Authenticate", "Bearer").status(401).end();
-  }
+const restoreUser = async (req, res, next) => {
+  console.log(req.session);
 
-  return jwt.verify(token, secret, null, async (err, jwtPayload) => {
-    if (err) {
-      err.status = 401;
-      return next(err);
-    }
-
-    const { id } = jwtPayload.data;
+  if (req.session.auth) {
+    const { userId } = req.session.auth;
 
     try {
-      req.user = await User.findByPk(id);
-    } catch (e) {
-      return next(e);
-    }
+      const user = await User.findByPk(userId);
 
-    if (!req.user) {
-      return res.set("WWW-Authenticate", "Bearer").status(401).end();
+      if (user) {
+        res.locals.authenticated = true;
+        res.locals.user = user;
+        next();
+      }
+    } catch (err) {
+      res.locals.authenticated = false;
+      next(err);
     }
+  } else {
+    res.locals.authenticated = false;
+    next();
+  }
+};
 
-    return next();
-  });
+const logoutUser = (req, res) => {
+  delete req.session.auth;
 };
 
 const requireAuth = [bearerToken(), restoreUser];
@@ -71,4 +74,5 @@ module.exports = {
   requireAuth,
   asyncHandler,
   handleValidationErrors,
+  loginUser,
 };

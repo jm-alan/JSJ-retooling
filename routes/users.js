@@ -6,11 +6,14 @@ const {
   handleValidationErrors,
   getUserToken,
   requireAuth,
+  loginUser,
+  logoutUser,
 } = require("../utils/server-utils.js");
 const { check } = require("express-validator");
 const { User } = require("../db/models");
 const crsf = require("csurf");
 const { db } = require("../config/index.js");
+const app = require("../app.js");
 const crsfProtection = crsf({ cookie: true });
 
 const userValidator = [
@@ -19,7 +22,14 @@ const userValidator = [
     .custom(async (value) => {
       if (await User.findOne({ where: { userName: value } }))
         throw new Error("The provided user name is already in use.");
-      else return true;
+      else {
+        const invalidCharacters = "!?~`@#$%^&*(){}\\/<>,[]|";
+        for (letter of value) {
+          if (invalidCharacters.includes(letter))
+            throw new Error("User name contains invalid character.");
+        }
+        return true;
+      }
     }),
   check("email")
     .exists({ checkFalsy: true })
@@ -48,12 +58,65 @@ const userValidator = [
     .exists({ checkFalsy: true })
     .withMessage("Please provide a last name"),
 ];
-/* GET users listing. */
+
+const loginValidator = [
+  check("identification")
+    .exists({ checkFalsy: true })
+    .withMessage("Please provide a username or email.")
+    .custom(async (value) => {
+      if (String(value).match(/@/g)) {
+        if (!(await User.findOne({ where: { email: value } }))) {
+          throw new Error("Invalid login.");
+        } else return true;
+      } else {
+        if (!(await User.findOne({ where: { userName: value } }))) {
+          throw new Error("Invalid login.");
+        } else return true;
+      }
+    }),
+  check("password")
+    .exists({ checkFalsy: true })
+    .withMessage("Please provide a password.")
+    .custom(async (value, { req }) => {
+      if (String(value).match(/@/g)) {
+        const user = await User.findOne({
+          where: { email: req.body.identification },
+        });
+        if (
+          !bcrypt.compareSync(req.body.password, user.hashedPassword.toString())
+        )
+          throw new Error("Invalid login.");
+      } else {
+        const user = await User.findOne({
+          where: { userName: req.body.identification },
+        });
+        if (
+          !bcrypt.compareSync(req.body.password, user.hashedPassword.toString())
+        )
+          throw new Error("Invalid login.");
+      }
+    }),
+];
 
 router.get("/", crsfProtection, (req, res) => {
   // login pug file
   res.render("sign-up", { csrfToken: req.csrfToken() });
 });
+
+router.get("/login", crsfProtection, (req, res) => {
+  res.render("login", { csrfToken: req.csrfToken() });
+});
+
+router.post(
+  "/login",
+  crsfProtection,
+  loginValidator,
+  handleValidationErrors,
+  (req, res) => {
+    loginUser();
+    res.redirect("/");
+  }
+);
 
 router.post(
   "/",
@@ -78,5 +141,10 @@ router.post(
     });
   })
 );
+
+router.post("/logout", (req, res) => {
+  logoutUser(req, res);
+  res.redirect("/login");
+});
 
 module.exports = router;
