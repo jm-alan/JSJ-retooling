@@ -10,13 +10,11 @@ block content
   #content
     #questionsHeader
       h2 Top Questions
-      a(href="/newQuestion")
+      a(href="/newQuestion" class="newQuestion")
         button New Question
       #sortBar
-        a(href="/newQuestion")
-          button Recent
-        a(href="/newQuestion")
-          button Popular
+        button(class="sortButton sortButton--selected" id="recent") Recent
+        button(class="sortButton" id="popular") Popular
     #questions
       each question in questions
         div(class="question")

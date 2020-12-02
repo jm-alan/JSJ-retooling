@@ -1,0 +1,75 @@
+#content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 5px;
+}
+#questionsHeader {
+  width: 75%;
+  display: grid;
+  grid-template: 1fr 1fr / 1fr 1fr;
+  gap: 10px;
+  border-bottom: solid darkgrey 2px;
+}
+#questionsHeader > h2 {
+  font-size: 2em;
+  padding: 10px 0 0 10px;
+}
+#sortBar {
+  grid-column-start: 2;
+  justify-self: right;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  align-self: flex-end;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+#recent {
+  border-right: 1px solid darkgrey;
+  border-radius: 5px 0 0 5px;
+}
+#popular {
+  border-radius: 0 5px 5px 0;
+}
+.sortButton {
+  background-color: rgb(236, 236, 236);
+  border: 0px;
+  padding: 7px;
+  font-size: 0.9em;
+}
+.sortButton--selected {
+  background-color: rgb(206, 206, 206);
+}
+.newQuestion {
+  justify-self: right;
+  align-self: flex-end;
+  padding-right: 10px;
+}
+
+.newQuestion > button {
+  background-color: rgb(48, 141, 48);
+  color: rgb(250, 255, 250);
+  font-size: 1.1em;
+  padding: 8px;
+  border-radius: 12px;
+}
+
+/* questions elements */
+
+#questions {
+  width: 75%;
+  /* background-color: purple; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.question {
+}
+.title {
+}
+.author {
+}
+.answerNumber {
+}
+.score {
+}
