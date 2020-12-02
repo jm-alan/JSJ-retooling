@@ -2,7 +2,7 @@ extends layout
 include utils
 block content
     div.wholePageContainer
-        h1(id="heading")=title
+        h1(id="heading") Login
         div.pageWidthContainer
             .container
                 if errors
@@ -12,10 +12,8 @@ block content
                                 li=error
                 div#formContainer
                     form(action="/users/login" method="post" id="form")
-                        label(for="identification" id="labelID" class="formLabel") User Name
-                        +field("identification", "text", "userName")
-                        label(for="password" id="labelPass" class="formLabel") Password
-                        +field("password", "password", "password")
+                        +field2("Username/Email", "identification", "text", null, "labelUserSignUp")
+                        +field2("Password", "password", "password")
                         input(type="submit" value="Log In" id="loginButton")
                         input(type="hidden" name="_csrf" value=csrfToken)
-                        a(href="/signup" id="signupLink"  class="formLabel") Sign Up
+                        a(href="/signup" id="signupLink" class="formLabel") Sign Up
