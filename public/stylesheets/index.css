@@ -1,31 +1,33 @@
 h1 {
-    color: #555555;
+  color: #555555;
 }
 
 body {
-    font: 18px;
-    font-family: Arial, Helvetica, sans-serif;
+  font: 18px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .textField {
-    border-radius: 6px;
-    border: 3px solid rgb(59, 33, 3);
-    background-color: rgb(235, 186, 131);
-    color: black
+  border-radius: 6px;
+  border: 3px solid rgb(59, 33, 3);
+  background-color: rgb(235, 186, 131);
+  color: black;
 }
 
 .textField:focus {
-    background-color: rgb(185, 147, 104);
-    border: 3px solid lightgreen;
-    outline: 0px;
+  background-color: rgb(185, 147, 104);
+  border: 3px solid lightgreen;
+  outline: 0px;
 }
 
 .textField::placeholder {
-    color: black
+  color: black;
 }
 
 .formLabel {
-    color: rgb(213,236,58);
-    text-shadow: 2px 2px black;
-    font-size: large;
+  color: white;
+  background-color: rgba(31, 117, 42, 0.8);
+  padding: 1px;
+  text-shadow: rgb(0, 0, 0) 0px 3px 10px;
+  font-size: large;
 }
