@@ -58,7 +58,14 @@
     border-radius: 15px;
     border: 1px solid rgb(59, 33, 3);
     background-image: url('../images/JungleBackground.jpg');
+    background-size:100% 100%;
     padding-bottom: 10px
+}
+#signUpForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 #userName {
     grid-area: userName;
@@ -101,7 +108,6 @@
 #signupLink {
     grid-area: signup;
     justify-self: center;
-
 }
 
 .signUpField {
@@ -110,4 +116,13 @@
     font-size: large;
     margin-bottom: 15px;
     border-radius: 4px;
+}
+
+.signUpDiv {
+    text-align: left;
+    width: 180px;
+}
+
+#labelUserSignUp {
+    margin-top: 15px;
 }

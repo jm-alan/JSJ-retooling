@@ -1,8 +1,8 @@
 mixin field( fieldName, fieldType, id, fieldValue=null, fieldLabel)
     label(for=fieldName)=fieldLabel
     input(type=fieldType name=fieldName id=id value=fieldValue class="textField")
-mixin field2(fieldLabel, fieldName, fieldType, fieldValue=null)
-    div
+mixin field2(fieldLabel, fieldName, fieldType, fieldValue=null, id=null)
+    div.signUpDiv(id=id)
         label(for=fieldName class="formLabel")=fieldLabel
     div
-        input(type=fieldType name=fieldName id=id value=fieldValue class="textField signUpField")
+        input(type=fieldType name=fieldName value=fieldValue class="textField signUpField")

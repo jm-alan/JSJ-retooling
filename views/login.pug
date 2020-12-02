@@ -17,4 +17,5 @@ block content
                         label(for="password" id="labelPass" class="formLabel") Password
                         +field("password", "password", "password")
                         input(type="submit" value="Log In" id="loginButton")
+                        input(type="hidden" name="_csrf" value=csrfToken)
                         a(href="/signup" id="signupLink"  class="formLabel") Sign Up
