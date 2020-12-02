@@ -12,9 +12,18 @@ router.get("/", function (req, res, next) {
     score: 1,
     timeStamp: "created 5 mins ago by ",
   };
+  const obj2 = {
+    title: `JS is the best I love it more that I've ever loved anything in my entire life. I love it even more than I love water bottles. Those things are awesome too! JS is the best I love it more that I've ever loved anything in my entire life. I love it even more than I love water bottles. Those things are awesome too!`,
+    threadId: 14,
+    userId: 32,
+    userName: "JSIsAWESOME2",
+    numberOfAnswers: 10,
+    score: 1,
+    timeStamp: "created 5 mins ago by ",
+  };
   res.render("index", {
     title: "Javascript Jungle",
-    questions: [obj, obj, obj, obj, obj, obj, obj, obj, obj, obj],
+    questions: [obj2, obj, obj, obj, obj, obj, obj, obj, obj, obj],
   });
 });
 

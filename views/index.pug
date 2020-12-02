@@ -18,15 +18,20 @@ block content
     #questions
       each question in questions
         div(class="question")
-          a(class="title" href="/questions/#{question.id}")= question.title
+          if question.numberOfAnswers == 1
+            .answerNumber 1
+              div answer
+          else
+            .answerNumber #{question.numberOfAnswers}
+              div answers
+          if question.score == 1
+            .score 1
+              div vote
+          else
+            .score #{question.score}
+              div votes
+          div.titleDiv
+            a(class="title" href="/questions/#{question.id}")= question.title
           .author= question.timeStamp
             span
-              a(href='/users/#{question.userId}')= question.userName
-          if question.numberOfAnswers == 1
-            .answerNumber 1 answer
-          else
-            .answerNumber #{question.numberOfAnswers} answers
-          if question.score == 1
-            .score 1 vote
-          else
-            .score #{question.score} votes
+              a(href='/users/#{question.userId}' class="userLink")= question.userName
