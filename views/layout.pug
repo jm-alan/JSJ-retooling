@@ -1,14 +1,14 @@
 doctype html
 html
   head
-      block head
-        title=title
-        link(rel='stylesheet' href='/stylesheets/main.css')
-        <script src="https://kit.fontawesome.com/0ccb37cdbe.js" crossorigin="anonymous"></script>
+    block head
+      title=title
+      link(rel='stylesheet' href='/stylesheets/main.css')
+      <script src="https://kit.fontawesome.com/0ccb37cdbe.js" crossorigin="anonymous"></script>
   body
     nav#navbar
       a(href='/' id="homeButton")
-        img(id="homeButtonImage" src="../images/JSJungle.png", alt="logo")
+        img(id="homeButtonImage" src="../images/JSJungle.png" alt="logo")
 
       span(class="searchIcon" style="font-size: 1.6em; color: LightGreen;")
         i(class="fas fa-search")
@@ -21,5 +21,12 @@ html
             i(class="fas fa-user")
         //- /users/#{user.id}
       else
+<<<<<<< HEAD
         a(href='/login' id="logInButton") Log In
+=======
+        a(href='/users/login' id="logInLink")
+          span(style="font-size: 2em; color: LightGreen;")
+            i(class="fas fa-sign-in-alt")
+
+>>>>>>> 6e10c1584b65c2f60e23444c6b4fde6684ba565d
     block content

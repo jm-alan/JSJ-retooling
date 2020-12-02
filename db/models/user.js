@@ -1,24 +1,24 @@
-"use strict";
+'use strict';
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
-    "User",
+    'User',
     {
       userName: DataTypes.STRING,
       email: DataTypes.STRING,
       hashedPassword: DataTypes.STRING,
       firstName: DataTypes.STRING,
-      lastName: DataTypes.STRING,
+      lastName: DataTypes.STRING
     },
     {}
   );
   User.associate = function (models) {
     const columnMapping = {
-      through: "Score",
-      otherKey: "postId",
-      foreignKey: "userId",
+      through: 'Score',
+      otherKey: 'postId',
+      foreignKey: 'userId'
     };
     [models.Post, models.Thread, models.Score].forEach((model) => {
-      User.hasMany(model, { foreignKey: "userId" });
+      User.hasMany(model, { foreignKey: 'userId' });
     });
     User.belongsToMany(models.Post, columnMapping);
   };
