@@ -13,7 +13,7 @@ block content
                 div#formContainer
                     form(action="/users/login" method="post" id="form")
                         label(for="identification" id="labelID" class="formLabel") User Name
-                        +field("identification", "text", "identification")
+                        +field("identification", "text", "userName")
                         label(for="password" id="labelPass" class="formLabel") Password
                         +field("password", "password", "password")
                         input(type="submit" value="Log In" id="loginButton")
