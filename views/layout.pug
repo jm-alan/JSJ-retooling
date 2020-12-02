@@ -15,11 +15,14 @@ html
 
       input(id="searchBar" type="search" placeholder="Search..." name='searchbar' class="textField")
 
-      if false
+      if true
         a(href='/users/1' id="profileButton")
           span(style="font-size: 2em; color: LightGreen;")
             i(class="fas fa-user")
         //- /users/#{user.id}
       else
-        a(href='/login' id="logInButton") Log In
+        a(href='/users/login' id="logInLink")
+          span(style="font-size: 2em; color: LightGreen;")
+            i(class="fas fa-sign-in-alt")
+
     block content

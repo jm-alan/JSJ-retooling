@@ -51,4 +51,9 @@
     color: 1px solid rgb(107, 248, 107);
 }
 
-#logInButton {}
+#logInLink {
+    align-self: center;
+    justify-self: right;
+    padding: 10px;
+    color: 1px solid rgb(107, 248, 107);
+}
