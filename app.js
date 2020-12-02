@@ -27,7 +27,7 @@ app.use(cookieParser(sessionSecret));
 app.use(express.urlencoded({ extended: false }));
 app.use(
   session({
-    secret: 'superSecret',
+    secret: sessionSecret,
     store,
     saveUninitialized: false,
     resave: false
@@ -38,6 +38,7 @@ store.sync();
 app.use(restoreUser);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
 app.get('/signup', (req, res) => {
   res.redirect('/users/signup');
 });
