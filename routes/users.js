@@ -67,57 +67,20 @@ const loginValidator = [
       } else {
         // If the identification scans as a regular username, but lookup
         // still returns null
-        if (!(await User.findOne({ where: { userName: value } }))) {
+        const user = await User.findOne({ where: { userName: value } });
+        if (!(user)) {
           throw new Error('Invalid login.');
           // otherwise this error validation is complete.
-        } else return true;
+        } else if (user) {
+          if (!bcrypt.compareSync(req.body.password, user.hashedPassword.toString())) {
+                throw new Error('Invalid login.');
+          }
+      } else return true;
       }
     }),
   check('password')
     .exists({ checkFalsy: true })
     .withMessage('Please provide a password.')
-    .custom(async (value, { req }) => {
-      // Just to be safe
-      value = String(value);
-      // If the identification entered scans as an email address
-      if (String(req.body.identification).match(/@/g)) {
-        // Attempt to look up a user by that email
-        const user = await User.findOne({
-          where: { email: req.body.identification }
-        });
-        // If null
-        if (!user) throw new Error('Invalid login.');
-        else if (
-          // If not null, but password mismatch
-          // This needs to be done as a separate step from checking if the user
-          // exists, because if user === null and we run the line right under
-          // this comment we'll get an error for trying to read property
-          // "hashedPassword" of null and the program will crash.
-          !bcrypt.compareSync(value, user.hashedPassword.toString())
-        ) throw new Error('Invalid login.');
-        else {
-          // If we make it all the way here, such that we're able to look up a
-          // user and their respective password is a match, we tack the user obj
-          // onto req, so that we can pass it through to our login function later.
-          req.user = user;
-          return true;
-        }
-      } else {
-        // We land here if the input does not scan as an email address; the rest
-        // of the process is identical.
-        const user = await User.findOne({
-          where: { userName: req.body.identification }
-        });
-        if (!user) throw new Error('Invalid login.');
-        else if (
-          !bcrypt.compareSync(value, user.hashedPassword.toString())
-        ) throw new Error('Invalid login.');
-        else {
-          req.user = user;
-          return true;
-        }
-      }
-    })
 ];
 
 router.get('/signup', crsfProtection, (req, res) => {
