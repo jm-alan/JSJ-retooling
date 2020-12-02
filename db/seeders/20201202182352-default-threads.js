@@ -4,11 +4,11 @@ const fs = require('fs');
 
 const threadObjs = [];
 
-const threadStrings = fs.readFileSync(__dirname + '/bulkData/threads.txt', 'utf-8').split(',\n');
+const threadStrings = fs.readFileSync(__dirname + '/bulkData/questions.txt', 'utf-8').split('\n gfg');
 threadStrings.forEach(threadJSON => {
   if (threadJSON) {
-    const { title, userId } = JSON.parse(threadJSON);
-    threadObjs.push({ title, userId, createdAt: new Date(), updatedAt: new Date() });
+    const { title } = JSON.parse(threadJSON);
+    threadObjs.push({ title, userId: 1, createdAt: new Date(), updatedAt: new Date() });
   }
 });
 
