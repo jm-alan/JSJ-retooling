@@ -11,7 +11,7 @@ block content
                             each error in errors
                                 li=error
                 div#formContainer
-                    form(action="/signup" method="post" id="signUpForm")
+                    form(action="/users" method="post" id="signUpForm")
                         +field2("First Name:", "firstName", "text", null, "labelUserSignUp")
                         +field2("Last Name:", "lastName", "text")
                         +field2("Email:", "email", "email")

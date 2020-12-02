@@ -9,7 +9,7 @@ const {
   loginUser,
   logoutUser
 } = require('../utils/server-utils.js');
-const { check } = require('express-validator');
+const { check, validationResult } = require('express-validator');
 const { User } = require('../db/models');
 const crsf = require('csurf');
 const crsfProtection = crsf({ cookie: true });
@@ -40,14 +40,14 @@ const userValidator = [
     .exists({ checkFalsy: true })
     .withMessage('Please confirm password.')
     .custom((value, { req }) => {
-      if (value !== req.body.password) { throw new Error('Confirm Password does not match Password'); } else return true;
+      if (value !== req.body.password) { throw new Error('Confirm Password does not match Password.'); } else return true;
     }),
   check('firstName')
     .exists({ checkFalsy: true })
-    .withMessage('Please provide a first name'),
+    .withMessage('Please provide a first name.'),
   check('lastName')
     .exists({ checkFalsy: true })
-    .withMessage('Please provide a last name')
+    .withMessage('Please provide a last name.')
 ];
 
 const loginValidator = [
@@ -55,41 +55,47 @@ const loginValidator = [
     .exists({ checkFalsy: true })
     .withMessage('Please provide a username or email.')
     .custom(async (value) => {
-      if (String(value).match(/@/g)) {
-        if (!(await User.findOne({ where: { email: value } }))) {
-          throw new Error('Invalid login.');
-        } else return true;
-      } else {
-        if (!(await User.findOne({ where: { userName: value } }))) {
-          throw new Error('Invalid login.');
-        } else return true;
+      if (value) {
+        if (String(value).match(/@/g)) {
+          if (!(await User.findOne({ where: { email: value } }))) {
+            throw new Error('Invalid login.');
+          } else return true;
+        } else {
+          if (!(await User.findOne({ where: { userName: value } }))) {
+            throw new Error('Invalid login.');
+          } else return true;
+        }
       }
     }),
   check('password')
     .exists({ checkFalsy: true })
     .withMessage('Please provide a password.')
     .custom(async (value, { req }) => {
-      if (String(value).match(/@/g)) {
-        const user = await User.findOne({
-          where: { email: req.body.identification }
-        });
-        if (
-          !bcrypt.compareSync(req.body.password, user.hashedPassword.toString())
-        ) { throw new Error('Invalid login.'); }
-      } else {
-        const user = await User.findOne({
-          where: { userName: req.body.identification }
-        });
-        if (
-          !bcrypt.compareSync(req.body.password, user.hashedPassword.toString())
-        ) { throw new Error('Invalid login.'); }
+      if (value) {
+        if (String(value).match(/@/g)) {
+          const user = await User.findOne({
+            where: { email: req.body.identification }
+          });
+          if (!user) throw new Error('Invalid login.');
+          else if (
+            !bcrypt.compareSync(req.body.password, user.hashedPassword.toString())
+          ) { throw new Error('Invalid login.'); }
+        } else {
+          const user = await User.findOne({
+            where: { userName: req.body.identification }
+          });
+          if (!user) throw new Error('Invalid login.');
+          else if (
+            !bcrypt.compareSync(req.body.password, user.hashedPassword.toString())
+          ) { throw new Error('Invalid login.'); }
+        }
       }
     })
 ];
 
 router.get('/', crsfProtection, (req, res) => {
   // login pug file
-  res.render('sign-up', { csrfToken: req.csrfToken() });
+  res.render('signup', { title: 'Login', errors: ['this is messed up', 'test error'], csrfToken: req.csrfToken() });
 });
 
 router.get('/login', crsfProtection, (req, res) => {
@@ -100,34 +106,42 @@ router.post(
   '/login',
   crsfProtection,
   loginValidator,
-  handleValidationErrors,
+
   (req, res) => {
-    loginUser();
-    res.redirect('/');
+    const validatorErrors = validationResult(req);
+    if (validatorErrors.isEmpty()) {
+      loginUser(req, res, user);
+      res.redirect('/');
+    } else {
+      const errors = validatorErrors.array().map(err => err.msg);
+      res.render('login', { errors, csrfToken: req.csrfToken() });
+    }
   }
 );
 
 router.post(
   '/',
-  // crsfProtection,
+  crsfProtection,
   userValidator,
-  handleValidationErrors,
   asyncHandler(async (req, res, next) => {
     // sign up function
-    const { userName, email, password, firstName, lastName } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({
-      userName,
-      email,
-      hashedPassword,
-      firstName,
-      lastName
-    });
-    const token = getUserToken(user);
-    res.status(201).json({
-      user: { id: user.id },
-      token
-    });
+    const validatorErrors = validationResult(req);
+    if (validatorErrors.isEmpty()) {
+      const { userName, email, password, firstName, lastName } = req.body;
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const user = await User.create({
+        userName,
+        email,
+        hashedPassword,
+        firstName,
+        lastName
+      });
+      loginUser(req, res, user);
+      res.redirect('/');
+    } else {
+      const errors = validatorErrors.array().map(err => err.msg);
+      res.render('signup', { title: 'Login', errors, csrfToken: req.csrfToken() });
+    }
   })
 );
 

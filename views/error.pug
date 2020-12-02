@@ -3,5 +3,6 @@ extends layout
 block content
   h1= message
   h2= error.status
-  each err in error.errors
-    pre= err
+  if error.errors
+    each err in error.errors
+      pre= err

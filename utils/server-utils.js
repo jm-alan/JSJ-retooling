@@ -71,6 +71,7 @@ const logoutUser = (req, res) => {
 const requireAuth = [bearerToken(), restoreUser];
 module.exports = {
   getUserToken,
+  restoreUser,
   requireAuth,
   asyncHandler,
   handleValidationErrors,
