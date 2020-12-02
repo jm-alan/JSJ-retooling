@@ -12,10 +12,10 @@ block content
                                 li=error
                 div#formContainer
                     form(action="/users" method="post" id="signUpForm")
-                        +field2("First Name:", "firstName", "text", null, "labelUserSignUp")
-                        +field2("Last Name:", "lastName", "text")
-                        +field2("Email:", "email", "email")
-                        +field2("User Name:", "userName", "text")
+                        +field2("First Name:", "firstName", "text", firstName, "labelUserSignUp")
+                        +field2("Last Name:", "lastName", "text", lastName)
+                        +field2("Email:", "email", "email", email)
+                        +field2("User Name:", "userName", "text", userName)
                         +field2("Password:", "password", "password")
                         +field2("Confirm Password:", "confirmPassword", "password")
                         input(type="hidden" name="_csrf" value=csrfToken)
