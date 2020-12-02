@@ -3,7 +3,6 @@
   flex-direction: column;
   align-items: center;
   padding-top: 5px;
-
 }
 #questionsHeader {
   width: 75%;
@@ -64,48 +63,54 @@
   flex-direction: column;
   align-items: center;
   /* padding-top: 10px; */
-
 }
 .question {
-    width: 80%;
-    display: grid;
-    grid-template: 3fr 1fr / 1fr 1fr 8fr;
-    /* background-color: red; */
-    padding: 10px;
-    border-bottom: 1px solid gray;
-    border-right: 1px solid gray;
-    border-left: 1px solid gray;
+  width: 80%;
+  display: grid;
+  grid-template: 3fr 1fr / 1fr 1fr 8fr;
+  /* background-color: red; */
+  padding: 10px;
+  border-bottom: 1px solid gray;
+  border-right: 1px solid gray;
+  border-left: 1px solid gray;
 }
 .title {
-    font-size: 1.3em;
-    color: #0077CC;
-    text-decoration: none;
+  font-size: 1.3em;
+  color: #0077cc;
+  text-decoration: none;
 }
 
-.titleDiv{
-    padding-top: 5px;
+.titleDiv {
+  padding-top: 5px;
 }
 
 .author {
-    grid-column-start: 3;
-    justify-self: right;
+  grid-column-start: 3;
+  justify-self: right;
 }
 
 .userLink {
-    color: #0077CC;
-    text-decoration: none;
+  color: #0077cc;
+  text-decoration: none;
 }
 
-.answerNumber, .score {
-    font-size: 1.5em;
-    text-align: center;
-    /* padding-top: 10px; */
-    grid-row-start: 1;
-    grid-row-end: 3;
-    align-self: center;
+.answerNumber,
+.score {
+  font-size: 1.5em;
+  text-align: center;
+  /* padding-top: 10px; */
+  grid-row-start: 1;
+  grid-row-end: 3;
+  align-self: center;
 }
 
-.answerNumber > div, .score > div {
-    padding-top: 5px;
-    text-align: center;
+.answerNumber > div,
+.score > div {
+  padding-top: 5px;
+  text-align: center;
+}
+
+#pageSelection {
+  display: flex;
+  justify-content: space-around;
 }
