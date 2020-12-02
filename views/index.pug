@@ -7,5 +7,28 @@ append head
   script(src="/javascripts/index.js" type="module" defer)
 
 block content
-  h1= title
-  p Welcome to your Project Skeleton
+  #content
+    #questionsHeader
+      h2 Top Questions
+      a(href="/newQuestion")
+        button New Question
+      #sortBar
+        a(href="/newQuestion")
+          button Recent
+        a(href="/newQuestion")
+          button Popular
+    #questions
+      each question in questions
+        div(class="question")
+          a(class="title" href="/questions/#{question.id}")= question.title
+          .author= question.timeStamp
+            span
+              a(href='/users/#{question.userId}')= question.userName
+          if question.numberOfAnswers == 1
+            .answerNumber 1 answer
+          else
+            .answerNumber #{question.numberOfAnswers} answers
+          if question.score == 1
+            .score 1 vote
+          else
+            .score #{question.score} votes

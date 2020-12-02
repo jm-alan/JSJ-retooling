@@ -3,7 +3,9 @@ const router = express.Router();
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', { title: 'Javascript Jungle' });
+  res.render('index', { title: 'Javascript Jungle', questions: [{title: "This is a JS post!", threadId: 14,
+userId: 32, userName: "JSIsAWESOME", numberOfAnswers: 10, score: 1, timeStamp: "created 5 mins ago by "},
+]});
 });
 
 router.get('/login', function (req, res, next) {
