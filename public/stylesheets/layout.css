@@ -5,7 +5,7 @@
     align-items: center; */
     width: 100%;
     height: 60px;
-    background-color: green;
+    background-color: rgb(48, 141, 48);
 }
 
 .searchIcon {
@@ -18,21 +18,10 @@
     width: 50%;
     height: 60%;
     font-size: 100%;
-    border-radius: 4px;
     align-self: center;
-    border: 3px solid rgb(59, 33, 3);
-    background-color: rgb(235, 186, 131);
-    color: black
+
 }
 
-#searchBar:focus {
-    background-color: rgb(185, 147, 104);
-    outline: 1px solid lightgreen;
-}
-
-#searchBar::placeholder {
-    color: black
-}
 
 #homeButton {
     height: 80%;

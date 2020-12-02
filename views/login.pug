@@ -12,9 +12,9 @@ block content
                                 li=error
                 div#formContainer
                     form(action="/login" method="post" id="form")
-                        label(for="userName" id="labelUser") User Name
+                        label(for="userName" id="labelUser" class="formLabel") User Name
                         +field("userName", "text", "userName")
-                        label(for="password" id="labelPass") Password
+                        label(for="password" id="labelPass" class="formLabel") Password
                         +field("password", "password", "password")
                         input(type="submit" value="Log In" id="loginButton")
-                        a(href="/signup" id="signupLink") Sign Up
+                        a(href="/signup" id="signupLink"  class="formLabel") Sign Up
