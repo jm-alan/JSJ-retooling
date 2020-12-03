@@ -12,7 +12,7 @@ const fetchThreads = async (postArr, pageNumber) => {
   // TODO: FIX: this 'fetch' is a GET requrest, which cannot contain a body.
   const res = await fetch(`/api/threads?list=${targetArr.join(',')}`);
   const body = res.json();
-  const threadsArr = body.array; // might need to change this later
+  const threadsArr = body.threadObjects; // might need to change this later
   return threadsArr;
 };
 
@@ -47,7 +47,8 @@ const createQuestionDiv = (question) => {
 window.addEventListener('load', async (event) => {
   const res = await fetch('/api/recent');
   const body = await res.json();
-  const postArr = body.array;
+  console.log(body.threads);
+  const postArr = body.threads;
 
   let pageData = await fetchThreads(postArr, 1);
   const totalPages = Math.ceil(pageData.length / 10);

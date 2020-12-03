@@ -14,4 +14,14 @@ router.get('/threads', asyncHandler(async (req, res) => {
   res.json({ array });
 }));
 
+router.get('/recent', asyncHandler(async (req, res) => {
+  const threads = await mostRecent();
+  res.json({ threads });
+}));
+
+router.get('/popular', asyncHandler(async (req, res) => {
+  const threads = await mostPopular();
+  res.json({ threads });
+}));
+
 module.exports = router;
