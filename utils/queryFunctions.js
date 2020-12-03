@@ -25,9 +25,10 @@ const getThreadsByIds = async (idArray) => {
   return await db.Thread.findAll({
     where: {
       id: {
-        [Op.or]: [...idArray],
-      },
+        [Op.or]: [...idArray]
+      }
     },
+    include: db.Post
   });
 };
 

@@ -1,1 +1,19 @@
 extends layout.pug
+block content
+    .threadContainer
+        .questionTitle
+            h1= title
+        .post.question
+            .body
+                p=threadQuestion.body
+            .bodyScore
+                p.score=threadQuestion.score
+                p.label Score
+        if threadAnswers
+            each answer in threadAnswers
+                .post.answer
+                    .body
+                        p=answer.body
+                    .bodyScore
+                        p=answer.score
+                        p Score

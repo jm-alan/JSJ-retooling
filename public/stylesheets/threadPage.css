@@ -1,0 +1,43 @@
+.threadContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.body {
+  margin: 0;
+}
+
+.post.question {
+  padding: 0 5px;
+  margin: 0% auto;
+  width: 50%;
+  border: 3px solid black;
+  box-shadow: 0px 0px 10px 0px rgb(48, 200, 48);
+}
+.questionTitle {
+  margin: 20px auto;
+}
+
+.questionTitle > h1 {
+  color: black;
+  font-weight: bold;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.post {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+
+.bodyScore p.score {
+  padding:  0px 10px;
+  margin-right: 20px;
+  margin-bottom: 0;
+  font-size: 40pt;
+}
+
+
+.bodyScore p.label {
+  font-size: x-large;
+}
