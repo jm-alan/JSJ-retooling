@@ -35,4 +35,5 @@ router.get("/signup", function (req, res, next) {
   res.redirect("/users");
 });
 
+router.get('/questions/:id', async(req, res))
 module.exports = router;
