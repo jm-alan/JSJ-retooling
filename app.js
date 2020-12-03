@@ -11,6 +11,7 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const { sequelize } = require('./db/models');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const apiRouter = require('./routes/api');
 const { sessionSecret } = require('./config');
 const { restoreUser } = require('./utils/server-utils');
 
@@ -39,6 +40,7 @@ store.sync();
 app.use(restoreUser);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/api', apiRouter);
 
 app.get('/signup', (req, res) => {
   res.redirect('/users/signup');
