@@ -1,7 +1,6 @@
-const array = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"];
+const { mostPopular, mostRecent, getPostById } = require('../../utils/qyeryFunctions/');
 
 let currentPage = 1;
-
 const navButton = (text, container) => {
   const btn = document.createElement("button");
   btn.classList.add("numberedButton");
@@ -20,7 +19,7 @@ window.addEventListener("load", (event) => {
     navButton("Next", container);
   }
 
-  container.addEventListener("click", (event) => {
+container.addEventListener("click", (event) => {
     const target = event.target.innerText;
     if (target === "Prev" && currentPage !== 1) {
       // fetch new info at current page - 1
