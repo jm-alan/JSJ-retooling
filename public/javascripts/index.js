@@ -1,4 +1,4 @@
-const { mostPopular, mostRecent, getPostById } = require('../../utils/queryFunctions');
+const { mostPopular, mostRecent, getThreadById } = require('../../utils/queryFunctions');
 
 let currentPage = 1;
 const navButton = (text, container) => {
