@@ -8,7 +8,7 @@ block content
                 p=threadQuestion.body
             .bodyScore
                 i#voteUp.votingbutton.fas.fa-chevron-up
-                p.score=threadQuestion.score
+                p.scoreThreadPage=threadQuestion.score
                 i#voteDown.votingbutton.fas.fa-chevron-down
                 p.label Likes
         if threadAnswers
@@ -17,5 +17,7 @@ block content
                     .body
                         p=answer.body
                     .bodyScore
-                        p=answer.score
-                        p Score
+                        i.votingbutton.fas.fa-chevron-up
+                        p.scoreThreadPage=answer.score
+                        i.votingbutton.fas.fa-chevron-down
+                        p.label Likes
