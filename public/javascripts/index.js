@@ -1,5 +1,3 @@
-const { mostPopular, mostRecent, getThreadById } = require('../../utils/queryFunctions');
-
 let currentPage = 1;
 const navButton = (text, container) => {
   const btn = document.createElement('button');
