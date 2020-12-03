@@ -8,7 +8,7 @@ const threadStrings = fs.readFileSync(__dirname + '/bulkData/questions.txt', 'ut
 threadStrings.forEach((threadJSON, index) => {
   if (threadJSON) {
     const { question } = JSON.parse(threadJSON);
-    threadObjs.push({ body: question, userId: 1, threadId: index + 421, isQuestion: true, score: 0, createdAt: new Date(), updatedAt: new Date() });
+    threadObjs.push({ body: question, userId: 1, threadId: index + 1, isQuestion: true, score: 0, createdAt: new Date(), updatedAt: new Date() });
   }
 });
 

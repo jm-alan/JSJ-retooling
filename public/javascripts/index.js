@@ -6,7 +6,7 @@ const navButton = (text, container) => {
   container.appendChild(btn);
 };
 
-const fetchThreads = async (arr, pageNumber) => {
+const fetchThreads = async (postArr, pageNumber) => {
   const targetArr = postArr.slice(10 * (pageNumber - 1), 10 * (pageNumber));
 
   // TODO: FIX: this 'fetch' is a GET requrest, which cannot contain a body.
