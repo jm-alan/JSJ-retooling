@@ -10,7 +10,7 @@ const fetchThreads = async (postArr, pageNumber) => {
   const targetArr = postArr.slice(10 * (pageNumber - 1), 10 * (pageNumber));
 
   // TODO: FIX: this 'fetch' is a GET requrest, which cannot contain a body.
-  const res = await fetch(`/api/threads?list=${targetArr.join(',')}`);
+  const res = await fetch(`/api/threads?whatever=${targetArr.join(',')}`);
   const body = res.json();
   const threadsArr = body.threadObjects; // might need to change this later
   return threadsArr;
