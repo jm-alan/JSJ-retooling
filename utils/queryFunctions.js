@@ -5,13 +5,13 @@ const { Op } = require('sequelize');
 
 const mostPopular = async () => {
   const threads = await db.Thread.findAll({ include: db.Post, order: [['score', 'DESC']], limit: 100 });
-  const threadIds = threads.forEach(thread => thread.id);
+  const threadIds = threads.map(thread => thread.id);
   return threadIds;
 };
 
 const mostRecent = async () => {
   const threads = await db.Thread.findAll({ include: db.Post, order: [['createdAt', 'DESC']], limit: 100 });
-  const threadIds = threads.forEach(thread => thread.id);
+  const threadIds = threads.map(thread => thread.id);
   return threadIds;
 };
 
