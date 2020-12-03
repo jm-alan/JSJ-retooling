@@ -1,35 +1,4 @@
 h1 {
-<<<<<<< HEAD
-    color: #555555;
-}
-
-body {
-    font: 18px;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-.textField {
-    border-radius: 6px;
-    border: 3px solid rgb(59, 33, 3);
-    background-color: rgb(235, 186, 131);
-    color: black
-}
-
-.textField:focus {
-    background-color: rgb(185, 147, 104);
-    border: 3px solid lightgreen;
-    outline: 0px;
-}
-
-.textField::placeholder {
-    color: black
-}
-
-.formLabel {
-    color: rgb(213,236,58);
-    text-shadow: 2px 2px black;
-    font-size: large;
-=======
   color: #555555;
 }
 
@@ -61,5 +30,4 @@ body {
   padding: 1px;
   text-shadow: rgb(0, 0, 0) 0px 3px 10px;
   font-size: large;
->>>>>>> 6e10c1584b65c2f60e23444c6b4fde6684ba565d
 }
