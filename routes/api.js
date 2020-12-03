@@ -11,7 +11,9 @@ router.get(
   "/threads",
   asyncHandler(async (req, res) => {
     const idArray = req.query.whatever.split(",");
+    console.log("idArray", idArray)
     const threadObjects = await getThreadsByIds(idArray);
+    console.log(threadObjects.map(thread => thread.id))
     res.json({ threadObjects });
   })
 );

@@ -23,11 +23,11 @@ const fetchThreads = async (postArr, pageNumber) => {
     //this needs to be updated once the queries are finalized
     return {
       id: thread.id,
-      numberOfAnswers: 3,
-      score: 4,
+      numberOfAnswers: thread.Posts.length-1,
+      score: thread.Posts[0].score,
       title: thread.title,
       userId: thread.userId,
-      userName: "userLoser",
+      userName: thread.User.userName,
       timeStamp,
     };
   });
@@ -112,7 +112,6 @@ window.addEventListener("load", async (event) => {
       currentPage++;
     } else {
       if (currentPage !== target && target !== "Prev" && target !== "Next") {
-        console.log(target, typeof target);
         currentPage = Number.parseInt(target, 10);
       }
     }
@@ -144,14 +143,12 @@ window.addEventListener("load", async (event) => {
   popularButton.addEventListener("mouseup", async (event) => {
     if (pageMode !== "popular") {
       pageMode = "popular";
-
       currentPage = 1;
       recentButton.classList.remove("sortButton--selected");
       popularButton.classList.add("sortButton--selected");
       res = await fetch(`${window.location.origin}/api/popular`);
       body = await res.json();
       postArr = body.threads;
-
       let pageData = await fetchThreads(postArr, 1);
       refreshPage(pageData);
     }
