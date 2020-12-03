@@ -7,8 +7,10 @@ block content
             .body
                 p=threadQuestion.body
             .bodyScore
+                i#voteUp.votingbutton.fas.fa-chevron-up
                 p.score=threadQuestion.score
-                p.label Score
+                i#voteDown.votingbutton.fas.fa-chevron-down
+                p.label Likes
         if threadAnswers
             each answer in threadAnswers
                 .post.answer

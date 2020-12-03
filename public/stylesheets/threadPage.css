@@ -5,6 +5,7 @@
 
 .body {
   margin: 0;
+  font-size: 20px;
 }
 
 .post.question {
@@ -23,21 +24,31 @@
   font-weight: bold;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-
+.votingbutton {
+    font-size: 30px;
+    margin: 0 auto;
+}
 .post {
   display: flex;
   flex-direction: row-reverse;
 }
 
+.bodyScore {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 5px;
+}
 
 .bodyScore p.score {
   padding:  0px 10px;
-  margin-right: 20px;
-  margin-bottom: 0;
+    margin: 0 10px;
   font-size: 40pt;
 }
 
-
 .bodyScore p.label {
-  font-size: x-large;
+    margin: 4px auto 0 auto;
+    font-size: 20px;
+    /* padding-left: 3px; */
+
 }
