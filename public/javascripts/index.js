@@ -1,4 +1,5 @@
 let currentPage = 1;
+
 const navButton = (text, container) => {
   const btn = document.createElement("button");
   btn.classList.add("numberedButton");
@@ -8,12 +9,24 @@ const navButton = (text, container) => {
 
 const fetchThreads = async (postArr, pageNumber) => {
   const targetArr = postArr.slice(10 * (pageNumber - 1), 10 * pageNumber);
-
-  // TODO: FIX: this 'fetch' is a GET requrest, which cannot contain a body.
-  const res = await fetch(`/api/threads?whatever=${targetArr.join(",")}`);
-  const body = res.json();
-  const threadsArr = body.threadObjects; // might need to change this later
-  return threadsArr;
+  const link = `/api/threads?whatever=${targetArr.join(",")}`
+  const res = await fetch(link);
+  const body = await res.json();
+  const threadsArr = body.threadObjects;
+  let returnArr = threadsArr.map(thread => {
+    const timeStamp = `created at ${new Date(thread.createdAt).toLocaleTimeString()} on ${new Date(thread.createdAt).toLocaleDateString()} by `
+    //this needs to be updated once the queries are finalized
+    return {
+      id: thread.id,
+      numberOfAnswers: 3,
+      score: 4,
+      title: thread.title,
+      userId: thread.userId,
+      userName: "userLoser",
+      timeStamp
+    }
+  })
+  return returnArr;
 };
 
 const createQuestionDiv = (question) => {
@@ -33,13 +46,13 @@ const createQuestionDiv = (question) => {
 
   if (question.score === 1) {
     const scoreDiv = document.createElement("div");
-    answerDiv.classList.add("score");
-    answerDiv.innerHTML = `${question.score} <div>vote</div>`;
+    scoreDiv.classList.add("score");
+    scoreDiv.innerHTML = `${question.score} <div>vote</div>`;
     outerDiv.appendChild(scoreDiv);
   } else {
     const scoreDiv = document.createElement("div");
-    answerDiv.classList.add("score");
-    answerDiv.innerHTML = `${question.score} <div>votes</div>`;
+    scoreDiv.classList.add("score");
+    scoreDiv.innerHTML = `${question.score} <div>votes</div>`;
     outerDiv.appendChild(scoreDiv);
   }
 
@@ -47,6 +60,8 @@ const createQuestionDiv = (question) => {
   title.classList.add("titleDiv");
   const questionLink = document.createElement("a");
   questionLink.href = `/questions/${question.id}`;
+  questionLink.innerHTML = question.title
+  questionLink.classList.add('title')
   title.appendChild(questionLink);
   outerDiv.appendChild(title);
   const author = document.createElement("div");
@@ -68,15 +83,13 @@ const refreshPage = (pageData) => {
 window.addEventListener("load", async (event) => {
   const res = await fetch(`${window.location.origin}/api/recent`);
   const body = await res.json();
-  console.log("this is body", res);
   const postArr = body.threads;
 
   let pageData = await fetchThreads(postArr, 1);
   refreshPage(pageData);
 
-  const totalPages = Math.ceil(pageData.length / 10);
+  const totalPages = Math.ceil(postArr.length / 10);
   const container = document.getElementById("pageSelection");
-
   if (totalPages > 1) {
     navButton("Prev", container);
     for (let i = 1; i <= totalPages; i++) {
@@ -85,21 +98,22 @@ window.addEventListener("load", async (event) => {
     navButton("Next", container);
   }
 
-  container.addEventListener("click", async (event) => {
+  container.addEventListener("mouseup", async (event) => {
+    const currentPageSave = currentPage
     const target = event.target.innerText;
-    if (target === "Prev" && currentPage !== 1) {
+    if (target === "Prev" && currentPage > 1) {
       currentPage--;
-      // fetch new info at current page - 1
-    } else if (target === "Next" && totalPages !== currentPage) {
+    } else if (target === "Next" && totalPages > currentPage) {
       currentPage++;
-      // fetch new info at current page + 1
     } else {
-      if (currentPage !== target) {
-        currentPage = target;
-        // fetch info page
+      if (currentPage !== target && target !== "Prev" && target !== "Next") {
+        console.log(target, typeof target)
+        currentPage = Number.parseInt(target, 10);
       }
     }
-    pageData = await fetchThreads(postArr, currentPage);
-    refreshPage(pageData);
+    if (currentPage !== currentPageSave) {
+      pageData = await fetchThreads(postArr, currentPage);
+      refreshPage(pageData);
+    }
   });
 });
