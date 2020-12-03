@@ -1,4 +1,5 @@
 let currentPage = 1;
+let pageMode = "recent";
 
 const navButton = (text, container) => {
   const btn = document.createElement("button");
@@ -9,12 +10,16 @@ const navButton = (text, container) => {
 
 const fetchThreads = async (postArr, pageNumber) => {
   const targetArr = postArr.slice(10 * (pageNumber - 1), 10 * pageNumber);
-  const link = `/api/threads?whatever=${targetArr.join(",")}`
+  const link = `/api/threads?whatever=${targetArr.join(",")}`;
   const res = await fetch(link);
   const body = await res.json();
   const threadsArr = body.threadObjects;
-  let returnArr = threadsArr.map(thread => {
-    const timeStamp = `created at ${new Date(thread.createdAt).toLocaleTimeString()} on ${new Date(thread.createdAt).toLocaleDateString()} by `
+  let returnArr = threadsArr.map((thread) => {
+    const timeStamp = `created at ${new Date(
+      thread.createdAt
+    ).toLocaleTimeString()} on ${new Date(
+      thread.createdAt
+    ).toLocaleDateString()} by `;
     //this needs to be updated once the queries are finalized
     return {
       id: thread.id,
@@ -23,9 +28,9 @@ const fetchThreads = async (postArr, pageNumber) => {
       title: thread.title,
       userId: thread.userId,
       userName: "userLoser",
-      timeStamp
-    }
-  })
+      timeStamp,
+    };
+  });
   return returnArr;
 };
 
@@ -60,8 +65,8 @@ const createQuestionDiv = (question) => {
   title.classList.add("titleDiv");
   const questionLink = document.createElement("a");
   questionLink.href = `/questions/${question.id}`;
-  questionLink.innerHTML = question.title
-  questionLink.classList.add('title')
+  questionLink.innerHTML = question.title;
+  questionLink.classList.add("title");
   title.appendChild(questionLink);
   outerDiv.appendChild(title);
   const author = document.createElement("div");
@@ -81,9 +86,9 @@ const refreshPage = (pageData) => {
 };
 
 window.addEventListener("load", async (event) => {
-  const res = await fetch(`${window.location.origin}/api/recent`);
-  const body = await res.json();
-  const postArr = body.threads;
+  let res = await fetch(`${window.location.origin}/api/recent`);
+  let body = await res.json();
+  let postArr = body.threads;
 
   let pageData = await fetchThreads(postArr, 1);
   refreshPage(pageData);
@@ -99,7 +104,7 @@ window.addEventListener("load", async (event) => {
   }
 
   container.addEventListener("mouseup", async (event) => {
-    const currentPageSave = currentPage
+    const currentPageSave = currentPage;
     const target = event.target.innerText;
     if (target === "Prev" && currentPage > 1) {
       currentPage--;
@@ -107,12 +112,47 @@ window.addEventListener("load", async (event) => {
       currentPage++;
     } else {
       if (currentPage !== target && target !== "Prev" && target !== "Next") {
-        console.log(target, typeof target)
+        console.log(target, typeof target);
         currentPage = Number.parseInt(target, 10);
       }
     }
     if (currentPage !== currentPageSave) {
       pageData = await fetchThreads(postArr, currentPage);
+      refreshPage(pageData);
+    }
+  });
+
+  const recentButton = document.getElementById("recent");
+  const popularButton = document.getElementById("popular");
+
+  recentButton.addEventListener("mouseup", async (event) => {
+    if (pageMode !== "recent") {
+      pageMode = "recent";
+
+      currentPage = 1;
+      recentButton.classList.add("sortButton--selected");
+      popularButton.classList.remove("sortButton--selected");
+      res = await fetch(`${window.location.origin}/api/recent`);
+      body = await res.json();
+      postArr = body.threads;
+
+      let pageData = await fetchThreads(postArr, 1);
+      refreshPage(pageData);
+    }
+  });
+
+  popularButton.addEventListener("mouseup", async (event) => {
+    if (pageMode !== "popular") {
+      pageMode = "popular";
+
+      currentPage = 1;
+      recentButton.classList.remove("sortButton--selected");
+      popularButton.classList.add("sortButton--selected");
+      res = await fetch(`${window.location.origin}/api/popular`);
+      body = await res.json();
+      postArr = body.threads;
+
+      let pageData = await fetchThreads(postArr, 1);
       refreshPage(pageData);
     }
   });
