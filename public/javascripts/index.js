@@ -9,10 +9,8 @@ const navButton = (text, container) => {
 const fetchThreads = async (arr, pageNumber) => {
   const targetArr = postArr.slice(10 * (pageNumber - 1), 10 * (pageNumber));
 
-  const res = await fetch('/api/threads', {
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(targetArr)
-  });
+  // TODO: FIX: this 'fetch' is a GET requrest, which cannot contain a body.
+  const res = await fetch(`/api/threads?list=${targetArr.join(',')}`);
   const body = res.json();
   const threadsArr = body.array; // might need to change this later
   return threadsArr;
