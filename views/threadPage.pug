@@ -21,3 +21,10 @@ block content
                         p.scoreThreadPage=answer.score
                         i.votingbutton.fas.fa-chevron-down
                         p.label Likes
+        .answerBox
+            form.create-answer(method="POST" action="/questions/:id")
+                label#answerInputLabel(for="answerInput") Provide Your Own Answer
+                textarea#answerInput(name="answerInput", cols="30", rows="10")
+                input(type="hidden" name="isQuestion" value="false" threadId=thread.id)
+                input(type="hidden" name="_csrf" value=csrfToken)
+                button(type="submit") Submit

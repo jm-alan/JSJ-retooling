@@ -58,3 +58,20 @@
     /* padding-left: 3px; */
 
 }
+
+.answerBox {
+  margin:  50px auto;
+  width: 50%;
+}
+
+.create-answer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+#answerInputLabel {
+  font-size: x-large;
+  font-weight: bolder;
+  margin-bottom: 5px;
+}

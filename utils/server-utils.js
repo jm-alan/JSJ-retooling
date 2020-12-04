@@ -1,9 +1,5 @@
 const { validationResult } = require('express-validator');
-const jwt = require('jsonwebtoken');
-const { jwtConfig } = require('../config');
-const bearerToken = require('express-bearer-token');
 const { User } = require('../db/models');
-const { secret, expiresIn } = jwtConfig;
 
 const asyncHandler = (handler) => (req, res, next) =>
   handler(req, res, next).catch(next);
@@ -21,19 +17,6 @@ const handleValidationErrors = (req, res, next) => {
     return next(err);
   }
   next();
-};
-
-const getUserToken = (user) => {
-  const userDataForToken = {
-    id: user.id,
-    email: user.email
-  };
-
-  const token = jwt.sign({ data: userDataForToken }, secret, {
-    expiresIn: parseInt(expiresIn, 10)
-  });
-
-  return token;
 };
 
 const loginUser = (req, res, user) => {
@@ -76,7 +59,6 @@ const requireAuth = (req, res, next) => {
 };
 
 module.exports = {
-  getUserToken,
   restoreUser,
   requireAuth,
   asyncHandler,

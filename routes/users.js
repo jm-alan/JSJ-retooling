@@ -52,17 +52,17 @@ const loginValidator = [
   check('identification')
     .exists({ checkFalsy: true })
     .withMessage('Please provide a username or email.')
-    .custom(async (value, {req}) => {
+    .custom(async (value, { req }) => {
       // If the identification entered scans as an email address
       if (String(value).match(/@/g)) {
         // but lookup returns null
-        const user = await User.findOne({ where: { email: value } })
+        const user = await User.findOne({ where: { email: value } });
         if (!(user)) {
           throw new Error('Invalid login.');
         } else if (user) {
-            if (!bcrypt.compareSync(req.body.password, user.hashedPassword.toString())) {
-                  throw new Error('Invalid login.');
-            }
+          if (!bcrypt.compareSync(req.body.password, user.hashedPassword.toString())) {
+            throw new Error('Invalid login.');
+          }
         } else return true;
       } else {
         // If the identification scans as a regular username, but lookup
@@ -73,9 +73,9 @@ const loginValidator = [
           // otherwise this error validation is complete.
         } else if (user) {
           if (!bcrypt.compareSync(req.body.password, user.hashedPassword.toString())) {
-                throw new Error('Invalid login.');
+            throw new Error('Invalid login.');
           }
-      } else return true;
+        } else return true;
       }
     }),
   check('password')
