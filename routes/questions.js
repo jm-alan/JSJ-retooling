@@ -40,4 +40,20 @@ router.post('/:id(\\d+)',
   res.json(newPost);
   }));
 
+router.delete('/:id(\\d+)', asyncHandler(async(req, res) => {
+  const deletePost = await db.Post.findByPk(req.params.id);
+  const thread = deletePost.isQuestion ? await db.Thread.findByPk(deletePost.threadId) : null;
+  const posts = deletePost.isQuestion ? await db.Post.findAll({where: {threadId: deletePost.threadId}}) : null;
+  if (posts) {
+    posts.forEach(async(post) => {
+      await post.destroy();
+    })
+    await thread.destroy();
+    res.json({success: true, isQuestion: true});
+  } else {
+    await deletePost.destroy();
+    res.json({success: true, isQuestion: false});
+  }
+}));
+
 module.exports = router;

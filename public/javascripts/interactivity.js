@@ -99,4 +99,24 @@ window.addEventListener('DOMContentLoaded', () => {
     scorePara.setAttribute('id', newPost.id);
     inputBox.value = '';
   });
+
+  //DELETE BUTTON ON THREAD PAGE
+
+  const trashIcons = document.querySelectorAll('.delete');
+  trashIcons.forEach((trashIcon) => {
+    trashIcon.addEventListener('click', async(event) => {
+      const response = await fetch(`/questions/${event.target.dataset.backendId}`, {
+        method: 'DELETE'
+      });
+      if (response.ok) {
+        const {success, isQuestion} = await response.json();
+        if(success && isQuestion) {
+          window.location = '/';
+        } else if (success) {
+          const removeElement = document.getElementById(`post-${event.target.dataset.backendId}`);
+          removeElement.parentNode.removeChild(removeElement);
+        }
+      }
+    })
+  })
 });
