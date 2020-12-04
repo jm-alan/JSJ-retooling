@@ -33,7 +33,7 @@ router.get('/:id(\\d+)', csrfProtection, asyncHandler(async (req, res) => {
 }));
 
 router.post('/:id(\\d+)',
-  // csrfProtection,
+  csrfProtection,
   asyncHandler(async (req, res) => {
     console.log(req.body);
   // const newPost = await db.Post.create({ body: req.body.answerInput, threadId: req.params.id, userId: req.session.auth.userId, score: 0 });
