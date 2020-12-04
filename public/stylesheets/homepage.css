@@ -52,6 +52,7 @@
   font-size: 1.1em;
   padding: 8px;
   border-radius: 12px;
+  border: 1px solid black;
 }
 
 .numberedButton {

@@ -22,8 +22,7 @@ router.get("/", function (req, res, next) {
   //   timeStamp: 'created 5 mins ago by '
   // };
   res.render("index", {
-    title: "Javascript Jungle",
-    // questions: [obj2, obj, obj, obj, obj, obj, obj, obj, obj, obj]
+    title: "Javascript Jungle"
   });
 });
 
