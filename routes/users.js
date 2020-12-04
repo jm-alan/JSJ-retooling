@@ -16,10 +16,14 @@ const userValidator = [
   check('userName')
     .exists({ checkFalsy: true })
     .custom(async (value) => {
-      if (await User.findOne({ where: { userName: value } })) { throw new Error('The provided user name is already in use.'); } else {
+      if (await User.findOne({ where: { userName: value } })) {
+        throw new Error('The provided user name is already in use.');
+      } else {
         const invalidCharacters = '!?~`@#$%^&*(){}\\/<>,[]|';
         for (const letter of value) {
-          if (invalidCharacters.includes(letter)) { throw new Error('User name contains invalid character.'); }
+          if (invalidCharacters.includes(letter)) {
+            throw new Error('User name contains invalid character.');
+          }
         }
         return true;
       }
@@ -29,7 +33,9 @@ const userValidator = [
     .isEmail()
     .withMessage('Please provide a valid email.')
     .custom(async (value) => {
-      if (await User.findOne({ where: { email: value } })) { throw new Error('The provided email is already in use.'); } else return true;
+      if (await User.findOne({ where: { email: value } })) {
+        throw new Error('The provided email is already in use.');
+      } else return true;
     }),
   check('password')
     .exists({ checkFalsy: true })
@@ -38,7 +44,9 @@ const userValidator = [
     .exists({ checkFalsy: true })
     .withMessage('Please confirm password.')
     .custom((value, { req }) => {
-      if (value !== req.body.password) { throw new Error('Confirm Password does not match Password'); } else return true;
+      if (value !== req.body.password) {
+        throw new Error('Confirm Password does not match Password');
+      } else return true;
     }),
   check('firstName')
     .exists({ checkFalsy: true })
@@ -68,7 +76,7 @@ const loginValidator = [
         // If the identification scans as a regular username, but lookup
         // still returns null
         const user = await User.findOne({ where: { userName: value } });
-        if (!(user)) {
+        if (!user) {
           throw new Error('Invalid login.');
           // otherwise this error validation is complete.
         } else if (user) {
@@ -101,43 +109,42 @@ router.get('/login', crsfProtection, (req, res) => {
   });
 });
 
-router.post('/login',
-  crsfProtection,
-  loginValidator,
-  (req, res, next) => {
-    // We arrive here in one of two states; either the validation was
-    // successful, and req.special.user exists, or it failed, and
-    // not only does user not exist, but we also have a bundle of
-    // errors on our request.
-    const { body: { emailAddress }, user } = req;
-    const validatorErrors = validationResult(req);
-    // If we both have no errors AND successfully found a user in
-    // the validation step, then and only then can we log the user in.
-    // In fact, it'd be literally impossible otherwise, since the login
-    // function has to take a user as an argument to correctly configure
-    // req.session.auth
-    if (validatorErrors.isEmpty() && user) {
-      // Set req.session.auth to the users' id, which will also store that
-      // session in our database thanks to the session store function in
-      // app.js
-      loginUser(req, res, user);
-      // And redirect to home, with the user now logged in.
-      res.redirect('/');
-    } else {
-      // Otherwise, we must have errors (or an empty user object, if somehow
-      // some malicious actor managed to circumvent our server-side error
-      // validation, but they weren't able to successfully guess a correct
-      // email or username.)
-      const errors = validatorErrors.array().map(err => err.msg);
-      res.render('login', {
-        title: 'Login',
-        emailAddress,
-        errors,
-        csrfToken: req.csrfToken()
-      });
-    }
+router.post('/login', crsfProtection, loginValidator, (req, res, next) => {
+  // We arrive here in one of two states; either the validation was
+  // successful, and req.special.user exists, or it failed, and
+  // not only does user not exist, but we also have a bundle of
+  // errors on our request.
+  const {
+    body: { emailAddress },
+    user
+  } = req;
+  const validatorErrors = validationResult(req);
+  // If we both have no errors AND successfully found a user in
+  // the validation step, then and only then can we log the user in.
+  // In fact, it'd be literally impossible otherwise, since the login
+  // function has to take a user as an argument to correctly configure
+  // req.session.auth
+  if (validatorErrors.isEmpty() && user) {
+    // Set req.session.auth to the users' id, which will also store that
+    // session in our database thanks to the session store function in
+    // app.js
+    loginUser(req, res, user);
+    // And redirect to home, with the user now logged in.
+    res.redirect('/');
+  } else {
+    // Otherwise, we must have errors (or an empty user object, if somehow
+    // some malicious actor managed to circumvent our server-side error
+    // validation, but they weren't able to successfully guess a correct
+    // email or username.)
+    const errors = validatorErrors.array().map((err) => err.msg);
+    res.render('login', {
+      title: 'Login',
+      emailAddress,
+      errors,
+      csrfToken: req.csrfToken()
+    });
   }
-);
+});
 
 router.post(
   '/',
@@ -159,7 +166,7 @@ router.post(
       loginUser(req, res, user);
       res.redirect('/');
     } else {
-      const errors = validatorErrors.array().map(err => err.msg);
+      const errors = validatorErrors.array().map((err) => err.msg);
       res.render('signup', {
         title: 'Sign Up',
         ...req.body,

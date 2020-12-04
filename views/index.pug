@@ -16,23 +16,5 @@ block content
         button(class="sortButton sortButton--selected" id="recent") Recent
         button(class="sortButton" id="popular") Popular
     #questions
-      each question in questions
-        div(class="question")
-          if question.numberOfAnswers == 1
-            .answerNumber 1
-              div answer
-          else
-            .answerNumber #{question.numberOfAnswers}
-              div answers
-          if question.score == 1
-            .score 1
-              div vote
-          else
-            .score #{question.score}
-              div votes
-          div.titleDiv
-            a(class="title" href="/questions/#{question.id}")= question.title
-          .author= question.timeStamp
-            span
-              a(href='/users/#{question.userId}' class="userLink")= question.userName
-    #pageSelection
+    #buttonContainer
+      #pageSelection

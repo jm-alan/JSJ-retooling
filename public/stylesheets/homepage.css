@@ -54,6 +54,15 @@
   border-radius: 12px;
 }
 
+.numberedButton {
+  margin: 5px;
+  padding: 5px;
+  background-color: lightgreen;
+  border: 1px solid green;
+  border-radius: 1px;
+  font-size: 0.9em;
+}
+
 /* questions elements */
 
 #questions {
@@ -110,7 +119,14 @@
   text-align: center;
 }
 
+#buttonContainer {
+  display: flex;
+  width: 75%;
+  justify-content: center;
+}
+
 #pageSelection {
   display: flex;
-  justify-content: space-around;
+  width: 80%;
+  justify-self: center;
 }
