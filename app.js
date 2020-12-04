@@ -11,6 +11,7 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const { sequelize } = require('./db/models');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const newQuestionRouter = require('./routes/newQuestion');
 const apiRouter = require('./routes/api');
 const questionRouter = require('./routes/questions');
 const { sessionSecret } = require('./config');
@@ -43,6 +44,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api', apiRouter);
 app.use('/questions', questionRouter);
+app.use('/', newQuestionRouter);
 
 app.get('/signup', (req, res) => {
   res.redirect('/users/signup');

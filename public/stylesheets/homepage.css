@@ -131,3 +131,7 @@
   width: 80%;
   justify-self: center;
 }
+
+.buttonHover:hover{
+  cursor: pointer;
+}

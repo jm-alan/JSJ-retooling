@@ -21,6 +21,7 @@ router.get("/", function (req, res, next) {
   //   score: 1,
   //   timeStamp: 'created 5 mins ago by '
   // };
+  // console.log(res.locals)
   res.render("index", {
     title: "Javascript Jungle"
   });
