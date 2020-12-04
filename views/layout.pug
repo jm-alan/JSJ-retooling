@@ -1,8 +1,29 @@
 doctype html
 html
   head
-      block head
-        title="Express Starter App"
-        link(rel='stylesheet' href='/stylesheets/reset.css')
+    block head
+      title=title
+      link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
+      link(rel='stylesheet' href='/stylesheets/main.css')
+      script(src="https://kit.fontawesome.com/0ccb37cdbe.js" crossorigin="anonymous")
+      script(src="/javascripts/layout.js")
   body
+    nav#navbar
+      a(href='/' id="homeButton")
+        img(id="homeButtonImage" src="../images/JSJungle.png" alt="logo")
+
+      span(class="searchIcon" style="font-size: 1.6em; color: LightGreen;")
+        i(class="fas fa-search")
+
+      input(id="searchBar" type="search" placeholder="Search..." name='searchbar' class="textField")
+
+      if authenticated
+        a(href='/users/' + user.id id="profileButton")
+          span(style="font-size: 2em; color: LightGreen;")
+            i(class="fas fa-user")
+      else
+        a(href='/users/login' id="logInLink")
+          span(style="font-size: 2em; color: LightGreen;")
+            i(class="fas fa-sign-in-alt")
+
     block content

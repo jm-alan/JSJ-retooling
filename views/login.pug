@@ -1,0 +1,21 @@
+extends layout
+include utils
+block content
+    script(src="/javascripts/login.js" type="module" defer)
+    div.wholePageContainer
+        h1(id="heading") Login
+        div.pageWidthContainer
+            .container
+                if errors
+                    div#errorDiv
+                        ul.errorsList
+                            each error in errors
+                                li=error
+                div#formContainer
+                    form(action="/users/login" method="post" id="form")
+                        +field2("Username/Email", "identification", "text", null, "labelUserSignUp", "username")
+                        +field2("Password", "password", "password", null, null, "password")
+                        input(type="submit" value="Log In" id="loginButton")
+                        input(type="hidden" name="_csrf" value=csrfToken)
+                        a(href="/signup" id="signupLink" class="formLabel") Sign Up
+                        button(id="demoUser" type="submit" class="formLabel") Demo Login

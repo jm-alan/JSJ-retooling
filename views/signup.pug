@@ -1,0 +1,24 @@
+extends layout
+include utils
+block content
+    div.signupPageContainer
+        h1(id="heading") Sign Up
+        div.pageWidthContainer
+            .container
+                if errors
+                    div#errorDiv
+                        ul.errorsList
+                            each error in errors
+                                li=error
+                div#formContainer
+                    form(action="/users" method="post" id="form")
+                        +field2("First Name", "firstName", "text", firstName, "labelUserSignUp")
+                        +field2("Last Name", "lastName", "text", lastName)
+                        +field2("Email", "email", "email", email)
+                        +field2("User Name", "userName", "text", userName)
+                        +field2("Password", "password", "password")
+                        +field2("Confirm Password", "confirmPassword", "password")
+                        input(type="hidden" name="_csrf" value=csrfToken)
+                        input(type="submit" value="Sign Up" id="loginButton")
+                        div
+                        a(href="/login" class="formLabel") Log In
