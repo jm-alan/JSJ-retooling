@@ -12,7 +12,7 @@ window.addEventListener('DOMContentLoaded', () => {
       });
     });
   async function tryCastUpvote (postId) {
-    const scoreHolder = document.getElementById(`post-${postId}`);
+    const scoreHolder = document.getElementById(`score-${postId}`);
     const fetchObj = await fetch(`/posts/${postId}/upvote`, {
       method: 'POST'
     });
@@ -27,11 +27,11 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
   async function tryCastDownvote (postId) {
-    const scoreHolder = document.getElementById(`post-${postId}`);
+    const scoreHolder = document.getElementById(`score-${postId}`);
     const fetchObj = await fetch(`/posts/${postId}/downvote`, {
       method: 'POST'
     });
-    //g
+    // g
     if (fetchObj.ok) {
       const upvoteResponseObj = await fetchObj.json();
       if (upvoteResponseObj.success) {
@@ -100,23 +100,23 @@ window.addEventListener('DOMContentLoaded', () => {
     inputBox.value = '';
   });
 
-  //DELETE BUTTON ON THREAD PAGE
+  // DELETE BUTTON ON THREAD PAGE
 
   const trashIcons = document.querySelectorAll('.delete');
   trashIcons.forEach((trashIcon) => {
-    trashIcon.addEventListener('click', async(event) => {
+    trashIcon.addEventListener('click', async (event) => {
       const response = await fetch(`/questions/${event.target.dataset.backendId}`, {
         method: 'DELETE'
       });
       if (response.ok) {
-        const {success, isQuestion} = await response.json();
-        if(success && isQuestion) {
+        const { success, isQuestion } = await response.json();
+        if (success && isQuestion) {
           window.location = '/';
         } else if (success) {
           const removeElement = document.getElementById(`post-${event.target.dataset.backendId}`);
           removeElement.parentNode.removeChild(removeElement);
         }
       }
-    })
-  })
+    });
+  });
 });

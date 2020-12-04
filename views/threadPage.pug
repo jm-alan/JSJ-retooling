@@ -3,24 +3,24 @@ block content
     .threadContainer
         .questionTitle
             h1= title
-        .post.question
+        .post.question(id=`post-${threadQuestion.id}`)
             i(data-backend-id=threadQuestion.id)#delete-question.delete.far.fa-trash-alt
             .body
                 p=threadQuestion.body
             .bodyScore
                 i(data-backend-id=threadQuestion.id).post-vote-up.votingbutton.fas.fa-chevron-up
-                p(data-backend-id=threadQuestion.id id=`post-${threadQuestion.id}`).scoreThreadPage=threadQuestion.score
+                p(data-backend-id=threadQuestion.id id=`score-${threadQuestion.id}`).scoreThreadPage=threadQuestion.score
                 i(data-backend-id=threadQuestion.id).post-vote-down.votingbutton.fas.fa-chevron-down
                 p.label Likes
         if threadAnswers
             each answer in threadAnswers
-                .post.answer
+                .post.answer(id=`post-${answer.id}`)
                     i(data-backend-id=answer.id).delete-answer.delete.far.fa-trash-alt
                     .body
                         p=answer.body
                     .bodyScore
                         i(data-backend-id=answer.id).post-vote-up.votingbutton.fas.fa-chevron-up
-                        p(data-backend-id=answer.id id=`post-${answer.id}`).scoreThreadPage=answer.score
+                        p(data-backend-id=answer.id id=`score-${answer.id}`).scoreThreadPage=answer.score
                         i(data-backend-id=answer.id).post-vote-down.votingbutton.fas.fa-chevron-down
                         p.label Likes
     .answerBox
