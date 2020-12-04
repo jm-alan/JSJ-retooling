@@ -1,6 +1,6 @@
 const express = require('express');
 const { Post, Score } = require('../db/models');
-const { asyncHandler, requireAuth } = require('../utils/server-utils');
+const { asyncHandler } = require('../utils/server-utils');
 
 const router = express.Router();
 
@@ -22,39 +22,34 @@ router.post('/:id(\\d+)/:method', asyncHandler(async (req, res) => {
       if (method === 'upvote') {
         await Score.create({ userId, postId, isLiked: true });
         await updateScore(postVoting);
-        console.log('Blank, upvote, +1');
         res.json({ success: true, score: postVoting.score });
       } else if (method === 'downvote') {
         await Score.create({ userId, postId, isLiked: false });
         await updateScore(postVoting);
-        console.log('Blank, downvote, -1');
         res.json({ success: true, score: postVoting.score });
       }
     } else {
       if (method === 'upvote' && userVote.isLiked === true) {
         await userVote.destroy();
         await updateScore(postVoting);
-        console.log('Upvote, already liked, destroy, -1');
         res.json({ success: true, score: postVoting.score });
       } else if (method === 'upvote' && userVote.isLiked === false) {
         await userVote.update({ isLiked: true });
         await updateScore(postVoting);
-        console.log('Upvote, from downvote, flip, +2');
         res.json({ success: true, score: postVoting.score });
       } else if (method === 'downvote' && userVote.isLiked === false) {
         await userVote.destroy();
         await updateScore(postVoting);
-        console.log('Downvote, already disliked, destroy, +1');
         res.json({ success: true, score: postVoting.score });
       } else if (method === 'downvote' && userVote.isLiked === true) {
         await userVote.update({ isLiked: false });
         await updateScore(postVoting);
-        console.log('Downvote, from upvote, flip, -2');
         res.json({ success: true, score: postVoting.score });
       }
     }
+  } else {
+    res.json({ success: false, reason: 'anon' });
   }
-  res.end();
 }));
 
 async function updateScore (postObj) {

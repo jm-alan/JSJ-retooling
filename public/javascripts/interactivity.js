@@ -35,6 +35,10 @@ window.addEventListener('DOMContentLoaded', () => {
       const upvoteResponseObj = await fetchObj.json();
       if (upvoteResponseObj.success) {
         scoreHolder.innerText = `${upvoteResponseObj.score}`;
+      } else {
+        if (upvoteResponseObj.reason === 'anon') {
+          window.location = '/users/login';
+        }
       }
     } else {
       console.log('Response not ok? Got response', fetchObj.status);

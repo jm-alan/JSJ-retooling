@@ -61,5 +61,6 @@ module.exports = {
   requireAuth,
   asyncHandler,
   handleValidationErrors,
-  loginUser
+  loginUser,
+  logoutUser
 };

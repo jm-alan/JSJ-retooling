@@ -91,6 +91,12 @@ const loginValidator = [
     .withMessage('Please provide a password.')
 ];
 
+router.get('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
+  res.render('profile', {
+    title: 'User Profile'
+  });
+}));
+
 router.get('/signup', crsfProtection, (req, res) => {
   res.render('signup', {
     title: 'Sign Up',
@@ -143,6 +149,14 @@ router.post('/login', crsfProtection, loginValidator, (req, res, next) => {
       errors,
       csrfToken: req.csrfToken()
     });
+  }
+});
+
+router.get('/auth', (req, res) => {
+  const { authenticated } = res.locals;
+  if (authenticated) {
+    const { userId } = req.session.auth;
+    res.json({ userId, authenticated });
   }
 });
 
