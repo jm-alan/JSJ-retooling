@@ -44,5 +44,45 @@ window.addEventListener('DOMContentLoaded', () => {
       console.log('Response not ok? Got response', fetchObj.status);
       console.log('on object', fetchObj);
     }
-  }
+  };
+
+
+  //ANSWER INPUT CODE
+
+  const answerSubmitButton = document.getElementById('answer-submit');
+  answerSubmitButton.addEventListener('click', (event) => {
+    event.preventDefault();
+   const div = document.createElement('div');
+
+   const bodydiv = document.createElement('div');
+
+   const scorediv = document.createElement('div');
+   const likeUp = document.createElement('i');
+   const likeDown = document.createElement('i');
+
+
+   const bodyPara = document.createElement('p');
+   const scorelabelPara = document.createElement('p');
+
+   const scorePara = document.createElement('p');
+
+   bodydiv.appendChild(bodyPara);
+   scorediv.appendChild(likeUp)
+   scorediv.appendChild(scorePara);
+   scorediv.appendChild(likeDown);
+   scorediv.appendChild(scorelabelPara);
+   bodydiv.appendChild(bodyPara);
+   div.appendChild(bodydiv);
+   div.appendChild(scorediv);
+
+   div.setAttribute('id', 'newAnswer');
+   div.classList.add('post answer');
+   bodydiv.classList.add('body');
+   scorediv.classList.add('bodyScore');
+    scorelabelPara.classList.add('label')
+    scorePara.classList.add('scoreThreadPage');
+    likeUp.classList.add('post-vote-up votingbutton fas fa-chevron-up');
+    likeDown.classList.add('post-vote-up votingbutton fas fa-chevron-down');
+
+  })
 });
