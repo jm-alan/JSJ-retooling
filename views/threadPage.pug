@@ -8,7 +8,7 @@ block content
                 p=threadQuestion.body
             .bodyScore
                 i(data-backend-id=threadQuestion.id).post-vote-up.votingbutton.fas.fa-chevron-up
-                p(data-backend-id=threadQuestion.id id=threadQuestion.id).scoreThreadPage=threadQuestion.score
+                p(data-backend-id=threadQuestion.id id='post-#{threadQuestion.id}').scoreThreadPage=threadQuestion.score
                 i(data-backend-id=threadQuestion.id).post-vote-down.votingbutton.fas.fa-chevron-down
                 p.label Likes
         if threadAnswers
@@ -18,7 +18,7 @@ block content
                         p=answer.body
                     .bodyScore
                         i(data-backend-id=answer.id).post-vote-up.votingbutton.fas.fa-chevron-up
-                        p(data-backend-id=answer.id id=answer.id).scoreThreadPage=answer.score
+                        p(data-backend-id=answer.id id='post-#{answer.id}').scoreThreadPage=answer.score
                         i(data-backend-id=answer.id).post-vote-down.votingbutton.fas.fa-chevron-down
                         p.label Likes
     .answerBox

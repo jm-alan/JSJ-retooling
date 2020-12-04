@@ -12,7 +12,7 @@ window.addEventListener('DOMContentLoaded', () => {
       });
     });
   async function tryCastUpvote (postId) {
-    const scoreHolder = document.querySelector(`p#\\3${postId} `);
+    const scoreHolder = document.querySelector(`#post-${postId}`);
     const fetchObj = await fetch(`/posts/${postId}/upvote`, {
       method: 'POST'
     });
