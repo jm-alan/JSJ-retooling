@@ -75,3 +75,9 @@
   font-weight: bolder;
   margin-bottom: 5px;
 }
+
+#answer-submit {
+  width: 15%;
+  height: 5%;
+  align-self: flex-end;
+}
