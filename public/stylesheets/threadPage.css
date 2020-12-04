@@ -31,6 +31,11 @@
     font-size: 30px;
     margin: 0 auto;
 }
+
+.votingbutton:hover {
+  cursor: pointer;
+}
+
 .post {
   display: flex;
   flex-direction: row-reverse;

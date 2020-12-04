@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       otherKey: 'userId',
       foreignKey: 'postId'
     };
+    Post.hasMany(models.Score, { foreignKey: 'postId' });
     Post.belongsTo(models.Thread, { foreignKey: 'threadId' });
     Post.belongsTo(models.User, { foreignKey: 'userId' });
     Post.belongsToMany(models.User, columnMapping);

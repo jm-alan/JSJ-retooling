@@ -7,9 +7,9 @@ block content
             .body
                 p=threadQuestion.body
             .bodyScore
-                i#voteUp.votingbutton.fas.fa-chevron-up
-                p.scoreThreadPage=threadQuestion.score
-                i#voteDown.votingbutton.fas.fa-chevron-down
+                i(data-backend-id=threadQuestion.id).post-vote-up.votingbutton.fas.fa-chevron-up
+                p(data-backend-id=threadQuestion.id id=threadQuestion.id).scoreThreadPage=threadQuestion.score
+                i(data-backend-id=threadQuestion.id).post-vote-down.votingbutton.fas.fa-chevron-down
                 p.label Likes
         if threadAnswers
             each answer in threadAnswers
@@ -17,9 +17,9 @@ block content
                     .body
                         p=answer.body
                     .bodyScore
-                        i.votingbutton.fas.fa-chevron-up
-                        p.scoreThreadPage=answer.score
-                        i.votingbutton.fas.fa-chevron-down
+                        i(data-backend-id=answer.id).post-vote-up.votingbutton.fas.fa-chevron-up
+                        p(data-backend-id=answer.id id=answer.id).scoreThreadPage=answer.score
+                        i(data-backend-id=answer.id).post-vote-down.votingbutton.fas.fa-chevron-down
                         p.label Likes
         .answerBox
             form.create-answer(method="POST" action="/questions/:id")
@@ -28,3 +28,4 @@ block content
                 input(type="hidden" name="isQuestion" value="false")
                 input(type="hidden" name="_csrf" value=csrfToken)
                 button#answer-submit(type="submit") Submit
+    script(src="/javascripts/interactivity.js")

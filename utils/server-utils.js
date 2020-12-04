@@ -24,8 +24,6 @@ const loginUser = (req, res, user) => {
 };
 
 const restoreUser = async (req, res, next) => {
-  console.log(req.session);
-
   if (req.session.auth) {
     const { userId } = req.session.auth;
 
@@ -53,7 +51,7 @@ const logoutUser = (req, res) => {
 
 const requireAuth = (req, res, next) => {
   if (!res.locals.authenticated) {
-    return res.redirect('/user/login');
+    return res.redirect('/users/login');
   }
   return next();
 };

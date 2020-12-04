@@ -13,6 +13,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const apiRouter = require('./routes/api');
 const questionRouter = require('./routes/questions');
+const postRouter = require('./routes/posts');
 const { sessionSecret } = require('./config');
 const { restoreUser } = require('./utils/server-utils');
 
@@ -43,6 +44,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api', apiRouter);
 app.use('/questions', questionRouter);
+app.use('/posts', postRouter);
 
 app.get('/signup', (req, res) => {
   res.redirect('/users/signup');
