@@ -5,7 +5,6 @@ block content
     h1 Hello, #{user.userName}
   else
     h1= user.userName
-
   if logoutButton
     form(method="post" action="/users/logout")
       button(id="logoutButton" type="submit") Logout

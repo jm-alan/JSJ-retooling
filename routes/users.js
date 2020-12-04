@@ -101,12 +101,6 @@ const loginValidator = [
     .withMessage("Please provide a password."),
 ];
 
-router.get('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
-  res.render('profile', {
-    title: 'User Profile'
-  });
-}));
-
 router.get('/signup', crsfProtection, (req, res) => {
   res.render('signup', {
     title: 'Sign Up',
