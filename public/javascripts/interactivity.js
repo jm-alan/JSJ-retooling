@@ -12,14 +12,14 @@ window.addEventListener('DOMContentLoaded', () => {
       });
     });
   async function tryCastUpvote (postId) {
-    const scoreHolder = document.querySelector(`#post-${postId}`);
+    const scoreHolder = document.getElementById(`post-${postId}`);
     const fetchObj = await fetch(`/posts/${postId}/upvote`, {
       method: 'POST'
     });
     if (fetchObj.ok) {
       const upvoteResponseObj = await fetchObj.json();
       if (upvoteResponseObj.success) {
-        scoreHolder.innerText = upvoteResponseObj.score;
+        scoreHolder.innerHTML = upvoteResponseObj.score;
       }
     } else {
       console.log('Response not ok? Got response', fetchObj.status);
