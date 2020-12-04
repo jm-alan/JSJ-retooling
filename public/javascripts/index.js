@@ -1,14 +1,10 @@
-import { navButton,
-  fetchThreads,
-  refreshPage } from "./questionUtils.js"
+import { navButton, fetchThreads, refreshPage } from "./questionUtils.js";
 
 let currentPage = 1;
-let pageMode = 'recent';
-let lastPageEl
+let pageMode = "recent";
+let lastPageEl;
 
-
-
-window.addEventListener('load', async (event) => {
+window.addEventListener("load", async (event) => {
   let res = await fetch(`${window.location.origin}/api/recent`);
   let body = await res.json();
   let postArr = body.threads;
@@ -17,56 +13,66 @@ window.addEventListener('load', async (event) => {
   refreshPage(pageData);
 
   const totalPages = Math.ceil(postArr.length / 10);
-  const container = document.getElementById('pageSelection');
+  const container = document.getElementById("pageSelection");
 
   if (totalPages > 1) {
-    lastPageEl=navButton('Prev', container, lastPageEl);
+    lastPageEl = navButton("Prev", container, lastPageEl);
     for (let i = 1; i <= totalPages; i++) {
-      if( i === 1) {
-        lastPageEl=navButton(i, container, lastPageEl, true);
+      if (i === 1) {
+        lastPageEl = navButton(i, container, lastPageEl, true);
       } else {
-        lastPageEl=navButton(i, container, lastPageEl);
+        lastPageEl = navButton(i, container, lastPageEl);
       }
     }
-    lastPageEl=navButton('Next', container, lastPageEl);
+    lastPageEl = navButton("Next", container, lastPageEl);
   }
 
-  container.addEventListener('mouseup', async (event) => {
-    if(event.target.nodeName !== "DIV") {
-
-
-    const currentPageSave = currentPage;
-    const target = event.target.innerText;
-    if (target === 'Prev' && currentPage > 1) {
-      currentPage--;
-    } else if (target === 'Next' && totalPages > currentPage) {
-      currentPage++;
-    } else {
-      if (currentPage !== target && target !== 'Prev' && target !== 'Next') {
-        lastPageEl.classList.remove("numberedButton--selected")
-        event.target.classList.add("numberedButton--selected")
-        lastPageEl=event.target
-        currentPage = Number.parseInt(target, 10);
-        console.log(target)
+  container.addEventListener("mouseup", async (event) => {
+    if (event.target.nodeName !== "DIV") {
+      const currentPageSave = currentPage;
+      const target = event.target.innerText;
+      if (target === "Prev" && currentPage > 1) {
+        currentPage--;
+        const newFocusButton = document.getElementById(
+          `numberedButtonId__${currentPage}`
+        );
+        lastPageEl.classList.remove("numberedButton--selected");
+        newFocusButton.classList.add("numberedButton--selected");
+        lastPageEl = newFocusButton;
+      } else if (target === "Next" && totalPages > currentPage) {
+        currentPage++;
+        const newFocusButton = document.getElementById(
+          `numberedButtonId__${currentPage}`
+        );
+        lastPageEl.classList.remove("numberedButton--selected");
+        newFocusButton.classList.add("numberedButton--selected");
+        lastPageEl = newFocusButton;
+      } else {
+        if (currentPage !== target && target !== "Prev" && target !== "Next") {
+          lastPageEl.classList.remove("numberedButton--selected");
+          event.target.classList.add("numberedButton--selected");
+          lastPageEl = event.target;
+          currentPage = Number.parseInt(target, 10);
+          console.log(target);
+        }
+      }
+      if (currentPage !== currentPageSave) {
+        pageData = await fetchThreads(postArr, currentPage);
+        refreshPage(pageData);
       }
     }
-    if (currentPage !== currentPageSave) {
-      pageData = await fetchThreads(postArr, currentPage);
-      refreshPage(pageData);
-    }
-  }
   });
 
-  const recentButton = document.getElementById('recent');
-  const popularButton = document.getElementById('popular');
+  const recentButton = document.getElementById("recent");
+  const popularButton = document.getElementById("popular");
 
-  recentButton.addEventListener('mouseup', async (event) => {
-    if (pageMode !== 'recent') {
-      pageMode = 'recent';
+  recentButton.addEventListener("mouseup", async (event) => {
+    if (pageMode !== "recent") {
+      pageMode = "recent";
 
       currentPage = 1;
-      recentButton.classList.add('sortButton--selected');
-      popularButton.classList.remove('sortButton--selected');
+      recentButton.classList.add("sortButton--selected");
+      popularButton.classList.remove("sortButton--selected");
       res = await fetch(`${window.location.origin}/api/recent`);
       body = await res.json();
       postArr = body.threads;
@@ -76,12 +82,12 @@ window.addEventListener('load', async (event) => {
     }
   });
 
-  popularButton.addEventListener('mouseup', async (event) => {
-    if (pageMode !== 'popular') {
-      pageMode = 'popular';
+  popularButton.addEventListener("mouseup", async (event) => {
+    if (pageMode !== "popular") {
+      pageMode = "popular";
       currentPage = 1;
-      recentButton.classList.remove('sortButton--selected');
-      popularButton.classList.add('sortButton--selected');
+      recentButton.classList.remove("sortButton--selected");
+      popularButton.classList.add("sortButton--selected");
       res = await fetch(`${window.location.origin}/api/popular`);
       body = await res.json();
       postArr = body.threads;

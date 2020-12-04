@@ -1,0 +1,26 @@
+.profile__link {
+  color: #0077cc;
+  text-decoration: none;
+}
+
+.profile__link:hover {
+  text-decoration: underline;
+}
+
+.profile__threads {
+  align-self: flex-start;
+  padding: 7px 5px 7px 5px;
+}
+
+.profile__threadContainer {
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+}
+
+.profile__header {
+  font-size: 20px;
+  color: black;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}

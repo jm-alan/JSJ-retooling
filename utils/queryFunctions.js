@@ -2,16 +2,17 @@
 
 const db = require("../db/models");
 const { Op } = require("sequelize");
+const { body } = require("express-validator");
 
 const mostPopular = async () => {
   const threads = await db.Thread.findAll({
-
-    include: [{
-      model: db.Post
-    }],
+    include: [
+      {
+        model: db.Post,
+      },
+    ],
     order: [[db.Post, "score", "DESC"]],
-    limit: 100
-
+    limit: 100,
   });
   const threadIds = threads.map((thread) => thread.id);
   return threadIds;
@@ -29,33 +30,55 @@ const mostRecent = async () => {
 const searchThreads = async (searchTerm) => {
   const threads = await db.Thread.findAll({
     where: {
-      title: {[Op.like]: `%${searchTerm}%`}
+      title: { [Op.like]: `%${searchTerm}%` },
     },
     order: [["createdAt", "DESC"]],
     limit: 100,
   });
+  const bodyThreads = await db.Post.findAll({
+    where: {
+      body: { [Op.like]: `%${searchTerm}%` },
+      isQuestion: true,
+    },
+    order: [["createdAt", "DESC"]],
+    limit: 100,
+  });
+  // console.log("threads", threads);
+  // console.log("body threads", bodyThreads);
   const threadIds = threads.map((thread) => thread.id);
-  return threadIds;
+  const bodyThreadIds = bodyThreads.map((posts) => posts.threadId);
+  // console.log("body threads ids", bodyThreadIds);
+  const finalThreads = new Set();
+  threadIds.forEach((el) => {
+    finalThreads.add(el);
+  });
+  bodyThreadIds.forEach((el) => {
+    finalThreads.add(el);
+  });
+  return Array.from(finalThreads);
 };
 
 const getThreadsByIds = async (idArray) => {
-  let returnArr = []
+  let returnArr = [];
   for (let i = 0; i < idArray.length; i++) {
     const result = await db.Thread.findByPk(idArray[i], {
-      include: [{
-        model: db.Post
-      }, {
-        model: db.User
-      }]
-    })
-    returnArr.push(result)
+      include: [
+        {
+          model: db.Post,
+        },
+        {
+          model: db.User,
+        },
+      ],
+    });
+    returnArr.push(result);
   }
-  return returnArr
+  return returnArr;
 };
 
 module.exports = {
   mostPopular,
   mostRecent,
   getThreadsByIds,
-  searchThreads
+  searchThreads,
 };
