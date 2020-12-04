@@ -44,45 +44,56 @@ window.addEventListener('DOMContentLoaded', () => {
       console.log('Response not ok? Got response', fetchObj.status);
       console.log('on object', fetchObj);
     }
-  };
+  }
 
-
-  //ANSWER INPUT CODE
+  // ANSWER INPUT CODE
 
   const answerSubmitButton = document.getElementById('answer-submit');
-  answerSubmitButton.addEventListener('click', (event) => {
+  answerSubmitButton.addEventListener('click', async (event) => {
     event.preventDefault();
-   const div = document.createElement('div');
 
-   const bodydiv = document.createElement('div');
+    const div = document.createElement('div');
+    const bodydiv = document.createElement('div');
+    const scorediv = document.createElement('div');
 
-   const scorediv = document.createElement('div');
-   const likeUp = document.createElement('i');
-   const likeDown = document.createElement('i');
+    const likeUp = document.createElement('i');
+    const likeDown = document.createElement('i');
 
+    const bodyPara = document.createElement('p');
+    const scorelabelPara = document.createElement('p');
+    const scorePara = document.createElement('p');
 
-   const bodyPara = document.createElement('p');
-   const scorelabelPara = document.createElement('p');
+    const inputBox = document.getElementById('answerInput');
 
-   const scorePara = document.createElement('p');
+    scorediv.appendChild(likeUp);
+    scorediv.appendChild(scorePara);
+    scorediv.appendChild(likeDown);
+    scorediv.appendChild(scorelabelPara);
+    bodydiv.appendChild(bodyPara);
+    div.appendChild(bodydiv);
+    div.appendChild(scorediv);
 
-   bodydiv.appendChild(bodyPara);
-   scorediv.appendChild(likeUp)
-   scorediv.appendChild(scorePara);
-   scorediv.appendChild(likeDown);
-   scorediv.appendChild(scorelabelPara);
-   bodydiv.appendChild(bodyPara);
-   div.appendChild(bodydiv);
-   div.appendChild(scorediv);
-
-   div.setAttribute('id', 'newAnswer');
-   div.classList.add('post answer');
-   bodydiv.classList.add('body');
-   scorediv.classList.add('bodyScore');
-    scorelabelPara.classList.add('label')
+    div.setAttribute('id', 'newAnswer');
+    div.classList.add('post', 'answer');
+    bodydiv.classList.add('body');
+    scorediv.classList.add('bodyScore');
+    scorelabelPara.classList.add('label');
     scorePara.classList.add('scoreThreadPage');
-    likeUp.classList.add('post-vote-up votingbutton fas fa-chevron-up');
-    likeDown.classList.add('post-vote-up votingbutton fas fa-chevron-down');
+    likeUp.classList.add('post-vote-up', 'votingbutton', 'fas', 'fa-chevron-up');
+    likeDown.classList.add('post-vote-up', 'votingbutton', 'fas', 'fa-chevron-down');
+    bodyPara.innerText = inputBox.value;
+    scorePara.innerHTML = 0;
+    scorelabelPara.innerText = 'Likes';
 
-  })
+    document.querySelector('.threadContainer').appendChild(div);
+    const responseObj =
+    await fetch(window.location.href, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ answerInput: inputBox.value, _csrf: document.getElementById('csrf').value })
+    });
+    inputBox.value = '';
+  });
 });

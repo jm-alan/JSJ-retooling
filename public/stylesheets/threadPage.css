@@ -8,6 +8,10 @@
   font-size: 20px;
 }
 
+.body > p {
+  word-break: break-word;
+}
+
 .post {
   padding: 0 5px;
   margin: 0% auto;
