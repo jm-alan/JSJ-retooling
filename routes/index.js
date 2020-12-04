@@ -35,4 +35,9 @@ router.get('/signup', function (req, res, next) {
   res.redirect('/users');
 });
 
+router.get('/search', function (req, res, next) {
+  const searchTerm = req.query.entry
+  res.render('searchResults', {searchTerm});
+});
+
 module.exports = router;

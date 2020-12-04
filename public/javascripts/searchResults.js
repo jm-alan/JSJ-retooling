@@ -5,9 +5,11 @@ let pageMode = "recent";
 let lastPageEl;
 
 window.addEventListener("load", async (event) => {
-  let res = await fetch(`${window.location.origin}/api/recent`);
-  let body = await res.json();
-  let postArr = body.threads;
+  const searchTerm = document.getElementById("searchTerm").innerText;
+  const res = await fetch(`/api/search?search=${searchTerm}`);
+  let postArr = await res.json();
+  postArr = postArr.threads;
+  console.log("postArr", postArr);
 
   let pageData = await fetchThreads(postArr, 1);
   refreshPage(pageData);
@@ -60,39 +62,6 @@ window.addEventListener("load", async (event) => {
         pageData = await fetchThreads(postArr, currentPage);
         refreshPage(pageData);
       }
-    }
-  });
-
-  const recentButton = document.getElementById("recent");
-  const popularButton = document.getElementById("popular");
-
-  recentButton.addEventListener("mouseup", async (event) => {
-    if (pageMode !== "recent") {
-      pageMode = "recent";
-
-      currentPage = 1;
-      recentButton.classList.add("sortButton--selected");
-      popularButton.classList.remove("sortButton--selected");
-      res = await fetch(`${window.location.origin}/api/recent`);
-      body = await res.json();
-      postArr = body.threads;
-
-      const pageData = await fetchThreads(postArr, 1);
-      refreshPage(pageData);
-    }
-  });
-
-  popularButton.addEventListener("mouseup", async (event) => {
-    if (pageMode !== "popular") {
-      pageMode = "popular";
-      currentPage = 1;
-      recentButton.classList.remove("sortButton--selected");
-      popularButton.classList.add("sortButton--selected");
-      res = await fetch(`${window.location.origin}/api/popular`);
-      body = await res.json();
-      postArr = body.threads;
-      const pageData = await fetchThreads(postArr, 1);
-      refreshPage(pageData);
     }
   });
 });

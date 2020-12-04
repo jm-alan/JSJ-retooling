@@ -8,7 +8,7 @@ const {
   logoutUser,
 } = require("../utils/server-utils.js");
 const { check, validationResult } = require("express-validator");
-const { User } = require("../db/models");
+const { User, Thread, Post } = require("../db/models");
 const crsf = require("csurf");
 const crsfProtection = crsf({ cookie: true });
 
@@ -101,21 +101,15 @@ const loginValidator = [
     .withMessage("Please provide a password."),
 ];
 
-router.get('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
-  res.render('profile', {
-    title: 'User Profile'
-  });
-}));
-
-router.get('/signup', crsfProtection, (req, res) => {
-  res.render('signup', {
-    title: 'Sign Up',
-    csrfToken: req.csrfToken()
+router.get("/signup", crsfProtection, (req, res) => {
+  res.render("signup", {
+    title: "Sign Up",
+    csrfToken: req.csrfToken(),
   });
 });
 
-router.get('/', (req, res) => {
-  res.redirect('/users/signup');
+router.get("/", (req, res) => {
+  res.redirect("/users/signup");
 });
 
 router.get("/", (req, res) => {
@@ -133,7 +127,7 @@ router.get("/login", crsfProtection, (req, res) => {
   }
 });
 
-router.get('/auth', (req, res) => {
+router.get("/auth", (req, res) => {
   const { authenticated } = res.locals;
   if (authenticated) {
     const { userId } = req.session.auth;
@@ -231,7 +225,25 @@ router.get(
     const loggedInUser = res.locals.user.dataValues.id;
     if (user) {
       const logoutButton = user.id === loggedInUser;
-      res.render("profile", { user, logoutButton });
+      const questionThreads = await Thread.findAll({
+        where: {
+          userId: id,
+        },
+        order: [["createdAt", "DESC"]],
+        limit: 100,
+      });
+      const posts = await Post.findAll({
+        where: {
+          userId: id,
+          isQuestion: false,
+        },
+        include: Thread,
+        order: [["createdAt", "DESC"]],
+        limit: 100,
+      });
+      // const threadIds = questionThreads.map((thread) => thread.id);
+
+      res.render("profile", { user, logoutButton, questionThreads, posts });
     } else {
       throw new Error("This user does not exist");
     }
