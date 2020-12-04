@@ -93,7 +93,7 @@ window.addEventListener('DOMContentLoaded', () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ answerInput: inputBox.value, _csrf: document.getElementById('csrf').value })
+      body: JSON.stringify({ isQuestion: false, answerInput: inputBox.value, _csrf: document.getElementById('csrf').value })
     });
     const newPost = await responseObj.json();
     scorePara.setAttribute('id', newPost.id);
