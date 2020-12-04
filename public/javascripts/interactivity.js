@@ -94,6 +94,8 @@ window.addEventListener('DOMContentLoaded', () => {
       },
       body: JSON.stringify({ answerInput: inputBox.value, _csrf: document.getElementById('csrf').value })
     });
+    const newPost = await responseObj.json();
+    scorePara.setAttribute('id', newPost.id);
     inputBox.value = '';
   });
 });
