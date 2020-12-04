@@ -2,8 +2,9 @@ let currentPage = 1;
 let pageMode = 'recent';
 
 const navButton = (text, container) => {
-  const btn = document.createElement('button');
-  btn.classList.add('numberedButton');
+  const btn = document.createElement("button");
+  btn.classList.add("numberedButton");
+  btn.classList.add("buttonHover");
   btn.innerText = `${text}`;
   container.appendChild(btn);
 };
