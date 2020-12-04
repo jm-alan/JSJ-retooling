@@ -17,8 +17,8 @@ html
 
       input(id="searchBar" type="search" placeholder="Search..." name='searchbar' class="textField")
 
-      if true
-        a(id="profileButton")
+      if authenticated
+        a(href='/users/' + user.id id="profileButton")
           span(style="font-size: 2em; color: LightGreen;")
             i(class="fas fa-user")
       else

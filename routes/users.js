@@ -84,6 +84,7 @@ const loginValidator = [
             throw new Error('Invalid login.');
           }
         } else return true;
+
       }
     }),
   check('password')
@@ -115,14 +116,21 @@ router.get('/login', crsfProtection, (req, res) => {
   });
 });
 
-router.post('/login', crsfProtection, loginValidator, (req, res, next) => {
+router.post("/login", crsfProtection, loginValidator, async (req, res, next) => {
   // We arrive here in one of two states; either the validation was
   // successful, and req.special.user exists, or it failed, and
   // not only does user not exist, but we also have a bundle of
+
+  //this was added whioole messing around
+  let user
+  if (String(req.body.identification).match(/@/g)) {
+     user = await User.findOne({ where: { email: req.body.identification } });
+  } else {
+     user = await User.findOne({ where: { userName: req.body.identification } });
+  }
   // errors on our request.
   const {
-    body: { emailAddress },
-    user
+    body: { emailAddress }
   } = req;
   const validatorErrors = validationResult(req);
   // If we both have no errors AND successfully found a user in

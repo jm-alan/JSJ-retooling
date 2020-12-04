@@ -68,9 +68,9 @@ async function updateScore (postObj) {
       }
     });
   const score = likes.length - dislikes.length;
-  console.log(score);
+
   await postObj.update({ score });
-  console.log('New score:', postObj.score);
+
 }
 
 module.exports = router;
