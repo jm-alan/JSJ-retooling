@@ -1,5 +1,5 @@
-const { validationResult } = require('express-validator');
-const { User } = require('../db/models');
+const { validationResult } = require("express-validator");
+const { User } = require("../db/models");
 
 const asyncHandler = (handler) => (req, res, next) =>
   handler(req, res, next).catch(next);
@@ -10,10 +10,10 @@ const handleValidationErrors = (req, res, next) => {
   if (!validationErrors.isEmpty()) {
     const errors = validationErrors.array().map((error) => error.msg);
 
-    const err = Error('Bad request.');
+    const err = Error("Bad request.");
     err.errors = errors;
     err.status = 400;
-    err.title = 'Bad request.';
+    err.title = "Bad request.";
     return next(err);
   }
   next();
@@ -24,7 +24,6 @@ const loginUser = (req, res, user) => {
 };
 
 const restoreUser = async (req, res, next) => {
-
   if (req.session.auth) {
     const { userId } = req.session.auth;
 
@@ -52,7 +51,7 @@ const logoutUser = (req, res) => {
 
 const requireAuth = (req, res, next) => {
   if (!res.locals.authenticated) {
-    return res.redirect('/user/login');
+    return res.redirect("/user/login");
   }
   return next();
 };
@@ -62,5 +61,6 @@ module.exports = {
   requireAuth,
   asyncHandler,
   handleValidationErrors,
-  loginUser
+  loginUser,
+  logoutUser,
 };
