@@ -26,6 +26,18 @@ const mostRecent = async () => {
   return threadIds;
 };
 
+const searchThreads = async (searchTerm) => {
+  const threads = await db.Thread.findAll({
+    where: {
+      title: {[Op.like]: `%${searchTerm}%`}
+    },
+    order: [["createdAt", "DESC"]],
+    limit: 100,
+  });
+  const threadIds = threads.map((thread) => thread.id);
+  return threadIds;
+};
+
 const getThreadsByIds = async (idArray) => {
   let returnArr = []
   for (let i = 0; i < idArray.length; i++) {
@@ -45,4 +57,5 @@ module.exports = {
   mostPopular,
   mostRecent,
   getThreadsByIds,
+  searchThreads
 };

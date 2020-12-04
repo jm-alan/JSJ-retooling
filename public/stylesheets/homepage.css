@@ -64,6 +64,11 @@
   font-size: 0.9em;
 }
 
+.numberedButton--selected {
+  background-color: rgb(105, 172, 105);
+  color: white;
+}
+
 /* questions elements */
 
 #questions {

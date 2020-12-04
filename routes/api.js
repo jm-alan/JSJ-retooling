@@ -5,6 +5,7 @@ const {
   mostPopular,
   mostRecent,
   getThreadsByIds,
+  searchThreads
 } = require("../utils/queryFunctions");
 
 router.get(
@@ -28,6 +29,14 @@ router.get(
   "/popular",
   asyncHandler(async (req, res) => {
     const threads = await mostPopular();
+    res.json({ threads });
+  })
+);
+
+router.get(
+  "/search",
+  asyncHandler(async (req, res) => {
+    const threads = await searchThreads(req.query.search);
     res.json({ threads });
   })
 );
