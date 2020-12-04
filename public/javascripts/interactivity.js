@@ -27,7 +27,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
   async function tryCastDownvote (postId) {
-    const scoreHolder = document.querySelector(`p#\\3${postId} `);
+    const scoreHolder = document.getElementById(`post-${postId}`);
     const fetchObj = await fetch(`/posts/${postId}/downvote`, {
       method: 'POST'
     });
