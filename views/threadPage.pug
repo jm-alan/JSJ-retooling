@@ -4,7 +4,7 @@ block content
         .questionTitle
             h1= title
         .post.question
-            i#delete-question.delete.far.fa-trash-alt
+            i(data-backend-id=threadQuestion.id)#delete-question.delete.far.fa-trash-alt
             .body
                 p=threadQuestion.body
             .bodyScore
@@ -15,7 +15,7 @@ block content
         if threadAnswers
             each answer in threadAnswers
                 .post.answer
-                    i.delete-answer.delete.far.fa-trash-alt
+                    i(data-backend-id=answer.id).delete-answer.delete.far.fa-trash-alt
                     .body
                         p=answer.body
                     .bodyScore
