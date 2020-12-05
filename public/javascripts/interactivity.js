@@ -12,14 +12,14 @@ window.addEventListener('DOMContentLoaded', () => {
       });
     });
   async function tryCastUpvote (postId) {
-    const scoreHolder = document.querySelector(`p#\\3${postId} `);
+    const scoreHolder = document.getElementById(`score-${postId}`);
     const fetchObj = await fetch(`/posts/${postId}/upvote`, {
       method: 'POST'
     });
     if (fetchObj.ok) {
       const upvoteResponseObj = await fetchObj.json();
       if (upvoteResponseObj.success) {
-        scoreHolder.innerText = upvoteResponseObj.score;
+        scoreHolder.innerHTML = upvoteResponseObj.score;
       }
     } else {
       console.log('Response not ok? Got response', fetchObj.status);
@@ -27,10 +27,11 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
   async function tryCastDownvote (postId) {
-    const scoreHolder = document.querySelector(`p#\\3${postId} `);
+    const scoreHolder = document.getElementById(`score-${postId}`);
     const fetchObj = await fetch(`/posts/${postId}/downvote`, {
       method: 'POST'
     });
+    // g
     if (fetchObj.ok) {
       const upvoteResponseObj = await fetchObj.json();
       if (upvoteResponseObj.success) {
@@ -92,8 +93,30 @@ window.addEventListener('DOMContentLoaded', () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ answerInput: inputBox.value, _csrf: document.getElementById('csrf').value })
+      body: JSON.stringify({ isQuestion: false, answerInput: inputBox.value, _csrf: document.getElementById('csrf').value })
     });
+    const newPost = await responseObj.json();
+    scorePara.setAttribute('id', newPost.id);
     inputBox.value = '';
+  });
+
+  // DELETE BUTTON ON THREAD PAGE
+
+  const trashIcons = document.querySelectorAll('.delete');
+  trashIcons.forEach((trashIcon) => {
+    trashIcon.addEventListener('click', async (event) => {
+      const response = await fetch(`/questions/${event.target.dataset.backendId}`, {
+        method: 'DELETE'
+      });
+      if (response.ok) {
+        const { success, isQuestion } = await response.json();
+        if (success && isQuestion) {
+          window.location = '/';
+        } else if (success) {
+          const removeElement = document.getElementById(`post-${event.target.dataset.backendId}`);
+          removeElement.parentNode.removeChild(removeElement);
+        }
+      }
+    });
   });
 });

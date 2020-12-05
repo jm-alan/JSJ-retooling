@@ -64,6 +64,11 @@
   font-size: 0.9em;
 }
 
+.numberedButton--selected {
+  background-color: rgb(105, 172, 105);
+  color: white;
+}
+
 /* questions elements */
 
 #questions {
@@ -90,6 +95,9 @@
   text-decoration: none;
 }
 
+.title:hover {
+  text-decoration: underline;
+}
 .titleDiv {
   padding-top: 5px;
 }
@@ -102,6 +110,10 @@
 .userLink {
   color: #0077cc;
   text-decoration: none;
+}
+
+.userLink:hover {
+  text-decoration: underline;
 }
 
 .answerNumber,
@@ -132,6 +144,6 @@
   justify-self: center;
 }
 
-.buttonHover:hover{
+.buttonHover:hover {
   cursor: pointer;
 }

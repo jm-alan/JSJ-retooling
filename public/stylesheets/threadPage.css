@@ -13,10 +13,13 @@
 }
 
 .post {
+  display: flex;
+  flex-direction: row-reverse;
   padding: 0 5px;
   margin: 0% auto;
   width: 50%;
   border: 3px solid black;
+  justify-content: flex-end;
 }
 
 .post.question {
@@ -40,10 +43,6 @@
   cursor: pointer;
 }
 
-.post {
-  display: flex;
-  flex-direction: row-reverse;
-}
 
 .bodyScore {
     display: flex;
@@ -89,4 +88,10 @@
   width: 15%;
   height: 5%;
   align-self: flex-end;
+}
+
+.delete {
+  margin-left: auto;
+  margin-top: 5px;
+  color: rgb(245, 59, 59);
 }

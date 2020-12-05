@@ -1,37 +1,37 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const csrf = require("csurf");
+const csrf = require('csurf');
 const csrfProtection = csrf({ cookie: true });
-const { Thread, Post } = require("../db/models");
-const { asyncHandler } = require("../utils/server-utils");
+const { Thread, Post } = require('../db/models');
+const { asyncHandler } = require('../utils/server-utils');
 
-router.get("/new-question", csrfProtection, function (req, res, next) {
+router.get('/new-question', csrfProtection, function (req, res, next) {
   if (res.locals.authenticated) {
-    res.render("newQuestion", {
+    res.render('newQuestion', {
       csrfToken: req.csrfToken(),
-      bodyVal: "",
-      titleVal: "",
+      bodyVal: '',
+      titleVal: ''
     });
   } else {
-    res.redirect("/users/login");
+    res.redirect('/users/login');
   }
 });
 
 router.post(
-  "/new-question",
+  '/new-question',
   csrfProtection,
   asyncHandler(async (req, res, next) => {
     if (!res.locals.authenticated) {
-      res.send("You must be logged in to post.");
+      res.send('You must be logged in to post.');
       return;
     }
     const errors = [];
     if (!req.body.title) {
-      errors.push("The post must have a title.");
+      errors.push('The post must have a title.');
     }
 
     if (!req.body.body) {
-      errors.push("The post must have a body.");
+      errors.push('The post must have a body.');
     }
 
     if (errors.length === 0) {
@@ -39,7 +39,7 @@ router.post(
         title: req.body.title,
         userId: res.locals.user.dataValues.id,
         createdAt: new Date(),
-        updatedAt: new Date(),
+        updatedAt: new Date()
       };
       const thread = await Thread.create(threadObj);
       const postObj = {
@@ -49,17 +49,17 @@ router.post(
         isQuestion: true,
         score: 0,
         createdAt: new Date(),
-        updatedAt: new Date(),
+        updatedAt: new Date()
       };
       const post = await Post.create(postObj);
       res.redirect(`/questions/${thread.id}`);
     } else {
       console.log(req.body);
-      res.render("newQuestion", {
+      res.render('newQuestion', {
         errors,
         csrfToken: req.csrfToken(),
         bodyVal: req.body.body,
-        titleVal: req.body.title,
+        titleVal: req.body.title
       });
     }
   })
