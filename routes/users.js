@@ -222,7 +222,10 @@ router.get(
   asyncHandler(async (req, res) => {
     const id = req.params.id;
     const user = await User.findByPk(id);
-    const loggedInUser = res.locals.user.dataValues.id;
+    let loggedInUser;
+    if (res.locals.authenticated) {
+      loggedInUser = res.locals.user.dataValues.id;
+    }
     if (user) {
       const logoutButton = user.id === loggedInUser;
       const questionThreads = await Thread.findAll({
