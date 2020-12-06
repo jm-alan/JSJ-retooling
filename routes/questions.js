@@ -46,47 +46,7 @@ router.post(
       userId: req.session.auth.userId,
       score: 0,
     });
-    res.json(newPost);
-  })
-);
-
-router.delete(
-  "/:id(\\d+)",
-  asyncHandler(async (req, res) => {
-    const deletePost = await db.Post.findByPk(req.params.id);
-    const thread = deletePost.isQuestion
-      ? await db.Thread.findByPk(deletePost.threadId)
-      : null;
-    const posts = deletePost.isQuestion
-      ? await db.Post.findAll({ where: { threadId: deletePost.threadId } })
-      : null;
-
-    if (posts) {
-      posts.forEach(async (post) => {
-        const scores = await db.Score.findAll({
-          where: {
-            postId: post.id,
-          },
-        });
-        scores.forEach(async (score) => {
-          await score.destroy();
-        });
-        await post.destroy();
-      });
-      await thread.destroy();
-      res.json({ success: true, isQuestion: true });
-    } else {
-      const scores = await db.Score.findAll({
-        where: {
-          postId: deletePost.id,
-        },
-      });
-      scores.forEach(async (score) => {
-        await score.destroy();
-      });
-      await deletePost.destroy();
-      res.json({ success: true, isQuestion: false });
-    }
+    res.json({ id: newPost.id });
   })
 );
 

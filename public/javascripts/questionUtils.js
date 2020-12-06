@@ -24,7 +24,6 @@ const fetchThreads = async (postArr, pageNumber) => {
     ).toLocaleTimeString()} on ${new Date(
       thread.createdAt
     ).toLocaleDateString()} by `;
-    // this needs to be updated once the queries are finalized
     return {
       id: thread.id,
       numberOfAnswers: thread.Posts.length - 1,

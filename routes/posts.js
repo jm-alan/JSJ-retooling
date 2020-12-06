@@ -1,5 +1,5 @@
 const express = require('express');
-const { Post, Score } = require('../db/models');
+const { Post, Thread, Score } = require('../db/models');
 const { asyncHandler } = require('../utils/server-utils');
 
 const router = express.Router();
@@ -72,5 +72,51 @@ async function updateScore (postObj) {
   await postObj.update({ score });
 
 }
+
+router.delete('/:id(\\d+)', asyncHandler(async(req, res) => {
+  const postDeleting = await Post.findByPk(req.params.id);
+  if (!res.locals.authenticated) res.json({ success: false, reason: 'anon' })
+  else if (!postDeleting) res.json({ success: false, reason: 'DNE' });
+  else if (postDeleting.userId !== req.session.auth.userId) res.json({ success: 'false', reason: 'diff' });
+  else {
+    if (postDeleting.isQuestion) {
+      const allPosts =
+        await Post.findAll({ where: {
+          threadId: postDeleting.threadId
+        }});
+      allPosts.forEach(async post => {
+        console.warn('--------------------------------------------');
+        console.warn('--------------------------------------------');
+        console.warn('--------------------------------------------');
+        console.warn('--------------------------------------------');
+        console.warn('--------------------------------------------');
+        console.warn('--------------------------------------------');
+        console.warn('Destroying all scores where postId=',post.id);
+        console.warn('--------------------------------------------');
+        console.warn('--------------------------------------------');
+        console.warn('--------------------------------------------');
+        console.warn('--------------------------------------------');
+        console.warn('--------------------------------------------');
+        await Score.destroy({
+          where: {
+            postId: post.id
+          }
+        });
+        await post.destroy();
+      });
+      const thread = await Thread.findByPk(postDeleting.threadId);
+      thread.destroy();
+      res.json({ success: true, isQuestion: true });
+    } else if (!postDeleting.isQuestion) {
+      await Score.destroy({
+        where: {
+          postId: postDeleting.id
+        }
+      });
+      await postDeleting.destroy();
+      res.json({ success: true, isQuestion: false });
+    }
+  }
+}));
 
 module.exports = router;

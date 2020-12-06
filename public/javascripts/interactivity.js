@@ -1,16 +1,33 @@
 window.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.votingbutton')
-    .forEach(button => {
-      button.addEventListener('click', async voteClick => {
-        const voteCaster = voteClick.target;
-        const postId = voteCaster.dataset.backendId;
-        if (voteCaster.classList.toString().match(/post-vote-up/g)) {
-          await tryCastUpvote(postId);
-        } else if (voteCaster.classList.toString().match(/post-vote-down/g)) {
-          await tryCastDownvote(postId);
-        }
-      });
-    });
+
+  // Defining a new method on all HTML elements so that multiple
+  // children can be appended on a single line
+  Element.prototype.appendChildren = function(...children) {
+    children.forEach(child => this.appendChild(child));
+  }
+
+  // Enable upvote/downvote buttons
+  document.querySelectorAll('.votingbutton').forEach(button => {
+      button.addEventListener('click', voter);
+  });
+  // Enable delete buttons
+  document.querySelectorAll('.delete').forEach((trashIcon) => {
+      trashIcon.addEventListener('click', deleter);
+  });
+
+  // Event listener function for upvote/downvote clicks, abstracted so as to
+  // be available to add to new posts on the fly
+  async function voter (voteClick) {
+    const voteCaster = voteClick.target;
+    const postId = voteCaster.dataset.backendId;
+    if (voteCaster.classList.toString().match(/post-vote-up/g)) {
+      await tryCastUpvote(postId);
+    } else if (voteCaster.classList.toString().match(/post-vote-down/g)) {
+      await tryCastDownvote(postId);
+    }
+  };
+
+  // Functions which query database to perform actual upvote/downvote actions
   async function tryCastUpvote (postId) {
     const scoreHolder = document.getElementById(`score-${postId}`);
     const fetchObj = await fetch(`/posts/${postId}/upvote`, {
@@ -31,7 +48,6 @@ window.addEventListener('DOMContentLoaded', () => {
     const fetchObj = await fetch(`/posts/${postId}/downvote`, {
       method: 'POST'
     });
-    // g
     if (fetchObj.ok) {
       const upvoteResponseObj = await fetchObj.json();
       if (upvoteResponseObj.success) {
@@ -53,38 +69,24 @@ window.addEventListener('DOMContentLoaded', () => {
   answerSubmitButton.addEventListener('click', async (event) => {
     event.preventDefault();
 
-    const div = document.createElement('div');
-    const bodydiv = document.createElement('div');
-    const scorediv = document.createElement('div');
+    const div = create('div', 'newAnswer', 'post', 'answer');
+    const bodydiv = create('div', null, 'body');
+    const scorediv = create('div', null, 'bodyScore');
 
-    const likeUp = document.createElement('i');
-    const likeDown = document.createElement('i');
+    const likeUp = create('i', null, 'post-vote-up', 'votingbutton', 'fas', 'fa-chevron-up');
+    const likeDown = create('i', null, 'post-vote-down', 'votingbutton', 'fas', 'fa-chevron-down');
+    const deleteButton = create('i', null, 'delete-answer', 'delete', 'far', 'fa-trash-alt');
 
-    const bodyPara = document.createElement('p');
-    const scorelabelPara = document.createElement('p');
-    const scorePara = document.createElement('p');
+    const bodyPara = create('p');
+    const scoreLabel = create('p', null, 'label');
 
     const inputBox = document.getElementById('answerInput');
 
-    scorediv.appendChild(likeUp);
-    scorediv.appendChild(scorePara);
-    scorediv.appendChild(likeDown);
-    scorediv.appendChild(scorelabelPara);
     bodydiv.appendChild(bodyPara);
-    div.appendChild(bodydiv);
-    div.appendChild(scorediv);
+    div.appendChildren(deleteButton, bodydiv, scorediv);
 
-    div.setAttribute('id', 'newAnswer');
-    div.classList.add('post', 'answer');
-    bodydiv.classList.add('body');
-    scorediv.classList.add('bodyScore');
-    scorelabelPara.classList.add('label');
-    scorePara.classList.add('scoreThreadPage');
-    likeUp.classList.add('post-vote-up', 'votingbutton', 'fas', 'fa-chevron-up');
-    likeDown.classList.add('post-vote-up', 'votingbutton', 'fas', 'fa-chevron-down');
     bodyPara.innerText = inputBox.value;
-    scorePara.innerHTML = 0;
-    scorelabelPara.innerText = 'Likes';
+    scoreLabel.innerText = 'Likes';
 
     document.querySelector('.threadContainer').appendChild(div);
     const responseObj =
@@ -95,28 +97,79 @@ window.addEventListener('DOMContentLoaded', () => {
       },
       body: JSON.stringify({ isQuestion: false, answerInput: inputBox.value, _csrf: document.getElementById('csrf').value })
     });
-    const newPost = await responseObj.json();
-    scorePara.setAttribute('id', newPost.id);
+    const { id } = await responseObj.json();
+    const scorePara = create('p', `post-${id}`, 'scoreThreadPage');
+    [scorePara, deleteButton].forEach(el => {
+      el.setAttribute('data-backend-id', id);
+    })
+    scorePara.innerHTML = 0;
+    scorediv.appendChildren(likeUp, scorePara, likeDown, scoreLabel);
     inputBox.value = '';
   });
 
-  // DELETE BUTTON ON THREAD PAGE
+  // Event listener function for deleting posts from a page, abstracted
+  // for the same reason as the vote listener.
 
-  const trashIcons = document.querySelectorAll('.delete');
-  trashIcons.forEach((trashIcon) => {
-    trashIcon.addEventListener('click', async (event) => {
-      const response = await fetch(`/questions/${event.target.dataset.backendId}`, {
-        method: 'DELETE'
-      });
-      if (response.ok) {
-        const { success, isQuestion } = await response.json();
-        if (success && isQuestion) {
-          window.location = '/';
-        } else if (success) {
-          const removeElement = document.getElementById(`post-${event.target.dataset.backendId}`);
-          removeElement.parentNode.removeChild(removeElement);
-        }
-      }
+  async function deleter (trashClick) {
+    const postId = event.target.dataset.backendId;
+    const response = await fetch(`/posts/${postId}`, {
+      method: 'DELETE'
     });
-  });
+    if (response.ok) {
+      const { success, isQuestion, reason } = await response.json();
+      if (success && isQuestion) {
+        window.location = '/';
+      } else if (success) {
+        removeElement(document.getElementById(`post-${postId}`));
+      } else if (!success && reason) {
+        switch (reason) {
+          case 'anon' || 'diff':
+            throwPageError('You must be logged in as the creator of a post to delete it.', 'delete-fail');
+            break;
+          case 'DNE':
+            throwPageError('Sorry, it seems the post you were trying to interact with does not exist.\nPlease refresh the page.', 'delete-fail');
+            break;
+        }
+      } else throwPageError('Sorry, something went wrong. Please try again.', 'delete-fail');
+    }
+  }
+
+  // Function to append custom errors to the page and/or exchange them if an error by that ID already exists.
+  function throwPageError(error, id) {
+    const extantErr = document.getElementById(id);
+    if (!extantErr) {
+      let errDiv = document.getElementById('errorDiv');
+      const err = create('li');
+      err.innerHTML = error;
+      if (errDiv) {
+        document.querySelector('.errorsList').appendChild(err);
+      } else {
+        errDiv = create('div');
+        errDiv.setAttribute('id', 'errorDiv');
+        const errList = create('ul');
+        errList.classList.add('errorsList');
+        errDiv.appendChild(errList);
+        errList.appendChild(err);
+        document.querySelector('.threadContainer')
+          .append(errDiv);
+      }
+    } else {
+      extantErr.innerHTML = error;
+    }
+  };
+
+  // Function to remove elements from the page
+  function removeElement(element) {
+    if (element) {
+      element.parentNode.removeChild(element);
+    }
+  };
+
+  // Function to create HTML elements with IDs and classes inline
+  function create(type, id = null, ...classes) {
+    const el = document.createElement(String(type));
+    if (id) el.setAttribute('id', String(id));
+    if (classes.length) classes.forEach(hClass => el.classList.add(hClass));
+    return el;
+  };
 });
