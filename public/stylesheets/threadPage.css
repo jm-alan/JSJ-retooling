@@ -4,8 +4,23 @@
 }
 
 .body {
+  display: flex;
+  flex-direction: column;
   margin: 0;
-  font-size: 20px;
+  font-size: 1.25em;
+}
+
+.bodyContainer {
+  flex: 0;
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+.body * {
+  white-space: pre-wrap;
 }
 
 .post {
@@ -25,6 +40,7 @@
 
 .post.answer.best {
   box-shadow: 0px 0px 10px 0px rgb(48, 157, 200);
+  margin-bottom: 50px;
 }
 
 .questionTitle {

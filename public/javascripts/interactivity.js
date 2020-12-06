@@ -15,6 +15,12 @@ window.addEventListener('DOMContentLoaded', () => {
       trashIcon.addEventListener('click', deleter);
   });
 
+  document.querySelector('.answer').classList.add('best');
+  document.querySelectorAll('.scoreThreadPage').forEach(score => {
+    if (+score.innerText > 1000000) score.innerText = '999k';
+    else if (+score.innerText > 1000) score.innerText = `${(+score.innerText / 1000).toPrecision(2)}k`;
+  });
+
   // Event listener function for upvote/downvote clicks, abstracted so as to
   // be available to add to new posts on the fly
   async function voter (voteClick) {
