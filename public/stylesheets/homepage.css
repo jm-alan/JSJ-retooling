@@ -73,22 +73,21 @@
 
 #questions {
   width: 75%;
-  /* background-color: purple; */
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* padding-top: 10px; */
 }
+
 .question {
   width: 80%;
   display: grid;
   grid-template: 3fr 1fr / 1fr 1fr 8fr;
-  /* background-color: red; */
   padding: 10px;
   border-bottom: 1px solid gray;
   border-right: 1px solid gray;
   border-left: 1px solid gray;
 }
+
 .title {
   font-size: 1.3em;
   color: #0077cc;
@@ -120,7 +119,6 @@
 .score {
   font-size: 1.5em;
   text-align: center;
-  /* padding-top: 10px; */
   grid-row-start: 1;
   grid-row-end: 3;
   align-self: center;

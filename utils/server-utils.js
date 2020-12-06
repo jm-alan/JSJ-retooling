@@ -1,8 +1,11 @@
 const { validationResult } = require("express-validator");
 const { User } = require("../db/models");
 
-const asyncHandler = (handler) => (req, res, next) =>
-  handler(req, res, next).catch(next);
+function asyncHandler (handler) {
+  return function (req, res, next) {
+    return handler(req, res, next).catch(next);
+  }
+}
 
 const handleValidationErrors = (req, res, next) => {
   const validationErrors = validationResult(req);

@@ -9,6 +9,9 @@ const mostPopular = async () => {
     include: [
       {
         model: db.Post,
+        where: {
+          isQuestion: true
+        }
       },
     ],
     order: [[db.Post, "score", "DESC"]],

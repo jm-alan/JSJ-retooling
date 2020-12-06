@@ -8,10 +8,6 @@
   font-size: 20px;
 }
 
-.body > p {
-  word-break: break-word;
-}
-
 .post {
   display: flex;
   flex-direction: row-reverse;
@@ -57,6 +53,10 @@
     justify-content: center;
     width: 50px;
     margin-right: 15px;
+}
+
+.bodyScore > * {
+  align-self: center;
 }
 
 .bodyScore p.scoreThreadPage {

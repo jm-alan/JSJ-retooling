@@ -132,7 +132,7 @@ router.get("/auth", (req, res) => {
   if (authenticated) {
     const { userId } = req.session.auth;
     res.json({ userId, authenticated });
-  }
+  } else res.json({ authenticated });
 });
 
 router.post(
