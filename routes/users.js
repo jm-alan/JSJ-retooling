@@ -105,6 +105,7 @@ router.get("/signup", crsfProtection, (req, res) => {
   res.render("signup", {
     title: "Sign Up",
     csrfToken: req.csrfToken(),
+    pref: req.query.pref
   });
 });
 
@@ -123,6 +124,7 @@ router.get("/login", crsfProtection, (req, res) => {
     res.render("login", {
       title: "Login",
       csrfToken: req.csrfToken(),
+      pref: req.query.pref
     });
   }
 });
@@ -169,7 +171,11 @@ router.post(
       // app.js
       loginUser(req, res, user);
       // And redirect to home, with the user now logged in.
-      res.redirect("/");
+      // If there is a reference to a page where the user was writing an
+      // answer, redirect them there instead of home.
+      if (req.query.pref) {
+        res.redirect(req.query.pref)
+      } else res.redirect("/");
     } else {
       // Otherwise, we must have errors (or an empty user object, if somehow
       // some malicious actor managed to circumvent our server-side error
@@ -204,7 +210,9 @@ router.post(
         lastName,
       });
       loginUser(req, res, user);
-      res.redirect("/");
+      if (req.query.pref) {
+        res.redirect(pref);
+      } else res.redirect("/");
     } else {
       const errors = validatorErrors.array().map((err) => err.msg);
       res.render("signup", {
