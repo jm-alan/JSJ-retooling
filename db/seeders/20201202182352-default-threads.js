@@ -4,13 +4,10 @@ const fs = require('fs');
 
 const threadObjs = [];
 
-const threadStrings = fs.readFileSync(__dirname + '/bulkData/questions.txt', 'utf-8').split('\n gfg');
-threadStrings.forEach(threadJSON => {
-  if (threadJSON) {
-    const { title } = JSON.parse(threadJSON);
-    threadObjs.push({ title, userId: 1, createdAt: new Date(), updatedAt: new Date() });
-  }
-});
+for (let i = 1; i <=100; i++) {
+  const threadJSON = fs.readFileSync(__dirname + `/fetch/bulkData/question${i}.txt`, 'utf-8');
+  threadObjs.push({ title: JSON.parse(threadJSON).title, userId: 1, createdAt: new Date(), updatedAt: new Date()});
+}
 
 module.exports = {
   up: (queryInterface, Sequelize) => {

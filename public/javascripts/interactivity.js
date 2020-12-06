@@ -69,7 +69,6 @@ window.addEventListener('DOMContentLoaded', () => {
   answerSubmitButton.addEventListener('click', async (event) => {
     event.preventDefault();
 
-    const div = create('div', 'newAnswer', 'post', 'answer');
     const bodydiv = create('div', null, 'body');
     const scorediv = create('div', null, 'bodyScore');
 
@@ -83,12 +82,10 @@ window.addEventListener('DOMContentLoaded', () => {
     const inputBox = document.getElementById('answerInput');
 
     bodydiv.appendChild(bodyPara);
-    div.appendChildren(deleteButton, bodydiv, scorediv);
 
     bodyPara.innerText = inputBox.value;
     scoreLabel.innerText = 'Likes';
 
-    document.querySelector('.threadContainer').appendChild(div);
     const responseObj =
     await fetch(window.location.href, {
       method: 'POST',
@@ -98,13 +95,17 @@ window.addEventListener('DOMContentLoaded', () => {
       body: JSON.stringify({ isQuestion: false, answerInput: inputBox.value, _csrf: document.getElementById('csrf').value })
     });
     const { id } = await responseObj.json();
-    const scorePara = create('p', `post-${id}`, 'scoreThreadPage');
+    const scorePara = create('p', `score-${id}`, 'scoreThreadPage');
     [scorePara, deleteButton].forEach(el => {
       el.setAttribute('data-backend-id', id);
     })
     scorePara.innerHTML = 0;
     scorediv.appendChildren(likeUp, scorePara, likeDown, scoreLabel);
     inputBox.value = '';
+    deleteButton.addEventListener('click', deleter);
+    const div = create('div', `post-${id}`, 'post', 'answer');
+    div.appendChildren(deleteButton, bodydiv, scorediv);
+    document.querySelector('.threadContainer').appendChild(div);
   });
 
   // Event listener function for deleting posts from a page, abstracted
