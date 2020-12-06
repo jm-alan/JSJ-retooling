@@ -85,18 +85,6 @@ router.delete('/:id(\\d+)', asyncHandler(async(req, res) => {
           threadId: postDeleting.threadId
         }});
       allPosts.forEach(async post => {
-        console.warn('--------------------------------------------');
-        console.warn('--------------------------------------------');
-        console.warn('--------------------------------------------');
-        console.warn('--------------------------------------------');
-        console.warn('--------------------------------------------');
-        console.warn('--------------------------------------------');
-        console.warn('Destroying all scores where postId=',post.id);
-        console.warn('--------------------------------------------');
-        console.warn('--------------------------------------------');
-        console.warn('--------------------------------------------');
-        console.warn('--------------------------------------------');
-        console.warn('--------------------------------------------');
         await Score.destroy({
           where: {
             postId: post.id
