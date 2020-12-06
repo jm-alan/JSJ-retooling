@@ -38,15 +38,19 @@ router.post(
   "/:id(\\d+)",
   csrfProtection,
   asyncHandler(async (req, res) => {
-    // console.log(req.body);
-    const newPost = await db.Post.create({
-      isQuestion: req.body.isQuestion,
-      body: req.body.answerInput,
-      threadId: req.params.id,
-      userId: req.session.auth.userId,
-      score: 0,
-    });
-    res.json({ id: newPost.id });
+    if (res.locals.authenticated) {
+      const newPost = await db.Post.create({
+        isQuestion: req.body.isQuestion,
+        body: req.body.answerInput,
+        threadId: req.params.id,
+        userId: req.session.auth.userId,
+        score: 0,
+      });
+      res.json({ success: true, id: newPost.id });
+    } else {
+      res.json({ success: false, reason: 'anon' });
+    }
+
   })
 );
 

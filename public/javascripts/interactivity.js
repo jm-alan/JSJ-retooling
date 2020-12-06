@@ -44,10 +44,7 @@ window.addEventListener('DOMContentLoaded', () => {
       if (upvoteResponseObj.success) {
         scoreHolder.innerHTML = upvoteResponseObj.score;
       }
-    } else {
-      console.log('Response not ok? Got response', fetchObj.status);
-      console.log('on object', fetchObj);
-    }
+    } else throwPageError('Sorry, something went wrong. Please refresh the page and try again.','vote-fail');
   }
   async function tryCastDownvote (postId) {
     const scoreHolder = document.getElementById(`score-${postId}`);
@@ -63,15 +60,15 @@ window.addEventListener('DOMContentLoaded', () => {
           window.location = '/users/login';
         }
       }
-    } else {
-      console.log('Response not ok? Got response', fetchObj.status);
-      console.log('on object', fetchObj);
-    }
+    } else throwPageError('Sorry, something went wrong. Please refresh the page and try again.','vote-fail');
   }
 
   // ANSWER INPUT CODE
 
   const answerSubmitButton = document.getElementById('answer-submit');
+  const inputBox = document.getElementById('answerInput');
+  const draft = document.cookie.match(/draft.*;/);
+  inputBox.innerText = draft ? draft[0].match(/(?<=\=).*(?=;)/) : '';
   answerSubmitButton.addEventListener('click', async (event) => {
     event.preventDefault();
 
@@ -84,8 +81,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const bodyPara = create('p');
     const scoreLabel = create('p', null, 'label');
-
-    const inputBox = document.getElementById('answerInput');
 
     bodydiv.appendChild(bodyPara);
 
@@ -100,18 +95,26 @@ window.addEventListener('DOMContentLoaded', () => {
       },
       body: JSON.stringify({ isQuestion: false, answerInput: inputBox.value, _csrf: document.getElementById('csrf').value })
     });
-    const { id } = await responseObj.json();
-    const scorePara = create('p', `score-${id}`, 'scoreThreadPage');
-    [scorePara, deleteButton].forEach(el => {
-      el.setAttribute('data-backend-id', id);
-    })
-    scorePara.innerHTML = 0;
-    scorediv.appendChildren(likeUp, scorePara, likeDown, scoreLabel);
-    inputBox.value = '';
-    deleteButton.addEventListener('click', deleter);
-    const div = create('div', `post-${id}`, 'post', 'answer');
-    div.appendChildren(deleteButton, bodydiv, scorediv);
-    document.querySelector('.threadContainer').appendChild(div);
+    const { success, id, reason } = await responseObj.json();
+    if (success) {
+      const scorePara = create('p', `score-${id}`, 'scoreThreadPage');
+      [scorePara, deleteButton].forEach(el => {
+        el.setAttribute('data-backend-id', id);
+      })
+      scorePara.innerHTML = 0;
+      scorediv.appendChildren(likeUp, scorePara, likeDown, scoreLabel);
+      inputBox.value = '';
+      deleteButton.addEventListener('click', deleter);
+      const div = create('div', `post-${id}`, 'post', 'answer');
+      div.appendChildren(deleteButton, bodydiv, scorediv);
+      document.querySelector('.threadContainer').appendChild(div);
+    } else {
+      if (reason === 'anon') {
+        document.cookie = `draft=${inputBox.value}`;
+        window.location = `/users/login?pref=${window.location}`
+      }
+    }
+
   });
 
   // Event listener function for deleting posts from a page, abstracted
