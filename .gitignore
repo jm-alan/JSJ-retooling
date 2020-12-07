@@ -1,5 +1,4 @@
 node_modules/
 .env
-dataBuilder.js
 likesConstructor.js
 likes.txt
