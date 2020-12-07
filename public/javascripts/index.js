@@ -67,6 +67,14 @@ window.addEventListener("load", async (event) => {
   const popularButton = document.getElementById("popular");
 
   recentButton.addEventListener("mouseup", async (event) => {
+    // need to remove the numberedButton--selected when you hit recent or popular
+    const allButtons = document.querySelectorAll(".numberedButton");
+    allButtons.forEach((el) => {
+      el.classList.remove("numberedButton--selected");
+    });
+    document
+      .getElementById("numberedButtonId__1")
+      .classList.add("numberedButton--selected");
     if (pageMode !== "recent") {
       pageMode = "recent";
 
@@ -83,6 +91,14 @@ window.addEventListener("load", async (event) => {
   });
 
   popularButton.addEventListener("mouseup", async (event) => {
+    const allButtons = document.querySelectorAll(".numberedButton");
+    allButtons.forEach((el) => {
+      el.classList.remove("numberedButton--selected");
+    });
+    document
+      .getElementById("numberedButtonId__1")
+      .classList.add("numberedButton--selected");
+
     if (pageMode !== "popular") {
       pageMode = "popular";
       currentPage = 1;
