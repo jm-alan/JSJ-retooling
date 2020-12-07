@@ -1,6 +1,6 @@
 'use strict';
 
-consmodule.exports = {
+module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('Users',
       [
