@@ -1,12 +1,13 @@
 extends layout.pug
 block content
+    link(rel="stylesheet", href="/stylesheets/threadPage.css")
     .threadContainer
         .questionTitle
             h1= title
         .post.question(id=`post-${threadQuestion.id}`)
             i(data-backend-id=threadQuestion.id)#delete-question.delete.far.fa-trash-alt
             .body
-                p=threadQuestion.body
+                .bodyContainer !{threadQuestion.body}
             .bodyScore
                 i(data-backend-id=threadQuestion.id).post-vote-up.votingbutton.fas.fa-chevron-up
                 p(data-backend-id=threadQuestion.id id=`score-${threadQuestion.id}`).scoreThreadPage=threadQuestion.score
@@ -17,17 +18,18 @@ block content
                 .post.answer(id=`post-${answer.id}`)
                     i(data-backend-id=answer.id).delete-answer.delete.far.fa-trash-alt
                     .body
-                        p=answer.body
+                        .bodyContainer !{answer.body}
                     .bodyScore
                         i(data-backend-id=answer.id).post-vote-up.votingbutton.fas.fa-chevron-up
                         p(data-backend-id=answer.id id=`score-${answer.id}`).scoreThreadPage=answer.score
                         i(data-backend-id=answer.id).post-vote-down.votingbutton.fas.fa-chevron-down
                         p.label Likes
-    .answerBox
-        form.create-answer(method="POST" action="/questions/:id")
-            label#answerInputLabel(for="answerInput") Provide Your Own Answer
-            textarea#answerInput(name="answerInput", cols="30", rows="10")
-            input(type="hidden" name="isQuestion" value="false")
-            input#csrf(type="hidden" name="_csrf" value=csrfToken)
-            button#answer-submit(type="submit") Submit
+    .answerContainer
+        .answerBox
+            form.create-answer(method="POST" action="/questions/:id")
+                label#answerInputLabel(for="answerInput") Provide Your Own Answer
+                textarea#answerInput(name="answerInput", cols="30", rows="10")
+                input(type="hidden" name="isQuestion" value="false")
+                input#csrf(type="hidden" name="_csrf" value=csrfToken)
+                button#answer-submit(type="submit") Submit
     script(src="/javascripts/interactivity.js")

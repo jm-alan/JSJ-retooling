@@ -1,18 +1,20 @@
 // 100 most popular questions
 
-const db = require("../db/models");
-const { Op } = require("sequelize");
-const { body } = require("express-validator");
+const db = require('../db/models');
+const { Op } = require('sequelize');
 
 const mostPopular = async () => {
   const threads = await db.Thread.findAll({
     include: [
       {
         model: db.Post,
-      },
+        where: {
+          isQuestion: true
+        }
+      }
     ],
-    order: [[db.Post, "score", "DESC"]],
-    limit: 100,
+    order: [[db.Post, 'score', 'DESC']],
+    limit: 100
   });
   const threadIds = threads.map((thread) => thread.id);
   return threadIds;
@@ -20,8 +22,8 @@ const mostPopular = async () => {
 
 const mostRecent = async () => {
   const threads = await db.Thread.findAll({
-    order: [["createdAt", "DESC"]],
-    limit: 100,
+    order: [['createdAt', 'DESC']],
+    limit: 100
   });
   const threadIds = threads.map((thread) => thread.id);
   return threadIds;
@@ -30,18 +32,18 @@ const mostRecent = async () => {
 const searchThreads = async (searchTerm) => {
   const threads = await db.Thread.findAll({
     where: {
-      title: { [Op.like]: `%${searchTerm}%` },
+      title: { [Op.like]: `%${searchTerm}%` }
     },
-    order: [["createdAt", "DESC"]],
-    limit: 100,
+    order: [['createdAt', 'DESC']],
+    limit: 100
   });
   const bodyThreads = await db.Post.findAll({
     where: {
       body: { [Op.like]: `%${searchTerm}%` },
-      isQuestion: true,
+      isQuestion: true
     },
-    order: [["createdAt", "DESC"]],
-    limit: 100,
+    order: [['createdAt', 'DESC']],
+    limit: 100
   });
   // console.log("threads", threads);
   // console.log("body threads", bodyThreads);
@@ -59,17 +61,17 @@ const searchThreads = async (searchTerm) => {
 };
 
 const getThreadsByIds = async (idArray) => {
-  let returnArr = [];
+  const returnArr = [];
   for (let i = 0; i < idArray.length; i++) {
     const result = await db.Thread.findByPk(idArray[i], {
       include: [
         {
-          model: db.Post,
+          model: db.Post
         },
         {
-          model: db.User,
-        },
-      ],
+          model: db.User
+        }
+      ]
     });
     returnArr.push(result);
   }
@@ -80,5 +82,5 @@ module.exports = {
   mostPopular,
   mostRecent,
   getThreadsByIds,
-  searchThreads,
+  searchThreads
 };

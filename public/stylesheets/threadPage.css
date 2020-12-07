@@ -1,39 +1,93 @@
+
+:not(pre) > code {
+  background-color: rgb(48, 141, 48);
+  border: 2px solid rgb(48, 141, 48);
+  border-radius: 3px;
+  color: white;
+}
+
+a:link {
+  text-decoration: none;
+  color: rgb(79, 175, 0)
+}
+
+a > code {
+  color: greenyellow;
+}
+
 .threadContainer {
+  background-color: rgb(240, 240, 240);
   display: flex;
   flex-direction: column;
 }
 
 .body {
+  display: flex;
+  flex-direction: column;
   margin: 0;
-  font-size: 20px;
+  font-size: 1.25em;
 }
 
-.body > p {
-  word-break: break-word;
+.bodyContainer {
+  flex: 0;
+  padding: 10px;
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+pre {
+  background-color: rgb(48, 141, 48);
+  border: 5px solid rgb(48, 141, 48);
+  border-radius: 3px;
+  color: white;
+  white-space: pre-wrap !important;
 }
 
 .post {
+  background-color: white;
   display: flex;
   flex-direction: row-reverse;
-  padding: 0 5px;
+  padding: 0 5px 0 8px;
   margin: 0% auto;
   width: 50%;
   border: 3px solid black;
   justify-content: flex-end;
+  max-height: 500px;
+  overflow-y: auto;
+  white-space: inherit;
+}
+
+.post p {
+  margin: 0;
 }
 
 .post.question {
     box-shadow: 0px 0px 10px 0px rgb(48, 200, 48);
+    margin-bottom: 100px;
 }
+
+.post.answer.best {
+  box-shadow: 0px 0px 10px 0px rgb(48, 157, 200);
+  margin-bottom: 50px;
+}
+
 .questionTitle {
-  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  margin: 20px 10%
 }
 
 .questionTitle > h1 {
+  margin-left: auto;
+  margin-right: auto;
   color: black;
   font-weight: bold;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
 .votingbutton {
     font-size: 30px;
     margin: 0 auto;
@@ -52,6 +106,10 @@
     margin-right: 15px;
 }
 
+.bodyScore > * {
+  align-self: center;
+}
+
 .bodyScore p.scoreThreadPage {
   /* padding:  0px 10px; */
     margin: 0 0;
@@ -67,8 +125,13 @@
 
 }
 
+.answerContainer {
+  padding: 50px 0;
+  background-color: rgb(240, 240, 240);
+}
+
 .answerBox {
-  margin:  50px auto;
+  margin:  0 auto;
   width: 50%;
 }
 
