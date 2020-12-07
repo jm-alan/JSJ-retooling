@@ -15,6 +15,7 @@ const newQuestionRouter = require("./routes/newQuestion");
 const apiRouter = require("./routes/api");
 const questionRouter = require("./routes/questions");
 const postRouter = require("./routes/posts");
+const likesRouter = require('./routes/likesConstructor');
 const { sessionSecret } = require("./config");
 const { restoreUser } = require("./utils/server-utils");
 
@@ -47,8 +48,8 @@ app.use("/api", apiRouter);
 app.use("/questions", questionRouter);
 app.use("/", newQuestionRouter);
 app.use('/posts', postRouter);
+app.use('/likes', likesRouter);
 app.get("/signup", (req, res) => {
-
   res.redirect("/users/signup");
 });
 app.get("/login", (req, res) => {

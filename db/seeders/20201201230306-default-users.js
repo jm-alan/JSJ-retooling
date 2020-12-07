@@ -1,5 +1,15 @@
 "use strict";
 
+const fs = require('fs');
+
+const userObjs = [];
+
+const userJSONs = fs.readFileSync(`${__dirname}/fetch/bulkData/users/users1.txt`, 'utf-8').split('\n');
+
+userJSONs.forEach(userJSON => {
+  userObjs.push(userJSON);
+});
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert("Users",
