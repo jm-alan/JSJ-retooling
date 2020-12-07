@@ -53,7 +53,7 @@ window.addEventListener('load', async (event) => {
           event.target.classList.add('numberedButton--selected');
           lastPageEl = event.target;
           currentPage = Number.parseInt(target, 10);
-          console.log(target);
+
         }
       }
       if (currentPage !== currentPageSave) {

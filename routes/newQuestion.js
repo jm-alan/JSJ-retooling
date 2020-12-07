@@ -54,7 +54,6 @@ router.post(
       await Post.create(postObj);
       res.redirect(`/questions/${thread.id}`);
     } else {
-      console.log(req.body);
       res.render('newQuestion', {
         errors,
         csrfToken: req.csrfToken(),

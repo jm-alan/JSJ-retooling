@@ -63,7 +63,7 @@ app.use(function (error, req, res, next) {
   res.locals.message = error.message;
   res.locals.error = req.app.get('env') === 'development' ? error : {};
   if (error.status !== 404) {
-    console.log(error);
+
   }
   // render the error page
   res.status(error.status || 500);

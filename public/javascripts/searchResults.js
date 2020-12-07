@@ -8,7 +8,6 @@ window.addEventListener('load', async (event) => {
   const res = await fetch(`/api/search?search=${searchTerm}`);
   let postArr = await res.json();
   postArr = postArr.threads;
-  console.log('postArr', postArr);
 
   let pageData = await fetchThreads(postArr, 1);
   refreshPage(pageData);
@@ -54,7 +53,6 @@ window.addEventListener('load', async (event) => {
           event.target.classList.add('numberedButton--selected');
           lastPageEl = event.target;
           currentPage = Number.parseInt(target, 10);
-          console.log(target);
         }
       }
       if (currentPage !== currentPageSave) {
