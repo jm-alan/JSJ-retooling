@@ -36,8 +36,8 @@ router.get('/signup', function (req, res, next) {
 });
 
 router.get('/search', function (req, res, next) {
-  const searchTerm = req.query.entry
-  res.render('searchResults', {searchTerm});
+  const searchTerm = req.query.entry;
+  res.render('searchResults', { searchTerm });
 });
 
 module.exports = router;
