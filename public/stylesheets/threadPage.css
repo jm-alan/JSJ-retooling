@@ -6,6 +6,14 @@
   color: white;
 }
 
+a:link {
+  text-decoration: none;
+}
+
+a > code {
+  color: greenyellow;
+}
+
 .threadContainer {
   background-color: rgb(240, 240, 240);
   display: flex;
