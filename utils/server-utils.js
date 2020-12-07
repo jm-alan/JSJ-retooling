@@ -1,10 +1,10 @@
-const { validationResult } = require("express-validator");
-const { User } = require("../db/models");
+const { validationResult } = require('express-validator');
+const { User } = require('../db/models');
 
 function asyncHandler (handler) {
   return function (req, res, next) {
     return handler(req, res, next).catch(next);
-  }
+  };
 }
 
 const handleValidationErrors = (req, res, next) => {
@@ -13,10 +13,10 @@ const handleValidationErrors = (req, res, next) => {
   if (!validationErrors.isEmpty()) {
     const errors = validationErrors.array().map((error) => error.msg);
 
-    const err = Error("Bad request.");
+    const err = Error('Bad request.');
     err.errors = errors;
     err.status = 400;
-    err.title = "Bad request.";
+    err.title = 'Bad request.';
     return next(err);
   }
   next();

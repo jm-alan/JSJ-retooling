@@ -3,7 +3,6 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const {
   asyncHandler,
-  requireAuth,
   loginUser,
   logoutUser
 } = require('../utils/server-utils.js');

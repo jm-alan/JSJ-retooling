@@ -5,7 +5,7 @@ const csrfProtection = csrf({ cookie: true });
 const { Thread, Post } = require('../db/models');
 const { asyncHandler } = require('../utils/server-utils');
 
-router.get('/new-question', csrfProtection, function (req, res, next) {
+router.get('/new-question', csrfProtection, function (req, res) {
   if (res.locals.authenticated) {
     res.render('newQuestion', {
       csrfToken: req.csrfToken(),
@@ -20,7 +20,7 @@ router.get('/new-question', csrfProtection, function (req, res, next) {
 router.post(
   '/new-question',
   csrfProtection,
-  asyncHandler(async (req, res, next) => {
+  asyncHandler(async (req, res) => {
     if (!res.locals.authenticated) {
       res.send('You must be logged in to post.');
       return;
@@ -51,7 +51,7 @@ router.post(
         createdAt: new Date(),
         updatedAt: new Date()
       };
-      const post = await Post.create(postObj);
+      await Post.create(postObj);
       res.redirect(`/questions/${thread.id}`);
     } else {
       console.log(req.body);
