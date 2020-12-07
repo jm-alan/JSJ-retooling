@@ -1,4 +1,5 @@
 window.addEventListener('DOMContentLoaded', () => {
+  const threadId = window.location.href.match(/\d+$/)[0];
   prettyNumbers();
   // Defining a new method on all HTML elements so that multiple
   // children can be appended on a single line
@@ -17,7 +18,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const bestAnswer = document.querySelector('.answer');
 
-  if(bestAnswer) {
+  if (bestAnswer) {
     bestAnswer.classList.add('best');
   }
 
@@ -66,10 +67,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // ANSWER INPUT CODE
 
-  const answerSubmitButton = document.getElementById('answer-submit');
   const inputBox = document.getElementById('answerInput');
-  const draft = document.cookie.match(new RegExp(`draft${window.location.href.match(/\d+$/)[0]}.*;`));
+  const draft = localStorage.getItem(`draft${threadId}`);
   inputBox.innerText = draft ? draft[0].match(/(?<==).*(?=;)/) : '';
+
+  const answerSubmitButton = document.getElementById('answer-submit');
   answerSubmitButton.addEventListener('click', async (event) => {
     event.preventDefault();
 
@@ -111,7 +113,7 @@ window.addEventListener('DOMContentLoaded', () => {
       document.querySelector('.threadContainer').appendChild(div);
     } else {
       if (reason === 'anon') {
-        document.cookie = `draft${window.location.href.match(/\d+$/)[0]}=${inputBox.value}`;
+        localStorage.setItem(`draft${threadId}`, inputBox.value);
         window.location = `/users/login?pref=${window.location}`;
       }
     }
