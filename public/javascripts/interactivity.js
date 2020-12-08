@@ -32,7 +32,7 @@ window.addEventListener('DOMContentLoaded', () => {
     } else if (voteCaster.classList.toString().match(/post-vote-down/g)) {
       await tryCastVote('down', postId);
     }
-    setTimeout(prettyNumbers, 1750);
+    setTimeout(prettyNumbers, 1250);
   }
 
   // Functions which query database to perform actual upvote/downvote actions
@@ -53,26 +53,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const inputBox = document.getElementById('answerInput');
   const draft = localStorage.getItem(`draft${threadId}`);
-  inputBox.innerText = draft ? draft.split('\\n').join('\n') : '';
+  inputBox.value = draft ? draft.split('$$break$$').join('\n') : '';
 
   const answerSubmitButton = document.getElementById('answer-submit');
   answerSubmitButton.addEventListener('click', async (event) => {
     event.preventDefault();
-
-    const bodydiv = create('div', null, 'body');
-    const scorediv = create('div', null, 'bodyScore');
-
-    const likeUp = create('i', null, 'post-vote-up', 'votingbutton', 'fas', 'fa-chevron-up');
-    const likeDown = create('i', null, 'post-vote-down', 'votingbutton', 'fas', 'fa-chevron-down');
-    const deleteButton = create('i', null, 'delete-answer', 'delete', 'far', 'fa-trash-alt');
-
-    const bodyPara = create('p');
-    const scoreLabel = create('p', null, 'label');
-
-    bodydiv.appendChild(bodyPara);
-
-    bodyPara.innerHTML = inputBox.value;
-    scoreLabel.innerText = 'Likes';
 
     const responseObj =
     await fetch(window.location.href, {
@@ -83,21 +68,30 @@ window.addEventListener('DOMContentLoaded', () => {
       body: JSON.stringify({ isQuestion: false, answerInput: inputBox.value, _csrf: document.getElementById('csrf').value })
     });
     const { success, id, reason } = await responseObj.json();
+
     if (success) {
-      const scorePara = create('p', `score-${id}`, 'scoreThreadPage');
-      [scorePara, deleteButton].forEach(el => {
-        el.setAttribute('data-backend-id', id);
-      });
-      scorePara.innerHTML = 0;
-      scorediv.appendChildren(likeUp, scorePara, likeDown, scoreLabel);
-      inputBox.value = '';
-      deleteButton.addEventListener('click', deleter);
       const div = create('div', `post-${id}`, 'post', 'answer');
-      div.appendChildren(deleteButton, bodydiv, scorediv);
+      div.innerHTML = `
+      <i id="new-answer-delete-${id}" class="delete-answer delete far fa-trash-alt" data-backend-id="${id}"></i>
+      <div class="body">
+        <div class="bodyContainer">
+          ${inputBox.value}
+        </div>
+      </div>
+      <div class="bodyScore">
+        <i class="new-answer-vote-${id} post-vote-up votingbutton fas fa-chevron-up" data-backend-id="${id}"></i>
+        <p class="scoreThreadPage" data-backend-id="${id}" id="score-${id}">0</p>
+        <i class="new-answer-vote-${id} post-vote-down votingbutton fas fa-chevron-down" data-backend-id="${id}" aria-hidden="true"></i>
+        <p class="label">Likes</p>
+      </div>
+      `;
+      inputBox.value = '';
       document.querySelector('.threadContainer').appendChild(div);
+      document.getElementById(`new-answer-delete-${id}`).addEventListener('click', deleter);
+      document.querySelectorAll(`.new-answer-vote-${id}`).forEach(voteButton => voteButton.addEventListener('click', voter));
     } else {
       if (reason === 'anon') {
-        localStorage.setItem(`draft${threadId}`, inputBox.value.split('\n').join('\\n'));
+        localStorage.setItem(`draft${threadId}`, inputBox.value.split('\n').join('$$break$$'));
         window.location = `/users/login?pref=${window.location}`;
       }
     }
