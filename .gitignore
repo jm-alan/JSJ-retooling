@@ -1,0 +1,5 @@
+node_modules/
+.env
+likesConstructor.js
+likes.txt
+users/
