@@ -85,7 +85,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     bodydiv.appendChild(bodyPara);
 
-    bodyPara.innerText = inputBox.value;
+    bodyPara.innerHTML = inputBox.value;
     scoreLabel.innerText = 'Likes';
 
     const responseObj =
