@@ -5,6 +5,15 @@ module.exports = {
     return queryInterface.bulkInsert('Users',
       [
         {
+          userName: 'Admin',
+          email: 'admin@javascriptjungle.com',
+          hashedPassword: '$2a$10$PIoUWAjK78TNhHczxGEc1eDqjZsVT3fCBdJr9GKucj58Ykr1MllZC',
+          firstName: 'Admin',
+          lastName: 'Istrator',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
           userName: 'demo_user',
           email: 'demo@demo.com',
           hashedPassword:
