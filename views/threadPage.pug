@@ -26,7 +26,7 @@ block content
                         p.label Likes
     .answerContainer
         .answerBox
-            form.create-answer(method="POST" action="/questions/:id")
+            form.create-answer(method="POST" action=`/questions/${threadQuestion.threadId}`)
                 label#answerInputLabel(for="answerInput") Provide Your Own Answer
                 textarea#answerInput(name="answerInput", cols="30", rows="10")
                 input(type="hidden" name="isQuestion" value="false")

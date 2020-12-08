@@ -15,7 +15,8 @@ window.addEventListener('DOMContentLoaded', () => {
     trashIcon.addEventListener('click', deleter);
   });
 
-  document.querySelector('.answer').classList.add('best');
+  const bestAnswer = document.querySelector('.answer')
+  if (bestAnswer) bestAnswer.classList.add('best');
 
   // Event listener function for upvote/downvote clicks, abstracted so as to
   // be available to add to new posts on the fly
@@ -81,7 +82,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     bodydiv.appendChild(bodyPara);
 
-    bodyPara.innerText = inputBox.value;
+    bodyPara.innerHTML = inputBox.value;
     scoreLabel.innerText = 'Likes';
 
     const responseObj =
