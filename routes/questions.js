@@ -10,6 +10,7 @@ router.get(
   '/:id(\\d+)',
   csrfProtection,
   asyncHandler(async (req, res) => {
+    const userId = req.session.auth ? req.session.auth.userId : null;
     const thread = await db.Thread.findByPk(req.params.id);
     const threadQuestion = await db.Post.findOne({
       where: {
@@ -27,11 +28,12 @@ router.get(
       order: [['score', 'DESC']]
     });
     // Sanitizing HTML in answers, just in case.
-    threadAnswers = threadAnswers.map(({ body, score, id }) => ({ body: cleaner(body), score, id }));
+    threadAnswers = threadAnswers.map(({ body, score, id, User }) => ({ body: cleaner(body), score, id, User }));
     res.render('threadPage', {
       title: thread.title,
       threadQuestion,
       threadAnswers,
+      userId,
       csrfToken: req.csrfToken()
     });
   })

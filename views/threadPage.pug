@@ -5,7 +5,8 @@ block content
         .questionTitle
             h1= title
         .post.question(id=`post-${threadQuestion.id}`)
-            i(data-backend-id=threadQuestion.id)#delete-question.delete.far.fa-trash-alt
+            if threadQuestion.User.id === userId
+                i(data-backend-id=threadQuestion.id)#delete-question.delete.far.fa-trash-alt
             .body
                 .bodyContainer !{threadQuestion.body}
             .bodyScore
@@ -16,7 +17,8 @@ block content
         if threadAnswers
             each answer in threadAnswers
                 .post.answer(id=`post-${answer.id}`)
-                    i(data-backend-id=answer.id).delete-answer.delete.far.fa-trash-alt
+                    if answer.User.id === userId
+                        i(data-backend-id=answer.id).delete-answer.delete.far.fa-trash-alt
                     .body
                         .bodyContainer !{answer.body}
                     .bodyScore
