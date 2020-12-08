@@ -1,4 +1,5 @@
 window.addEventListener('DOMContentLoaded', () => {
+  const threadId = window.location.href.match(/\d+$/)[0];
   prettyNumbers();
   // Defining a new method on all HTML elements so that multiple
   // children can be appended on a single line
@@ -17,7 +18,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const bestAnswer = document.querySelector('.answer');
 
-  if(bestAnswer) {
+  if (bestAnswer) {
     bestAnswer.classList.add('best');
   }
 
@@ -27,49 +28,34 @@ window.addEventListener('DOMContentLoaded', () => {
     const voteCaster = voteClick.target;
     const postId = voteCaster.dataset.backendId;
     if (voteCaster.classList.toString().match(/post-vote-up/g)) {
-      await tryCastUpvote(postId);
+      await tryCastVote('up', postId);
     } else if (voteCaster.classList.toString().match(/post-vote-down/g)) {
-      await tryCastDownvote(postId);
+      await tryCastVote('down', postId);
     }
     setTimeout(prettyNumbers, 1750);
   }
 
   // Functions which query database to perform actual upvote/downvote actions
-  async function tryCastUpvote (postId) {
+  async function tryCastVote (direction, postId) {
+    const fetchObj = direction === 'up' ? await fetch(`/posts/${postId}/upvote`, { method: 'POST' }) : await fetch(`/posts/${postId}/downvote`, { method: 'POST' });
     const scoreHolder = document.getElementById(`score-${postId}`);
-    const fetchObj = await fetch(`/posts/${postId}/upvote`, {
-      method: 'POST'
-    });
     if (fetchObj.ok) {
-      const upvoteResponseObj = await fetchObj.json();
-      if (upvoteResponseObj.success) {
-        scoreHolder.innerHTML = upvoteResponseObj.score;
-      }
-    } else throwPageError('Sorry, something went wrong. Please refresh the page and try again.', 'vote-fail');
-  }
-  async function tryCastDownvote (postId) {
-    const scoreHolder = document.getElementById(`score-${postId}`);
-    const fetchObj = await fetch(`/posts/${postId}/downvote`, {
-      method: 'POST'
-    });
-    if (fetchObj.ok) {
-      const upvoteResponseObj = await fetchObj.json();
-      if (upvoteResponseObj.success) {
-        scoreHolder.innerText = `${upvoteResponseObj.score}`;
-      } else {
-        if (upvoteResponseObj.reason === 'anon') {
-          window.location = '/users/login';
-        }
+      const voteResponseObj = await fetchObj.json();
+      if (voteResponseObj.success) {
+        scoreHolder.innerHTML = voteResponseObj.score;
+      } else if (voteResponseObj.reason === 'anon') {
+        window.location = '/users/login';
       }
     } else throwPageError('Sorry, something went wrong. Please refresh the page and try again.', 'vote-fail');
   }
 
   // ANSWER INPUT CODE
 
-  const answerSubmitButton = document.getElementById('answer-submit');
   const inputBox = document.getElementById('answerInput');
-  const draft = document.cookie.match(new RegExp(`draft${window.location.href.match(/\d+$/)[0]}.*;`));
-  inputBox.innerText = draft ? draft[0].match(/(?<==).*(?=;)/) : '';
+  const draft = localStorage.getItem(`draft${threadId}`);
+  inputBox.innerText = draft ? draft.split('\\n').join('\n') : '';
+
+  const answerSubmitButton = document.getElementById('answer-submit');
   answerSubmitButton.addEventListener('click', async (event) => {
     event.preventDefault();
 
@@ -111,7 +97,7 @@ window.addEventListener('DOMContentLoaded', () => {
       document.querySelector('.threadContainer').appendChild(div);
     } else {
       if (reason === 'anon') {
-        document.cookie = `draft${window.location.href.match(/\d+$/)[0]}=${inputBox.value}`;
+        localStorage.setItem(`draft${threadId}`, inputBox.value.split('\n').join('\\n'));
         window.location = `/users/login?pref=${window.location}`;
       }
     }
@@ -161,7 +147,7 @@ window.addEventListener('DOMContentLoaded', () => {
         errDiv.appendChild(errList);
         errList.appendChild(err);
         document.querySelector('.threadContainer')
-          .append(errDiv);
+          .prepend(errDiv);
       }
     } else {
       extantErr.innerHTML = error;
