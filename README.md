@@ -1,6 +1,9 @@
-# Express Project Skeleton
+# JavaScript Jungle Retooling
 
-Use this project skeleton as a starting point for structuring your app. Things to note
-* Sequelize configuration has not yet been added -- you will need to set that up yourself
-* You may find yourself wanting to use javascript -- js files can be added in `public/javascripts` and should be appended to the Pug templates as needed
-* CSS files can go in `public/stylesheets` and also will need to be added to Pug templates
+### This project is meant to be a retooling/updating of a group project which I helped build.
+### Meant to be a clone of [StackOverflow](https://www.stackoverflow.com), the original can be found [here](http://javascriptjungle.herokuapp.com), while the updated project can be found [here](http://jsjredux.herokuapp.com).
+
+### This readme will serve as a running list of changes/updates/upgrades I've performed to the original codebase and data structure.
+
+##### 12/07/2020 - Fixed a bug where voting and delete functionality was not active on AJAX-rendered new answers to a question.
+##### 12/07/2020 - Created a new primary site user whose account is not accessible to the public, protecting the seeded content from unnecessary modifications.
