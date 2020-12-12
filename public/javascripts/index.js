@@ -1,4 +1,3 @@
-import { navButton, fetchThreads, refreshPage } from './questionUtils.js';
 
 let currentPage = 1;
 let pageMode = 'recent';
