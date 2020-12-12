@@ -51,7 +51,7 @@ router.post(
         userId: req.session.auth.userId,
         score: 0
       });
-      res.json({ success: true, id: newPost.id });
+      res.json({ success: true, id: newPost.id, body: newPost.body });
     } else {
       res.json({ success: false, reason: 'anon' });
     }

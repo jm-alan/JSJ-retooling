@@ -67,7 +67,7 @@ window.addEventListener('DOMContentLoaded', () => {
       },
       body: JSON.stringify({ answerInput: inputBox.value, _csrf: document.getElementById('csrf').value })
     });
-    const { success, id, reason } = await responseObj.json();
+    const { success, id, reason, body } = await responseObj.json();
 
     if (success) {
       const div = create('div', `post-${id}`, 'post', 'answer');
@@ -75,7 +75,7 @@ window.addEventListener('DOMContentLoaded', () => {
       <i id="new-answer-delete-${id}" class="delete-answer delete far fa-trash-alt" data-backend-id="${id}"></i>
       <div class="body">
         <div class="bodyContainer">
-          ${inputBox.value}
+          ${body}
         </div>
       </div>
       <div class="bodyScore">
