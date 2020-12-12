@@ -7,3 +7,4 @@
 
 ##### 12/07/2020 - Fixed a bug where voting and delete functionality was not active on AJAX-rendered new answers to a question.
 ##### 12/07/2020 - Created a new primary site user whose account is not accessible to the public, protecting the seeded content from unnecessary modifications.
+##### 12/11/2020 - A fatal security bug allowed a potential user to submit an additional "question" to a thread via public API, and then delete that question, causing a cascade delete of the thread, effectively allowing users to delete any question they want regardless of post owner. This has been patched.
