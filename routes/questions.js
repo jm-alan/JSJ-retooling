@@ -45,8 +45,8 @@ router.post(
   asyncHandler(async (req, res) => {
     if (res.locals.authenticated) {
       const newPost = await db.Post.create({
-        isQuestion: req.body.isQuestion,
-        body: req.body.answerInput,
+        isQuestion: false,
+        body: cleaner(req.body.answerInput),
         threadId: req.params.id,
         userId: req.session.auth.userId,
         score: 0

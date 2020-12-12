@@ -65,7 +65,7 @@ window.addEventListener('DOMContentLoaded', () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ isQuestion: false, answerInput: inputBox.value, _csrf: document.getElementById('csrf').value })
+      body: JSON.stringify({ answerInput: inputBox.value, _csrf: document.getElementById('csrf').value })
     });
     const { success, id, reason } = await responseObj.json();
 
