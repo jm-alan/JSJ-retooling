@@ -37,7 +37,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Functions which query database to perform actual upvote/downvote actions
   async function tryCastVote (direction, postId) {
-    const fetchObj = direction === 'up' ? await fetch(`/posts/${postId}/upvote`, { method: 'POST' }) : await fetch(`/posts/${postId}/downvote`, { method: 'POST' });
+    const fetchObj = direction === 'up'
+      ? await fetch(
+        `/posts/${postId}/upvote`,
+        {
+          method: 'POST'
+        })
+      : await fetch(`/posts/${postId}/downvote`, { method: 'POST' });
     const scoreHolder = document.getElementById(`score-${postId}`);
     if (fetchObj.ok) {
       const voteResponseObj = await fetchObj.json();
