@@ -43,7 +43,11 @@ window.addEventListener('DOMContentLoaded', () => {
         {
           method: 'POST'
         })
-      : await fetch(`/posts/${postId}/downvote`, { method: 'POST' });
+      : await fetch(
+        `/posts/${postId}/downvote`,
+        {
+          method: 'POST'
+        });
     const scoreHolder = document.getElementById(`score-${postId}`);
     if (fetchObj.ok) {
       const voteResponseObj = await fetchObj.json();
