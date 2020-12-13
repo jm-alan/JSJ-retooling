@@ -1,4 +1,4 @@
-const navButton = (text, container, lastPageEl, selected = false) => {
+export const navButton = (text, container, lastPageEl, selected = false) => {
   const btn = document.createElement('button');
   btn.classList.add('numberedButton');
   btn.classList.add('buttonHover');
@@ -12,18 +12,14 @@ const navButton = (text, container, lastPageEl, selected = false) => {
   return lastPageEl;
 };
 
-const fetchThreads = async (postArr, pageNumber) => {
-  const targetArr = postArr.slice(10 * (pageNumber - 1), 10 * pageNumber);
-  const link = `/api/threads?list=${targetArr.join(',')}`;
-  const res = await fetch(link);
-  const body = await res.json();
-  const threadsArr = body.threadObjects;
-  const returnArr = threadsArr.map((thread) => {
-    const timeStamp = `created at ${new Date(
-      thread.createdAt
-    ).toLocaleTimeString()} on ${new Date(
-      thread.createdAt
-    ).toLocaleDateString()} by `;
+export const fetchThreads = async (postArr, pageNumber, reverse = true) => {
+  const returnArr = ((await (await fetch(`/api/threads?list=${(postArr.slice(10 * (pageNumber - 1), 10 * pageNumber)).join(',')}`)).json()).threadObjects).map((thread) => {
+    const timeStamp = `created at ${
+      new Date(thread.createdAt)
+        .toLocaleTimeString()}
+      on ${
+      new Date(thread.createdAt)
+        .toLocaleDateString()} by `;
     return {
       id: thread.id,
       numberOfAnswers: thread.Posts.length - 1,
@@ -34,10 +30,10 @@ const fetchThreads = async (postArr, pageNumber) => {
       timeStamp
     };
   });
-  return returnArr;
+  return reverse ? returnArr.reverse() : returnArr;
 };
 
-const createQuestionDiv = (question) => {
+export const createQuestionDiv = (question) => {
   const outerDiv = document.createElement('div');
   outerDiv.classList.add('question');
   if (question.numberOfAnswers === 1) {
@@ -80,12 +76,10 @@ const createQuestionDiv = (question) => {
   questionsDiv.appendChild(outerDiv);
 };
 
-const refreshPage = (pageData) => {
+export const refreshPage = (pageData) => {
   const questionsDiv = document.getElementById('questions');
   questionsDiv.innerHTML = '';
   pageData.forEach((post) => {
     createQuestionDiv(post);
   });
 };
-
-export { navButton, fetchThreads, createQuestionDiv, refreshPage };

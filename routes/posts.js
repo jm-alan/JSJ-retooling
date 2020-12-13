@@ -119,22 +119,26 @@ router.delete('/:id(\\d+)', asyncHandler(async (req, res) => {
   else if (postDeleting.userId !== req.session.auth.userId) res.json({ success: false, reason: 'diff' });
   else {
     if (postDeleting.isQuestion) {
+      const threadId = postDeleting.threadId;
       const allPosts =
         await Post.findAll({
           where: {
-            threadId: postDeleting.threadId
+            threadId
           }
         });
-      allPosts.forEach(async post => {
+      for (const post of allPosts) {
         await Score.destroy({
           where: {
             postId: post.id
           }
         });
         await post.destroy();
+      }
+      await Thread.destroy({
+        where: {
+          id: threadId
+        }
       });
-      const thread = await Thread.findByPk(postDeleting.threadId);
-      await thread.destroy();
       res.json({ success: true, isQuestion: true });
     } else if (!postDeleting.isQuestion) {
       await Score.destroy({
