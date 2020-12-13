@@ -1,4 +1,4 @@
-import create from './create.js';
+import { create } from './index.js';
 
 export default function throwPageError (error, id) {
   const extantErr = document.getElementById(id);

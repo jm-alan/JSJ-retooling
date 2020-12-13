@@ -1,101 +1,20 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const crsf = require('csurf');
-const { check, validationResult } = require('express-validator');
-const { asyncHandler, loginUser, logoutUser } = require('../utils');
+const { validationResult } = require('express-validator');
+const {
+  asyncHandler,
+  loginUser,
+  logoutUser,
+  userValidator,
+  loginValidator
+} = require('../utils');
+
+console.log();
 const { User, Thread, Post } = require('../db/models');
 
 const router = express.Router();
 const crsfProtection = crsf({ cookie: true });
-
-const userValidator = [
-  check('userName')
-    .exists({ checkFalsy: true })
-    .custom(async (value) => {
-      if (await User.findOne({ where: { userName: value } })) {
-        throw new Error('The provided user name is already in use.');
-      } else {
-        const invalidCharacters = '!?~`@#$%^&*(){}\\/<>,[]|';
-        for (const letter of value) {
-          if (invalidCharacters.includes(letter)) {
-            throw new Error('User name contains invalid character.');
-          }
-        }
-        return true;
-      }
-    }),
-  check('email')
-    .exists({ checkFalsy: true })
-    .isEmail()
-    .withMessage('Please provide a valid email.')
-    .custom(async (value) => {
-      if (await User.findOne({ where: { email: value } })) {
-        throw new Error('The provided email is already in use.');
-      } else return true;
-    }),
-  check('password')
-    .exists({ checkFalsy: true })
-    .withMessage('Please provide a password.'),
-  check('confirmPassword')
-    .exists({ checkFalsy: true })
-    .withMessage('Please confirm password.')
-    .custom((value, { req }) => {
-      if (value !== req.body.password) {
-        throw new Error('Confirm Password does not match Password');
-      } else return true;
-    }),
-  check('firstName')
-    .exists({ checkFalsy: true })
-    .withMessage('Please provide a first name'),
-  check('lastName')
-    .exists({ checkFalsy: true })
-    .withMessage('Please provide a last name')
-];
-
-const loginValidator = [
-  check('identification')
-    .exists({ checkFalsy: true })
-    .withMessage('Please provide a username or email.')
-    .custom(async (value, { req }) => {
-      // If the identification entered scans as an email address
-      if (String(value).match(/@/g)) {
-        // but lookup returns null
-        const user = await User.findOne({ where: { email: value } });
-        if (!user) {
-          throw new Error('Invalid login.');
-        } else if (user) {
-          if (
-            !bcrypt.compareSync(
-              req.body.password,
-              user.hashedPassword.toString()
-            )
-          ) {
-            throw new Error('Invalid login.');
-          }
-        } else return true;
-      } else {
-        // If the identification scans as a regular username, but lookup
-        // still returns null
-        const user = await User.findOne({ where: { userName: value } });
-        if (!user) {
-          throw new Error('Invalid login.');
-          // otherwise this error validation is complete.
-        } else if (user) {
-          if (
-            !bcrypt.compareSync(
-              req.body.password,
-              user.hashedPassword.toString()
-            )
-          ) {
-            throw new Error('Invalid login.');
-          }
-        } else return true;
-      }
-    }),
-  check('password')
-    .exists({ checkFalsy: true })
-    .withMessage('Please provide a password.')
-];
 
 router.get('/signup', crsfProtection, (req, res) => {
   res.render('signup', {

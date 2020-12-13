@@ -1,39 +1,4 @@
-export const navButton = (text, container, lastPageEl, selected = false) => {
-  const btn = document.createElement('button');
-  btn.classList.add('numberedButton');
-  btn.classList.add('buttonHover');
-  btn.innerText = `${text}`;
-  btn.id = `numberedButtonId__${text}`;
-  if (selected) {
-    btn.classList.add('numberedButton--selected');
-    lastPageEl = btn;
-  }
-  container.appendChild(btn);
-  return lastPageEl;
-};
-
-export const fetchThreads = async (postArr, pageNumber, reverse = true) => {
-  const returnArr = ((await (await fetch(`/api/threads?list=${(postArr.slice(10 * (pageNumber - 1), 10 * pageNumber)).join(',')}`)).json()).threadObjects).map((thread) => {
-    const timeStamp = `created at ${
-      new Date(thread.createdAt)
-        .toLocaleTimeString()}
-      on ${
-      new Date(thread.createdAt)
-        .toLocaleDateString()} by `;
-    return {
-      id: thread.id,
-      numberOfAnswers: thread.Posts.length - 1,
-      score: thread.Posts[0].score,
-      title: thread.title,
-      userId: thread.userId,
-      userName: thread.User.userName,
-      timeStamp
-    };
-  });
-  return reverse ? returnArr.reverse() : returnArr;
-};
-
-export const createQuestionDiv = (question) => {
+export default function (question) {
   const outerDiv = document.createElement('div');
   outerDiv.classList.add('question');
   if (question.numberOfAnswers === 1) {
@@ -74,12 +39,4 @@ export const createQuestionDiv = (question) => {
   outerDiv.appendChild(author);
   const questionsDiv = document.getElementById('questions');
   questionsDiv.appendChild(outerDiv);
-};
-
-export const refreshPage = (pageData) => {
-  const questionsDiv = document.getElementById('questions');
-  questionsDiv.innerHTML = '';
-  pageData.forEach((post) => {
-    createQuestionDiv(post);
-  });
-};
+}

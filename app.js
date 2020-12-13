@@ -8,7 +8,7 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 // Internal modules
 const { sequelize } = require('./db/models');
-const indexRouter = require('./routes/index');
+const homeRouter = require('./routes/home');
 const usersRouter = require('./routes/users');
 const apiRouter = require('./routes/api');
 const questionRouter = require('./routes/questions');
@@ -40,7 +40,7 @@ app.use(
 store.sync();
 
 app.use(restoreUser);
-app.use('/', indexRouter);
+app.use('/', homeRouter);
 app.use('/users', usersRouter);
 app.use('/api', apiRouter);
 app.use('/questions', questionRouter);

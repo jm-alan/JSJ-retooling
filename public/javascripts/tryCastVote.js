@@ -1,3 +1,5 @@
+import { throwPageError } from './index.js';
+
 export default async function (direction, postId) {
   const fetchObj = direction === 'up'
     ? await fetch(

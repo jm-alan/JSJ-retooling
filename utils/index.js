@@ -8,6 +8,8 @@ const mostPopular = require('./mostPopular');
 const mostRecent = require('./mostRecent');
 const searchThreads = require('./searchThreads');
 const getThreadsByIds = require('./getThreadsByIds');
+const userValidator = require('./userValidator');
+const loginValidator = require('./loginValidator');
 
 module.exports = {
   restoreUser,
@@ -19,5 +21,7 @@ module.exports = {
   mostPopular,
   mostRecent,
   searchThreads,
-  getThreadsByIds
+  getThreadsByIds,
+  userValidator,
+  loginValidator
 };

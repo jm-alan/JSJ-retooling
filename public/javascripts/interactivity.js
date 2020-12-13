@@ -1,7 +1,4 @@
-import prettyNumbers from './prettyNumbers.js';
-import voteListen from './voter.js';
-import deleteListen from './deleter.js';
-import answerSubmit from './answerSubmit.js';
+import { prettyNumbers, voteListen, deleteListen, answerSubmit } from './index.js';
 
 window.addEventListener('DOMContentLoaded', () => {
   prettyNumbers();

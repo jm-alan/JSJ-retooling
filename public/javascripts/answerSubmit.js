@@ -1,6 +1,4 @@
-import create from './create.js';
-import deleteListen from './deleter.js';
-import voteListen from './voter.js';
+import { create, voteListen, deleteListen } from './index.js';
 
 export default async function (event) {
   event.preventDefault();

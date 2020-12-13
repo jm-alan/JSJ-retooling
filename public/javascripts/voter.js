@@ -1,5 +1,4 @@
-import tryCastVote from './tryCastVote.js';
-import prettyNumbers from './prettyNumbers.js';
+import { tryCastVote, prettyNumbers } from './index.js';
 
 export default function (voteIcon) {
   voteIcon.addEventListener('click', voter);

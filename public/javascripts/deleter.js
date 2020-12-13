@@ -1,5 +1,4 @@
-import removeElement from './removeElement.js';
-import throwPageError from './throwPageError.js';
+import { removeElement, throwPageError } from './index.js';
 
 export default function (trashIcon) {
   trashIcon.addEventListener('click', deleter);
