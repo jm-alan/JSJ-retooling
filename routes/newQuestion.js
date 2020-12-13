@@ -3,7 +3,7 @@ const router = express.Router();
 const csrf = require('csurf');
 const csrfProtection = csrf({ cookie: true });
 const { Thread, Post } = require('../db/models');
-const { asyncHandler } = require('../utils/server-utils');
+const { asyncHandler } = require('../utils');
 
 router.get('/new-question', csrfProtection, function (req, res) {
   if (res.locals.authenticated) {
@@ -21,17 +21,16 @@ router.post(
   '/new-question',
   csrfProtection,
   asyncHandler(async (req, res) => {
-    if (!res.locals.authenticated) {
-      res.send('You must be logged in to post.');
-      return;
-    }
+    if (!res.locals.authenticated) return res.send('You must be logged in to ask a question.');
+
     const errors = [];
+
     if (!req.body.title) {
-      errors.push('The post must have a title.');
+      errors.push('The question must have a title.');
     }
 
     if (!req.body.body) {
-      errors.push('The post must have a body.');
+      errors.push('The question must have a body.');
     }
 
     if (errors.length === 0) {

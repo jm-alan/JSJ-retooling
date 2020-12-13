@@ -8,7 +8,7 @@ block content
       else
         h2= user.userName
       if logoutButton
-        a(href="/new-question" class="newQuestion")
+        a(href="/questions/new" class="newQuestion")
           button.buttonHover New Question
         #sortBar
           form(method="post" action="/users/logout")

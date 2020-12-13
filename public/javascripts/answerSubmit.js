@@ -1,20 +1,19 @@
 import create from './create.js';
-import deleter from './deleter.js';
+import deleteListen from './deleter.js';
+import voteListen from './voter.js';
 
 export default async function (event) {
   event.preventDefault();
   const threadId = window.location.href.match(/\d+$/)[0];
   const inputBox = document.getElementById('answerInput');
 
-  const responseObj =
-    await fetch(window.location.href, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ answerInput: inputBox.value, _csrf: document.getElementById('csrf').value })
-    });
-  const { success, id, reason, body } = await responseObj.json();
+  const { success, id, reason, body } = await (await fetch('/posts', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ answerInput: inputBox.value, _csrf: document.getElementById('csrf').value, threadId })
+  })).json();
 
   if (success) {
     const div = create('div', `post-${id}`, 'post', 'answer');
@@ -34,8 +33,8 @@ export default async function (event) {
       `;
     inputBox.value = '';
     document.querySelector('.threadContainer').appendChild(div);
-    document.getElementById(`new-answer-delete-${id}`).addEventListener('click', deleter);
-    document.querySelectorAll(`.new-answer-vote-${id}`).forEach(voteButton => voteButton.addEventListener('click', voter));
+    deleteListen(document.getElementById(`new-answer-delete-${id}`));
+    document.querySelectorAll(`.new-answer-vote-${id}`).forEach(voteListen);
   } else {
     if (reason === 'anon') {
       localStorage.setItem(`draft${threadId}`, inputBox.value.split('\n').join('$$break$$'));

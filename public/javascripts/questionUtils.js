@@ -14,7 +14,7 @@ const navButton = (text, container, lastPageEl, selected = false) => {
 
 const fetchThreads = async (postArr, pageNumber) => {
   const targetArr = postArr.slice(10 * (pageNumber - 1), 10 * pageNumber);
-  const link = `/api/threads?whatever=${targetArr.join(',')}`;
+  const link = `/api/threads?list=${targetArr.join(',')}`;
   const res = await fetch(link);
   const body = await res.json();
   const threadsArr = body.threadObjects;

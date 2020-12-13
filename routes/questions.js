@@ -2,33 +2,34 @@ const express = require('express');
 const csrf = require('csurf');
 const csrfProtection = csrf({ cookie: true });
 const router = express.Router();
-const db = require('../db/models');
-const { asyncHandler } = require('../utils/server-utils');
-const cleaner = require('sanitize-html');
+const { Post, Thread, User } = require('../db/models');
+const { asyncHandler } = require('../utils');
 
 router.get(
   '/:id(\\d+)',
   csrfProtection,
   asyncHandler(async (req, res) => {
-    const userId = req.session.auth ? req.session.auth.userId : null;
-    const thread = await db.Thread.findByPk(req.params.id);
-    const threadQuestion = await db.Post.findOne({
+    const userId = req.session.auth
+      ? req.session.auth.userId
+      : null;
+    const thread = await Thread.findByPk(req.params.id);
+    const threadId = thread.id;
+    const threadQuestion = await Post.findOne({
       where: {
-        threadId: thread.id,
+        threadId,
         isQuestion: true
       },
-      include: [db.User]
+      include: [User]
     });
-    let threadAnswers = await db.Post.findAll({
+    const threadAnswers = await Post.findAll({
       where: {
-        threadId: thread.id,
+        threadId,
         isQuestion: false
       },
-      include: [db.User],
+      include: [User],
       order: [['score', 'DESC']]
     });
-    // Sanitizing HTML in answers, just in case.
-    threadAnswers = threadAnswers.map(({ body, score, id, User }) => ({ body: cleaner(body), score, id, User }));
+
     res.render('threadPage', {
       title: thread.title,
       threadQuestion,
@@ -38,24 +39,61 @@ router.get(
     });
   })
 );
-// s
-router.post(
-  '/:id(\\d+)',
+
+router.get('/new', csrfProtection, function (req, res) {
+  if (res.locals.authenticated) {
+    res.render('new-question', {
+      csrfToken: req.csrfToken(),
+      bodyVal: '',
+      titleVal: ''
+    });
+  } else {
+    res.redirect('/users/login');
+  }
+});
+
+router.post('/',
   csrfProtection,
   asyncHandler(async (req, res) => {
-    if (res.locals.authenticated) {
-      const newPost = await db.Post.create({
-        isQuestion: false,
-        body: cleaner(req.body.answerInput),
-        threadId: req.params.id,
-        userId: req.session.auth.userId,
-        score: 0
-      });
-      res.json({ success: true, id: newPost.id, body: newPost.body });
-    } else {
-      res.json({ success: false, reason: 'anon' });
+    if (!res.locals.authenticated) return res.send('You must be logged in to ask a question.');
+
+    const errors = [];
+
+    if (!req.body.title) {
+      errors.push('The question must have a title.');
     }
-  })
-);
+
+    if (!req.body.body) {
+      errors.push('The question must have a body.');
+    }
+
+    if (errors.length === 0) {
+      const threadObj = {
+        title: req.body.title,
+        userId: res.locals.user.dataValues.id,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+      const thread = await Thread.create(threadObj);
+      const postObj = {
+        body: req.body.body,
+        userId: res.locals.user.dataValues.id,
+        threadId: thread.id,
+        isQuestion: true,
+        score: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+      await Post.create(postObj);
+      res.redirect(`/questions/${thread.id}`);
+    } else {
+      res.render('new-question', {
+        errors,
+        csrfToken: req.csrfToken(),
+        bodyVal: req.body.body,
+        titleVal: req.body.title
+      });
+    }
+  }));
 
 module.exports = router;

@@ -1,8 +1,26 @@
 const express = require('express');
+const csrf = require('csurf');
+const cleaner = require('sanitize-html');
+const csrfProtection = csrf({ cookie: true });
 const { Post, Thread, Score } = require('../db/models');
-const { asyncHandler } = require('../utils/server-utils');
+const { asyncHandler } = require('../utils');
 
 const router = express.Router();
+
+router.post('/', csrfProtection, asyncHandler(async (req, res) => {
+  if (res.locals.authenticated) {
+    const newPost = await Post.create({
+      isQuestion: false,
+      body: cleaner(req.body.answerInput),
+      threadId: req.body.threadId,
+      userId: req.session.auth.userId,
+      score: 0
+    });
+    res.json({ success: true, id: newPost.id, body: newPost.body });
+  } else {
+    res.json({ success: false, reason: 'anon' });
+  }
+}));
 
 router.post('/:id(\\d+)/:method', asyncHandler(async (req, res) => {
   if (res.locals.authenticated) {
@@ -116,7 +134,7 @@ router.delete('/:id(\\d+)', asyncHandler(async (req, res) => {
         await post.destroy();
       });
       const thread = await Thread.findByPk(postDeleting.threadId);
-      thread.destroy();
+      await thread.destroy();
       res.json({ success: true, isQuestion: true });
     } else if (!postDeleting.isQuestion) {
       await Score.destroy({

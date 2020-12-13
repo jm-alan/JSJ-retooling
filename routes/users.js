@@ -1,14 +1,11 @@
 const express = require('express');
-const router = express.Router();
 const bcrypt = require('bcryptjs');
-const {
-  asyncHandler,
-  loginUser,
-  logoutUser
-} = require('../utils/server-utils.js');
-const { check, validationResult } = require('express-validator');
-const { User, Thread, Post } = require('../db/models');
 const crsf = require('csurf');
+const { check, validationResult } = require('express-validator');
+const { asyncHandler, loginUser, logoutUser } = require('../utils');
+const { User, Thread, Post } = require('../db/models');
+
+const router = express.Router();
 const crsfProtection = crsf({ cookie: true });
 
 const userValidator = [

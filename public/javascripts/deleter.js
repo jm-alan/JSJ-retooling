@@ -1,7 +1,11 @@
 import removeElement from './removeElement.js';
 import throwPageError from './throwPageError.js';
 
-export default async function (trashClick) {
+export default function (trashIcon) {
+  trashIcon.addEventListener('click', deleter);
+}
+
+async function deleter (trashClick) {
   const postId = trashClick.target.dataset.backendId;
   const response = await fetch(`/posts/${postId}`, {
     method: 'DELETE'

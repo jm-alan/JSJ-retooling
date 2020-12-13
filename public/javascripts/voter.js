@@ -1,7 +1,11 @@
 import tryCastVote from './tryCastVote.js';
 import prettyNumbers from './prettyNumbers.js';
 
-export default async function (voteClick) {
+export default function (voteIcon) {
+  voteIcon.addEventListener('click', voter);
+}
+
+async function voter (voteClick) {
   const voteCaster = voteClick.target;
   const postId = voteCaster.dataset.backendId;
   if (voteCaster.classList.toString().match(/post-vote-up/g)) {
