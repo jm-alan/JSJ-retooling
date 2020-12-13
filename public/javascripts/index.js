@@ -1,3 +1,4 @@
+import { navButton, fetchThreads, refreshPage } from './questionUtils.js';
 
 let currentPage = 1;
 let pageMode = 'recent';
@@ -52,7 +53,6 @@ window.addEventListener('load', async (event) => {
           event.target.classList.add('numberedButton--selected');
           lastPageEl = event.target;
           currentPage = Number.parseInt(target, 10);
-
         }
       }
       if (currentPage !== currentPageSave) {
