@@ -7,6 +7,7 @@ block content
         .post.question(id=`post-${threadQuestion.id}`)
             if threadQuestion.User.id === userId
                 i(data-backend-id=threadQuestion.id)#delete-question.delete.far.fa-trash-alt
+                i(data-backend-id=threadQuestion.id)#edit-question.edit.fas.fa-edit
             .body
                 .bodyContainer !{threadQuestion.body}
             .bodyScore
@@ -19,6 +20,7 @@ block content
                 .post.answer(id=`post-${answer.id}`)
                     if answer.User.id === userId
                         i(data-backend-id=answer.id).delete-answer.delete.far.fa-trash-alt
+                        i(data-backend-id=threadQuestion.id).edit-answer.edit.fas.fa-edit
                     .body
                         .bodyContainer !{answer.body}
                     .bodyScore

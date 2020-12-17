@@ -154,7 +154,12 @@ pre {
 }
 
 .delete {
-  margin-left: auto;
+  margin-left: 5px;
   margin-top: 5px;
   color: rgb(245, 59, 59);
+}
+
+.edit {
+  margin-left: auto;
+  margin-top: 5px;
 }

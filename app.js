@@ -23,6 +23,7 @@ const app = express();
 
 app.set('view engine', 'pug');
 
+if (process.env.NODE_ENV === 'development') app.use(require('morgan')('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(cookieParser(sessionSecret));
@@ -63,11 +64,10 @@ app.use(function (error, req, res, next) {
   res.locals.message = error.message;
   res.locals.error = req.app.get('env') === 'development' ? error : {};
   if (error.status !== 404) {
-
+    // render the error page
+    res.status(error.status || 500);
+    res.render('error', { error });
   }
-  // render the error page
-  res.status(error.status || 500);
-  res.render('error', { error });
 });
 
 module.exports = app;
