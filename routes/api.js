@@ -1,17 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { asyncHandler } = require('../utils/server-utils');
-const {
-  mostPopular,
-  mostRecent,
-  getThreadsByIds,
-  searchThreads
-} = require('../utils/queryFunctions');
+const { asyncHandler } = require('../utils');
+const { mostPopular, mostRecent, getThreadsByIds, searchThreads } = require('../utils');
 
 router.get(
   '/threads',
   asyncHandler(async (req, res) => {
-    const idArray = req.query.whatever.split(',');
+    const idArray = req.query.list.split(',');
     const threadObjects = await getThreadsByIds(idArray);
     res.json({ threadObjects });
   })

@@ -1,6 +1,6 @@
 extends layout.pug
 block content
-    link(rel="stylesheet", href="/stylesheets/threadPage.css")
+    link(rel='stylesheet', href='/stylesheets/threadPage.css')
     .threadContainer
         .questionTitle
             h1= title
@@ -30,10 +30,10 @@ block content
                         p.label Likes
     .answerContainer
         .answerBox
-            form.create-answer(method="POST" action=`/questions/${threadQuestion.threadId}`)
-                label#answerInputLabel(for="answerInput") Provide Your Own Answer
-                textarea#answerInput(name="answerInput", cols="30", rows="10")
-                input(type="hidden" name="isQuestion" value="false")
-                input#csrf(type="hidden" name="_csrf" value=csrfToken)
-                button#answer-submit(type="submit") Submit
-    script(src="/javascripts/interactivity.js")
+            form.create-answer(method='POST' action=`/questions/${threadQuestion.threadId}`)
+                label#answerInputLabel(for='answerInput') Provide Your Own Answer
+                textarea#answerInput(name='answerInput', cols='30', rows='10')
+                input(type='hidden' name='isQuestion' value='false')
+                input#csrf(type='hidden' name='_csrf' value=csrfToken)
+                button#answer-submit(type='submit') Submit
+    script(type='module' src='/javascripts/interactivity.js' defer)

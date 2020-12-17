@@ -1,171 +1,26 @@
+import { prettyNumbers, voteListen, deleteListen, answerSubmit } from './index.js';
+
 window.addEventListener('DOMContentLoaded', () => {
-  const threadId = window.location.href.match(/\d+$/)[0];
   prettyNumbers();
-  // Defining a new method on all HTML elements so that multiple
-  // children can be appended on a single line
-  Element.prototype.appendChildren = function (...children) {
-    children.forEach(child => this.appendChild(child));
-  };
 
   // Enable upvote/downvote buttons
-  document.querySelectorAll('.votingbutton').forEach(button => {
-    button.addEventListener('click', voter);
-  });
-  // Enable delete buttons
-  document.querySelectorAll('.delete').forEach((trashIcon) => {
-    trashIcon.addEventListener('click', deleter);
-  });
+  document.querySelectorAll('.votingbutton').forEach(voteListen);
 
+  // Enable delete buttons
+  document.querySelectorAll('.delete').forEach(deleteListen);
+
+  // Enable answer submit button
+  document.getElementById('answer-submit').addEventListener('click', answerSubmit);
+
+  // Select first answer on page. As they're sorted by votes,
+  // this will intrinsically be the best answer (asker-selected
+  // answers yet to come)
   const bestAnswer = document.querySelector('.answer');
 
-  if (bestAnswer) {
-    bestAnswer.classList.add('best');
-  }
+  // Attach CSS best answer properties to top answer, if it exists
+  (bestAnswer && bestAnswer.classList.add('best'));
 
-  // Event listener function for upvote/downvote clicks, abstracted so as to
-  // be available to add to new posts on the fly
-  async function voter (voteClick) {
-    const voteCaster = voteClick.target;
-    const postId = voteCaster.dataset.backendId;
-    if (voteCaster.classList.toString().match(/post-vote-up/g)) {
-      await tryCastVote('up', postId);
-    } else if (voteCaster.classList.toString().match(/post-vote-down/g)) {
-      await tryCastVote('down', postId);
-    }
-    setTimeout(prettyNumbers, 1250);
-  }
-
-  // Functions which query database to perform actual upvote/downvote actions
-  async function tryCastVote (direction, postId) {
-    const fetchObj = direction === 'up' ? await fetch(`/posts/${postId}/upvote`, { method: 'POST' }) : await fetch(`/posts/${postId}/downvote`, { method: 'POST' });
-    const scoreHolder = document.getElementById(`score-${postId}`);
-    if (fetchObj.ok) {
-      const voteResponseObj = await fetchObj.json();
-      if (voteResponseObj.success) {
-        scoreHolder.innerHTML = voteResponseObj.score;
-      } else if (voteResponseObj.reason === 'anon') {
-        window.location = '/users/login';
-      }
-    } else throwPageError('Sorry, something went wrong. Please refresh the page and try again.', 'vote-fail');
-  }
-
-  // ANSWER INPUT CODE
-
-  const inputBox = document.getElementById('answerInput');
-  const draft = localStorage.getItem(`draft${threadId}`);
-  inputBox.value = draft ? draft.split('$$break$$').join('\n') : '';
-
-  const answerSubmitButton = document.getElementById('answer-submit');
-  answerSubmitButton.addEventListener('click', async (event) => {
-    event.preventDefault();
-
-    const responseObj =
-    await fetch(window.location.href, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ isQuestion: false, answerInput: inputBox.value, _csrf: document.getElementById('csrf').value })
-    });
-    const { success, id, reason } = await responseObj.json();
-
-    if (success) {
-      const div = create('div', `post-${id}`, 'post', 'answer');
-      div.innerHTML = `
-      <i id="new-answer-delete-${id}" class="delete-answer delete far fa-trash-alt" data-backend-id="${id}"></i>
-      <div class="body">
-        <div class="bodyContainer">
-          ${inputBox.value}
-        </div>
-      </div>
-      <div class="bodyScore">
-        <i class="new-answer-vote-${id} post-vote-up votingbutton fas fa-chevron-up" data-backend-id="${id}"></i>
-        <p class="scoreThreadPage" data-backend-id="${id}" id="score-${id}">0</p>
-        <i class="new-answer-vote-${id} post-vote-down votingbutton fas fa-chevron-down" data-backend-id="${id}" aria-hidden="true"></i>
-        <p class="label">Likes</p>
-      </div>
-      `;
-      inputBox.value = '';
-      document.querySelector('.threadContainer').appendChild(div);
-      document.getElementById(`new-answer-delete-${id}`).addEventListener('click', deleter);
-      document.querySelectorAll(`.new-answer-vote-${id}`).forEach(voteButton => voteButton.addEventListener('click', voter));
-    } else {
-      if (reason === 'anon') {
-        localStorage.setItem(`draft${threadId}`, inputBox.value.split('\n').join('$$break$$'));
-        window.location = `/users/login?pref=${window.location}`;
-      }
-    }
-  });
-
-  // Event listener function for deleting posts from a page, abstracted
-  // for the same reason as the vote listener.
-
-  async function deleter (trashClick) {
-    const postId = trashClick.target.dataset.backendId;
-    const response = await fetch(`/posts/${postId}`, {
-      method: 'DELETE'
-    });
-    if (response.ok) {
-      const { success, isQuestion, reason } = await response.json();
-      if (success && isQuestion) {
-        window.location = '/';
-      } else if (success) {
-        removeElement(document.getElementById(`post-${postId}`));
-      } else if (!success && reason) {
-        switch (reason) {
-          case 'anon' || 'diff':
-            throwPageError('You must be logged in as the creator of a post to delete it.', 'delete-fail');
-            break;
-          case 'DNE':
-            throwPageError('Sorry, it seems the post you were trying to interact with does not exist.\nPlease refresh the page.', 'delete-fail');
-            break;
-        }
-      } else throwPageError('Sorry, something went wrong. Please try again.', 'delete-fail');
-    }
-  }
-
-  // Function to append custom errors to the page and/or exchange them if an error by that ID already exists.
-  function throwPageError (error, id) {
-    const extantErr = document.getElementById(id);
-    if (!extantErr) {
-      let errDiv = document.getElementById('errorDiv');
-      const err = create('li');
-      err.innerHTML = error;
-      if (errDiv) {
-        document.querySelector('.errorsList').appendChild(err);
-      } else {
-        errDiv = create('div');
-        errDiv.setAttribute('id', 'errorDiv');
-        const errList = create('ul');
-        errList.classList.add('errorsList');
-        errDiv.appendChild(errList);
-        errList.appendChild(err);
-        document.querySelector('.threadContainer')
-          .prepend(errDiv);
-      }
-    } else {
-      extantErr.innerHTML = error;
-    }
-  }
-
-  // Function to remove elements from the page
-  function removeElement (element) {
-    if (element) {
-      element.parentNode.removeChild(element);
-    }
-  }
-
-  // Function to create HTML elements with IDs and classes inline
-  function create (type, id = null, ...classes) {
-    const el = document.createElement(String(type));
-    if (id) el.setAttribute('id', String(id));
-    if (classes.length) classes.forEach(hClass => el.classList.add(hClass));
-    return el;
-  }
-  function prettyNumbers () {
-    document.querySelectorAll('.scoreThreadPage').forEach(score => {
-      if (+score.innerText > 1000000) score.innerText = '999k';
-      else if (+score.innerText > 1000) score.innerText = `${(+score.innerText / 1000).toPrecision(2)}k`;
-    });
-  }
+  // Fill answer box with draft if it exists.
+  const draft = localStorage.getItem(`draft${window.location.href.match(/\d+$/)[0]}`);
+  document.getElementById('answerInput').value = draft ? draft.split('$$break$$').join('\n') : '';
 });

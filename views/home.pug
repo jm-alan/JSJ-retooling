@@ -1,8 +1,20 @@
-extends layout.pug
+extends layout
+
+append head
+  //- add page specific styles by appending to the head
+  link(rel="stylesheet" href="/stylesheets/main.css")
+  //- add page specific js
+  script(src="/javascripts/home.js" type="module" defer)
+
 block content
-    each thread in threads
-        .row
-            .col.s12.m6
-                .card.green.darken-3
-                    span.card-title= thread.title
-                    p This is where I'd put content...IF I HAD ANY
+  #content
+    #questionsHeader
+      h2 Top Questions
+      a(href="/questions/new" class="newQuestion")
+        button.buttonHover New Question
+      #sortBar
+        button(class="sortButton sortButton--selected buttonHover" id="recent") Recent
+        button(class="sortButton buttonHover" id="popular") Popular
+    #questions
+    #buttonContainer
+      #pageSelection

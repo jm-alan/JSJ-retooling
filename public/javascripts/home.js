@@ -1,13 +1,13 @@
 import { navButton, fetchThreads, refreshPage } from './index.js';
 
 let currentPage = 1;
+let pageMode = 'recent';
 let lastPageEl;
 
 window.addEventListener('load', async (event) => {
-  const searchTerm = document.getElementById('searchTerm').innerText;
-  const res = await fetch(`/api/search?search=${searchTerm}`);
-  let postArr = await res.json();
-  postArr = postArr.threads;
+  let res = await fetch(`${window.location.origin}/api/recent`);
+  let body = await res.json();
+  let postArr = body.threads;
 
   let pageData = await fetchThreads(postArr, 1);
   refreshPage(pageData);
@@ -59,6 +59,55 @@ window.addEventListener('load', async (event) => {
         pageData = await fetchThreads(postArr, currentPage);
         refreshPage(pageData);
       }
+    }
+  });
+
+  const recentButton = document.getElementById('recent');
+  const popularButton = document.getElementById('popular');
+
+  recentButton.addEventListener('mouseup', async (event) => {
+    // need to remove the numberedButton--selected when you hit recent or popular
+    const allButtons = document.querySelectorAll('.numberedButton');
+    allButtons.forEach((el) => {
+      el.classList.remove('numberedButton--selected');
+    });
+    document
+      .getElementById('numberedButtonId__1')
+      .classList.add('numberedButton--selected');
+    if (pageMode !== 'recent') {
+      pageMode = 'recent';
+
+      currentPage = 1;
+      recentButton.classList.add('sortButton--selected');
+      popularButton.classList.remove('sortButton--selected');
+      res = await fetch(`${window.location.origin}/api/recent`);
+      body = await res.json();
+      postArr = body.threads;
+
+      const pageData = await fetchThreads(postArr, 1);
+      refreshPage(pageData);
+    }
+  });
+
+  popularButton.addEventListener('mouseup', async (event) => {
+    const allButtons = document.querySelectorAll('.numberedButton');
+    allButtons.forEach((el) => {
+      el.classList.remove('numberedButton--selected');
+    });
+    document
+      .getElementById('numberedButtonId__1')
+      .classList.add('numberedButton--selected');
+
+    if (pageMode !== 'popular') {
+      pageMode = 'popular';
+      currentPage = 1;
+      recentButton.classList.remove('sortButton--selected');
+      popularButton.classList.add('sortButton--selected');
+      res = await fetch(`${window.location.origin}/api/popular`);
+      body = await res.json();
+      postArr = body.threads;
+      const pageData = await fetchThreads(postArr, 1, false);
+      refreshPage(pageData);
     }
   });
 });

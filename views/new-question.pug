@@ -11,7 +11,7 @@ block content
                             each error in errors
                                 li=error
                 div#formContainer
-                    form(action="/new-question" method="post" id="form")
+                    form(action="/questions" method="post" id="form")
                         div.signUpDiv(id="newquestion__labelDiv")
                             label(for="title" class="formLabel") Title
                         textarea(name="title" id="newquestion__title" class="textField" rows="2" cols="70")= titleVal
