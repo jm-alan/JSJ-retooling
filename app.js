@@ -8,11 +8,7 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 // Internal modules
 const { sequelize } = require('./db/models');
-const homeRouter = require('./routes/home');
-const usersRouter = require('./routes/users');
-const apiRouter = require('./routes/api');
-const questionRouter = require('./routes/questions');
-const postRouter = require('./routes/posts');
+const { homeRouter, usersRouter, apiRouter, questionRouter, postRouter } = require('./routes');
 const { sessionSecret } = require('./config');
 const { restoreUser } = require('./utils');
 
