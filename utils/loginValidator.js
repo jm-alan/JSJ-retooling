@@ -8,7 +8,7 @@ module.exports = [
     .withMessage('Please provide a username or email.')
     .custom(async (value, { req }) => {
       // If the identification entered scans as an email address
-      if (value.toSTring().match(/@/g)) {
+      if (value.toString().match(/@/g)) {
         // but lookup returns null
         const user = await User.findOne({ where: { email: value } });
         if (!user) {
