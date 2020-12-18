@@ -1,10 +1,13 @@
-import { prettyNumbers, voteListen, deleteListen, answerSubmit } from './index.js';
+import { prettyNumbers, voteListen, deleteListen, answerSubmit, colorVoteButton } from './index.js';
 
 window.addEventListener('DOMContentLoaded', () => {
   prettyNumbers();
 
   // Enable upvote/downvote buttons
-  document.querySelectorAll('.votingbutton').forEach(voteListen);
+  document.querySelectorAll('.voting-button').forEach(button => {
+    voteListen(button);
+    colorVoteButton(button);
+  });
 
   // Enable delete buttons
   document.querySelectorAll('.delete').forEach(deleteListen);

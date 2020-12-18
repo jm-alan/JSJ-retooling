@@ -11,9 +11,9 @@ block content
             .body
                 .bodyContainer !{threadQuestion.body}
             .bodyScore
-                i(data-backend-id=threadQuestion.id).post-vote-up.votingbutton.fas.fa-chevron-up
+                i(data-backend-id=threadQuestion.id).post-vote-up.voting-button.fas.fa-chevron-up
                 p(data-backend-id=threadQuestion.id id=`score-${threadQuestion.id}`).scoreThreadPage=threadQuestion.score
-                i(data-backend-id=threadQuestion.id).post-vote-down.votingbutton.fas.fa-chevron-down
+                i(data-backend-id=threadQuestion.id).post-vote-down.voting-button.fas.fa-chevron-down
                 p.label Likes
         if threadAnswers
             each answer in threadAnswers
@@ -24,9 +24,9 @@ block content
                     .body
                         .bodyContainer !{answer.body}
                     .bodyScore
-                        i(data-backend-id=answer.id).post-vote-up.votingbutton.fas.fa-chevron-up
+                        i(data-backend-id=answer.id).post-vote-up.voting-button.fas.fa-chevron-up
                         p(data-backend-id=answer.id id=`score-${answer.id}`).scoreThreadPage=answer.score
-                        i(data-backend-id=answer.id).post-vote-down.votingbutton.fas.fa-chevron-down
+                        i(data-backend-id=answer.id).post-vote-down.voting-button.fas.fa-chevron-down
                         p.label Likes
     .answerContainer
         .answerBox
