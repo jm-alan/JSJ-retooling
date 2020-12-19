@@ -12,3 +12,4 @@
 ##### 12/13/2020 - Finally fixed a major, but intermittent issue that would cause threads not to delete correctly when deleting their corresponding question. Due to the way the homepage query is written, this was also causing a cascade effect where a thread existing with no posts would prevent the rendering of the entire homepage. That poor dependency has not yet been patched, but it should not present again in the immediate future.
 ##### 12/13/2020 - API to post new questions now follows a more RESTful design.
 ##### 12/13/2020 - Phase 1 of abstracting many of the front-end functions into their own files to make the code more modular, and consequently more maintainable.
+##### 12/18/2020 - Added a bit of flare to the vote buttons on hover/click, and added persistent visual indication that a given logged-in user has voted on a given post.

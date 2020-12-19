@@ -10,6 +10,7 @@ import removeElement from './removeElement.js';
 import throwPageError from './throwPageError.js';
 import tryCastVote from './tryCastVote.js';
 import voteListen from './voter.js';
+import colorVoteButton from './colorVoteButton.js';
 
 export {
   answerSubmit,
@@ -23,5 +24,6 @@ export {
   removeElement,
   throwPageError,
   tryCastVote,
-  voteListen
+  voteListen,
+  colorVoteButton
 };

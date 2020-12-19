@@ -1,4 +1,3 @@
-
 :not(pre) > code {
   background-color: rgb(48, 141, 48);
   border: 2px solid rgb(48, 141, 48);
@@ -65,8 +64,8 @@ pre {
 }
 
 .post.question {
-    box-shadow: 0px 0px 10px 0px rgb(48, 200, 48);
-    margin-bottom: 100px;
+  box-shadow: 0px 0px 10px 0px rgb(48, 200, 48);
+  margin-bottom: 100px;
 }
 
 .post.answer.best {
@@ -88,22 +87,43 @@ pre {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.votingbutton {
-    font-size: 30px;
-    margin: 0 auto;
+.post-vote-up.voted {  
+  color: rgb(48, 200, 48);
 }
 
-.votingbutton:hover {
+.post-vote-down.voted {
+  color: rgb(230, 49, 49);
+}
+
+.voting-button {
+  font-size: 30px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.voting-button:hover {
   cursor: pointer;
+  bottom: 2px;
 }
 
+.voting-button:active {
+  bottom: 0px
+}
+
+.post-vote-up:hover, .post-vote-up:active {
+  color: rgb(48, 200, 48);
+}
+
+.post-vote-down:hover, .post-vote-down:active {
+  color: rgb(230, 49, 49);
+}
 
 .bodyScore {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 50px;
-    margin-right: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50px;
+  margin-right: 15px;
 }
 
 .bodyScore > * {
@@ -111,18 +131,15 @@ pre {
 }
 
 .bodyScore p.scoreThreadPage {
-  /* padding:  0px 10px; */
-    margin: 0 0;
-    font-size: 30px;
-    text-align: center;
+  margin: 0 0;
+  font-size: 30px;
+  text-align: center;
   box-sizing: border-box;
 }
 
 .bodyScore p.label {
-    margin: 4px auto 0 auto;
-    font-size: 20px;
-    /* padding-left: 3px; */
-
+  margin: 4px auto 0 auto;
+  font-size: 20px;
 }
 
 .answerContainer {

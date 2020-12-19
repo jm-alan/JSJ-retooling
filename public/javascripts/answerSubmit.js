@@ -17,6 +17,7 @@ export default async function (event) {
     const div = create('div', `post-${id}`, 'post', 'answer');
     div.innerHTML = `
       <i id="new-answer-delete-${id}" class="delete-answer delete far fa-trash-alt" data-backend-id="${id}"></i>
+      <i class="edit-answer edit fas fa-edit" data-backend-id="${id}" aria-hidden="true"></i>
       <div class="body">
         <div class="bodyContainer">
           ${body}
@@ -33,6 +34,7 @@ export default async function (event) {
     document.querySelector('.threadContainer').appendChild(div);
     deleteListen(document.getElementById(`new-answer-delete-${id}`));
     document.querySelectorAll(`.new-answer-vote-${id}`).forEach(voteListen);
+    localStorage.removeItem(`draft${threadId}`);
   } else {
     if (reason === 'anon') {
       localStorage.setItem(`draft${threadId}`, inputBox.value.split('\n').join('$$break$$'));
