@@ -2,16 +2,8 @@ import { throwPageError } from './index.js';
 
 export default async function (direction, postId) {
   const fetchObj = direction === 'up'
-    ? await fetch(
-        `/posts/${postId}/upvote`,
-        {
-          method: 'POST'
-        })
-    : await fetch(
-        `/posts/${postId}/downvote`,
-        {
-          method: 'POST'
-        });
+    ? await window.fetch(`/posts/${postId}/upvote`, { method: 'POST' })
+    : await window.fetch(`/posts/${postId}/downvote`, { method: 'POST' });
   const scoreHolder = document.getElementById(`score-${postId}`);
   if (fetchObj.ok) {
     const voteResponseObj = await fetchObj.json();
