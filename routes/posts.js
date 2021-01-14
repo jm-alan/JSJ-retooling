@@ -2,6 +2,8 @@ const express = require('express');
 const csrf = require('csurf');
 const cleaner = require('sanitize-html');
 const csrfProtection = csrf({ cookie: true });
+const marked = require('marked');
+
 const { Post, Thread, Score } = require('../db/models');
 const { asyncHandler } = require('../utils');
 
@@ -11,7 +13,7 @@ router.post('/', csrfProtection, asyncHandler(async (req, res) => {
   if (res.locals.authenticated) {
     const newPost = await Post.create({
       isQuestion: false,
-      body: cleaner(req.body.answerInput),
+      body: marked(cleaner(req.body.answerInput)),
       threadId: req.body.threadId,
       userId: req.session.auth.userId,
       score: 0

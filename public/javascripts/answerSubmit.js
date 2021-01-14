@@ -5,7 +5,7 @@ export default async function (event) {
   const threadId = window.location.href.match(/\d+$/)[0];
   const inputBox = document.getElementById('answerInput');
 
-  const { success, id, reason, body } = await (await fetch('/posts', {
+  const { success, id, reason, body } = await (await window.fetch('/posts', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -34,10 +34,10 @@ export default async function (event) {
     document.querySelector('.threadContainer').appendChild(div);
     deleteListen(document.getElementById(`new-answer-delete-${id}`));
     document.querySelectorAll(`.new-answer-vote-${id}`).forEach(voteListen);
-    localStorage.removeItem(`draft${threadId}`);
+    window.localStorage.removeItem(`draft${threadId}`);
   } else {
     if (reason === 'anon') {
-      localStorage.setItem(`draft${threadId}`, inputBox.value.split('\n').join('$$break$$'));
+      window.localStorage.setItem(`draft${threadId}`, inputBox.value.split('\n').join('$$break$$'));
       window.location = `/users/login?pref=${window.location}`;
     }
   }

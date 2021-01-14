@@ -24,6 +24,6 @@ window.addEventListener('DOMContentLoaded', () => {
   (bestAnswer && bestAnswer.classList.add('best'));
 
   // Fill answer box with draft if it exists.
-  const draft = localStorage.getItem(`draft${window.location.href.match(/\d+$/)[0]}`);
+  const draft = window.localStorage.getItem(`draft${window.location.href.match(/\d+$/)[0]}`);
   document.getElementById('answerInput').value = draft ? draft.split('$$break$$').join('\n') : '';
 });
