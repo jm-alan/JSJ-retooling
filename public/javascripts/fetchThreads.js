@@ -1,11 +1,9 @@
-export default async function (postArr, pageNumber, reverse = true) {
-  const returnArr = ((await (await fetch(`/api/threads?list=${(postArr.slice(10 * (pageNumber - 1), 10 * pageNumber)).join(',')}`)).json()).threadObjects).map((thread) => {
-    const timeStamp = `created at ${
-        new Date(thread.createdAt)
-          .toLocaleTimeString()}
-        on ${
-        new Date(thread.createdAt)
-          .toLocaleDateString()} by `;
+export default async function (postArr, pageNumber) {
+  const responseObj = await fetch(`/api/threads?list=${(postArr.slice(10 * (pageNumber - 1), 10 * pageNumber)).join(',')}`);
+  const { threadObjects: threads } = responseObj.ok ? await responseObj.json() : { threadObjects: [] };
+  threads.forEach(({ Posts }) => Posts.sort(({ isQuestion: a }, { isQuestion: b }) => b - a));
+  const returnArr = threads.map((thread) => {
+    const timeStamp = `asked ${new Date(thread.createdAt).toLocaleString({}, { timeStyle: 'short', dateStyle: 'short' }).split(',').join(' |')} by `;
     return {
       id: thread.id,
       numberOfAnswers: thread.Posts.length - 1,
@@ -16,5 +14,5 @@ export default async function (postArr, pageNumber, reverse = true) {
       timeStamp
     };
   });
-  return reverse ? returnArr.reverse() : returnArr;
+  return returnArr;
 }

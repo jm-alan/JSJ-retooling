@@ -106,7 +106,7 @@ window.addEventListener('load', async (event) => {
       res = await fetch(`${window.location.origin}/api/popular`);
       body = await res.json();
       postArr = body.threads;
-      const pageData = await fetchThreads(postArr, 1, false);
+      const pageData = await fetchThreads(postArr, 1);
       refreshPage(pageData);
     }
   });
