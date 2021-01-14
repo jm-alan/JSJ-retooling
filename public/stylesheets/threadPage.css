@@ -51,12 +51,15 @@ pre {
   flex-direction: row-reverse;
   padding: 0 5px 0 8px;
   margin: 0% auto;
-  width: 50%;
+  width: 50vw;
   border: 3px solid black;
   justify-content: flex-end;
   max-height: 500px;
   overflow-y: auto;
   white-space: inherit;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: pre-wrap;
 }
 
 .post p {
@@ -87,7 +90,7 @@ pre {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.post-vote-up.voted {  
+.post-vote-up.voted {
   color: rgb(48, 200, 48);
 }
 

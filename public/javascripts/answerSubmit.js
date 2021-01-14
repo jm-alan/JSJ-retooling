@@ -24,9 +24,9 @@ export default async function (event) {
         </div>
       </div>
       <div class="bodyScore">
-        <i class="new-answer-vote-${id} post-vote-up votingbutton fas fa-chevron-up" data-backend-id="${id}"></i>
+        <i class="new-answer-vote-${id} post-vote-up voting-button fas fa-chevron-up" data-backend-id="${id}"></i>
         <p class="scoreThreadPage" data-backend-id="${id}" id="score-${id}">0</p>
-        <i class="new-answer-vote-${id} post-vote-down votingbutton fas fa-chevron-down" data-backend-id="${id}" aria-hidden="true"></i>
+        <i class="new-answer-vote-${id} post-vote-down voting-button fas fa-chevron-down" data-backend-id="${id}" aria-hidden="true"></i>
         <p class="label">Likes</p>
       </div>
       `;
