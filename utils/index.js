@@ -10,6 +10,7 @@ const searchThreads = require('./searchThreads');
 const getThreadsByIds = require('./getThreadsByIds');
 const userValidator = require('./userValidator');
 const loginValidator = require('./loginValidator');
+const sanitizeOptions = require('./sanitizeOptions');
 
 module.exports = {
   restoreUser,
