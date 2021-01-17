@@ -1,13 +1,10 @@
 export default function (text, container, lastPageEl, selected = false) {
-  const btn = document.createElement('button');
-  btn.classList.add('numberedButton');
-  btn.classList.add('buttonHover');
-  btn.innerText = `${text}`;
-  btn.id = `numberedButtonId__${text}`;
-  if (selected) {
-    btn.classList.add('numberedButton--selected');
-    lastPageEl = btn;
-  }
+  const btn = document.createElement('div');
+  btn.innerHTML = `
+    <button id=numberedButtonId__${text} class='numberedButton buttonHover${selected ? ' numberedButton--selected' : ''}'>
+      ${text}
+    </button>
+  `;
   container.appendChild(btn);
-  return lastPageEl;
+  return selected ? btn : lastPageEl;
 }

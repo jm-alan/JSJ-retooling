@@ -1,9 +1,9 @@
 import { createQuestionDiv } from './index.js';
 
-export default function (pageData) {
+export default async function (pageData) {
   const questionsDiv = document.getElementById('questions');
   questionsDiv.innerHTML = '';
-  pageData.forEach((post) => {
-    createQuestionDiv(post);
-  });
+  for (let i = 0; i < pageData.length; i++) {
+    await createQuestionDiv(pageData[i]);
+  }
 }

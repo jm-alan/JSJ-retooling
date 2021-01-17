@@ -4,7 +4,6 @@ import editPost from './editPost.js';
 import create from './create.js';
 import createQuestionDiv from './createQuestionDiv.js';
 import deleteListen from './deleter.js';
-import fetchThreads from './fetchThreads.js';
 import navButton from './navButton.js';
 import prettyNumbers from './prettyNumbers.js';
 import refreshPage from './refreshPage.js';
@@ -21,7 +20,6 @@ export {
   create,
   createQuestionDiv,
   deleteListen,
-  fetchThreads,
   navButton,
   prettyNumbers,
   refreshPage,
