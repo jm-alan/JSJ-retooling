@@ -1,24 +1,42 @@
 const express = require('express');
 const csrf = require('csurf');
-const cleaner = require('sanitize-html');
+const sanitize = require('sanitize-html');
 const csrfProtection = csrf({ cookie: true });
+const marked = require('marked');
+
 const { Post, Thread, Score } = require('../db/models');
-const { asyncHandler } = require('../utils');
+const { asyncHandler, requireAuth, sanitizeOptions } = require('../utils');
 
 const router = express.Router();
 
+router.patch('/:id', requireAuth, asyncHandler(async ({ body: { body }, session: { auth: { userId } }, params: { id } }, res) => {
+  if (!body) return res.json({ success: false });
+  const post = await Post.findByPk(id, { where: { userId } });
+  if (!post) return res.json({ success: false });
+  body = marked(sanitize(body, sanitizeOptions));
+  await post.update({
+    body
+  });
+  return res.json({ success: true, body });
+}));
+
 router.post('/', csrfProtection, asyncHandler(async (req, res) => {
-  if (res.locals.authenticated) {
-    const newPost = await Post.create({
-      isQuestion: false,
-      body: cleaner(req.body.answerInput),
-      threadId: req.body.threadId,
-      userId: req.session.auth.userId,
-      score: 0
-    });
-    res.json({ success: true, id: newPost.id, body: newPost.body });
-  } else {
-    res.json({ success: false, reason: 'anon' });
+  console.log(req);
+  try {
+    const { body: { threadId, answerInput }, session: { auth: { userId } } } = req;
+    if (res.locals.authenticated) {
+      const thread = await Thread.findByPk(threadId);
+      const { id, body } = await thread.createAnswer({
+        body: marked(sanitize(answerInput, sanitizeOptions)),
+        userId
+      });
+      res.json({ success: true, id, body });
+    } else {
+      res.json({ success: false, reason: 'anon' });
+    }
+  } catch (err) {
+    console.error(err);
+    console.error('Short:', err.toString());
   }
 }));
 

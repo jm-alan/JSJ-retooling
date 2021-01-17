@@ -1,8 +1,9 @@
 import answerSubmit from './answerSubmit.js';
+import editSubmit from './editSubmit.js';
+import editPost from './editPost.js';
 import create from './create.js';
 import createQuestionDiv from './createQuestionDiv.js';
 import deleteListen from './deleter.js';
-import fetchThreads from './fetchThreads.js';
 import navButton from './navButton.js';
 import prettyNumbers from './prettyNumbers.js';
 import refreshPage from './refreshPage.js';
@@ -14,10 +15,11 @@ import colorVoteButton from './colorVoteButton.js';
 
 export {
   answerSubmit,
+  editSubmit,
+  editPost,
   create,
   createQuestionDiv,
   deleteListen,
-  fetchThreads,
   navButton,
   prettyNumbers,
   refreshPage,

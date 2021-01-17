@@ -24,11 +24,11 @@ router.get('/signup', crsfProtection, (req, res) => {
   });
 });
 
-router.get('/', (req, res) => {
+router.get('/', (_req, res) => {
   res.redirect('/users/signup');
 });
 
-router.get('/', (req, res) => {
+router.get('/', (_req, res) => {
   res.redirect('/users/signup');
 });
 
@@ -48,11 +48,11 @@ router.get('/auth', (req, res) => {
   const { authenticated } = res.locals;
   if (authenticated) {
     const { userId } = req.session.auth;
-    res.json({ userId, authenticated });
-  } else res.json({ authenticated });
+    return res.json({ userId, authenticated });
+  } else return res.json({ authenticated });
 });
 
-router.post('/login', crsfProtection, loginValidator, asyncHandler(async (req, res, next) => {
+router.post('/login', crsfProtection, loginValidator, asyncHandler(async (req, res) => {
   const { pref } = req.query;
   let user;
   if (String(req.body.identification).match(/@/g)) {
@@ -85,7 +85,7 @@ router.post('/login', crsfProtection, loginValidator, asyncHandler(async (req, r
 })
 );
 
-router.post('/', crsfProtection, userValidator, asyncHandler(async (req, res, next) => {
+router.post('/', crsfProtection, userValidator, asyncHandler(async (req, res) => {
   const { pref } = req.query;
   const validatorErrors = validationResult(req);
   if (validatorErrors.isEmpty()) {
@@ -161,6 +161,7 @@ router.get('/:userId(\\d+)/votes/:postId', asyncHandler(async (req, res) => {
   const { userId, postId } = req.params;
   const vote = await Score.findOne({ where: { userId, postId } });
   res.json({ vote: vote ? vote.isLiked : vote });
+  return vote;
 }));
 
 router.post('/logout', (req, res) => {

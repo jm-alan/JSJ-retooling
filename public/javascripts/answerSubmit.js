@@ -5,7 +5,7 @@ export default async function (event) {
   const threadId = window.location.href.match(/\d+$/)[0];
   const inputBox = document.getElementById('answerInput');
 
-  const { success, id, reason, body } = await (await fetch('/posts', {
+  const { success, id, reason, body } = await (await window.fetch('/posts', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -24,9 +24,9 @@ export default async function (event) {
         </div>
       </div>
       <div class="bodyScore">
-        <i class="new-answer-vote-${id} post-vote-up votingbutton fas fa-chevron-up" data-backend-id="${id}"></i>
+        <i class="new-answer-vote-${id} post-vote-up voting-button fas fa-chevron-up" data-backend-id="${id}"></i>
         <p class="scoreThreadPage" data-backend-id="${id}" id="score-${id}">0</p>
-        <i class="new-answer-vote-${id} post-vote-down votingbutton fas fa-chevron-down" data-backend-id="${id}" aria-hidden="true"></i>
+        <i class="new-answer-vote-${id} post-vote-down voting-button fas fa-chevron-down" data-backend-id="${id}" aria-hidden="true"></i>
         <p class="label">Likes</p>
       </div>
       `;
@@ -34,10 +34,10 @@ export default async function (event) {
     document.querySelector('.threadContainer').appendChild(div);
     deleteListen(document.getElementById(`new-answer-delete-${id}`));
     document.querySelectorAll(`.new-answer-vote-${id}`).forEach(voteListen);
-    localStorage.removeItem(`draft${threadId}`);
+    window.localStorage.removeItem(`draft${threadId}`);
   } else {
     if (reason === 'anon') {
-      localStorage.setItem(`draft${threadId}`, inputBox.value.split('\n').join('$$break$$'));
+      window.localStorage.setItem(`draft${threadId}`, inputBox.value.split('\n').join('$$break$$'));
       window.location = `/users/login?pref=${window.location}`;
     }
   }

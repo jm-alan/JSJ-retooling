@@ -1,4 +1,4 @@
-import { prettyNumbers, voteListen, deleteListen, answerSubmit, colorVoteButton } from './index.js';
+import { prettyNumbers, voteListen, deleteListen, answerSubmit, editPost, colorVoteButton } from './index.js';
 
 window.addEventListener('DOMContentLoaded', () => {
   prettyNumbers();
@@ -8,6 +8,9 @@ window.addEventListener('DOMContentLoaded', () => {
     voteListen(button);
     colorVoteButton(button);
   });
+
+  // Enable edit buttons
+  document.querySelectorAll('.edit').forEach(button => button.addEventListener('click', editPost));
 
   // Enable delete buttons
   document.querySelectorAll('.delete').forEach(deleteListen);
@@ -24,6 +27,6 @@ window.addEventListener('DOMContentLoaded', () => {
   (bestAnswer && bestAnswer.classList.add('best'));
 
   // Fill answer box with draft if it exists.
-  const draft = localStorage.getItem(`draft${window.location.href.match(/\d+$/)[0]}`);
+  const draft = window.localStorage.getItem(`draft${window.location.href.match(/\d+$/)[0]}`);
   document.getElementById('answerInput').value = draft ? draft.split('$$break$$').join('\n') : '';
 });

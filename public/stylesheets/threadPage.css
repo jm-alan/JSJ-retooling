@@ -1,85 +1,99 @@
-:not(pre) > code {
-  background-color: rgb(48, 141, 48);
-  border: 2px solid rgb(48, 141, 48);
-  border-radius: 3px;
-  color: white;
-}
-
-a:link {
-  text-decoration: none;
-  color: rgb(79, 175, 0)
-}
-
-a > code {
-  color: greenyellow;
-}
-
 .threadContainer {
   background-color: rgb(240, 240, 240);
   display: flex;
   flex-direction: column;
 }
 
-.body {
+.threadContainer :not(pre) > code {
+  background-color: rgb(48, 141, 48);
+  border: 2px solid rgb(48, 141, 48);
+  border-radius: 3px;
+  color: white;
+}
+
+.threadContainer a:link {
+  text-decoration: none;
+  color: rgb(79, 175, 0)
+}
+
+.threadContainer a > code {
+  color: greenyellow;
+}
+
+
+.threadContainer .body {
   display: flex;
   flex-direction: column;
   margin: 0;
   font-size: 1.25em;
 }
 
-.bodyContainer {
-  flex: 0;
-  padding: 10px;
+.threadContainer .bodyContainer {
+  width: 72vw;
+  min-width: 400px;
+  max-width: 900px;
+  padding: 10px 0px;
 }
 
-img {
+.threadContainer img {
   width: 100%;
   height: auto;
 }
 
-pre {
+.threadContainer pre {
   background-color: rgb(48, 141, 48);
   border: 5px solid rgb(48, 141, 48);
   border-radius: 3px;
   color: white;
-  white-space: pre-wrap !important;
+  white-space: pre-wrap;
 }
 
-.post {
+.threadContainer .post {
+  position: relative;
+  box-sizing: border-box;
   background-color: white;
   display: flex;
   flex-direction: row-reverse;
-  padding: 0 5px 0 8px;
+  padding: 0 10px 0 0;
   margin: 0% auto;
-  width: 50%;
+  width: 90vw;
+  min-width: 500px;
+  max-width: 1000px;
   border: 3px solid black;
   justify-content: flex-end;
   max-height: 500px;
   overflow-y: auto;
   white-space: inherit;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: pre-wrap;
 }
 
-.post p {
+.threadContainer .post p {
   margin: 0;
 }
 
-.post.question {
+.threadContainer .post.question {
   box-shadow: 0px 0px 10px 0px rgb(48, 200, 48);
   margin-bottom: 100px;
 }
 
-.post.answer.best {
+.threadContainer .post.answer.best {
   box-shadow: 0px 0px 10px 0px rgb(48, 157, 200);
   margin-bottom: 50px;
 }
 
-.questionTitle {
+.threadContainer .questionTitle {
   display: flex;
   flex-direction: column;
-  margin: 20px 10%
+  margin: 20px 10vw;
 }
 
-.questionTitle > h1 {
+.threadContainer .questionTitle h1 {
+  text-align: center;
+}
+
+.threadContainer .questionTitle > h1 {
   margin-left: auto;
   margin-right: auto;
   color: black;
@@ -87,57 +101,56 @@ pre {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.post-vote-up.voted {  
+.threadContainer .post-vote-up.voted {
   color: rgb(48, 200, 48);
 }
 
-.post-vote-down.voted {
+.threadContainer .post-vote-down.voted {
   color: rgb(230, 49, 49);
 }
 
-.voting-button {
+.threadContainer .voting-button {
   font-size: 30px;
   margin: 0 auto;
   position: relative;
 }
 
-.voting-button:hover {
+.threadContainer .voting-button:hover {
   cursor: pointer;
   bottom: 2px;
 }
 
-.voting-button:active {
+.threadContainer .voting-button:active {
   bottom: 0px
 }
 
-.post-vote-up:hover, .post-vote-up:active {
+.threadContainer .post-vote-up:hover, .post-vote-up:active {
   color: rgb(48, 200, 48);
 }
 
-.post-vote-down:hover, .post-vote-down:active {
+.threadContainer .post-vote-down:hover, .post-vote-down:active {
   color: rgb(230, 49, 49);
 }
 
-.bodyScore {
+.threadContainer .bodyScore {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 50px;
-  margin-right: 15px;
+  width: 75px;
 }
 
-.bodyScore > * {
+.threadContainer .bodyScore > * {
   align-self: center;
 }
 
-.bodyScore p.scoreThreadPage {
+.threadContainer .bodyScore p.scoreThreadPage {
   margin: 0 0;
   font-size: 30px;
   text-align: center;
   box-sizing: border-box;
 }
 
-.bodyScore p.label {
+.threadContainer .bodyScore p.label {
   margin: 4px auto 0 auto;
   font-size: 20px;
 }
@@ -170,13 +183,35 @@ pre {
   align-self: flex-end;
 }
 
-.delete {
-  margin-left: 5px;
-  margin-top: 5px;
+.threadContainer .delete {
+  position: absolute;
+  right: 5px;
+  top: 5px;
   color: rgb(245, 59, 59);
 }
 
-.edit {
-  margin-left: auto;
-  margin-top: 5px;
+.threadContainer .edit {
+  position: absolute;
+  right: 25px;
+  top: 5px;
+}
+
+.edit-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0,0,0,0.6);
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  width: 60vw;
+  height: 80vh;
+  left: 20vw;
+  right: 20vw;
+  top: 10vh;
 }

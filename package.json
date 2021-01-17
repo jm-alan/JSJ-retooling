@@ -2,9 +2,12 @@
   "name": "express-project-starter",
   "version": "0.0.0",
   "private": true,
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
     "start": "per-env",
-    "start:development": "nodemon -r dotenv/config ./bin/www",
+    "start:development": "nodemon --trace-warnings -r dotenv/config ./bin/www",
     "start:production": "node ./bin/www"
   },
   "dependencies": {
@@ -17,6 +20,7 @@
     "express-session": "^1.17.1",
     "express-validator": "^6.7.0",
     "http-errors": "~1.6.3",
+    "marked": "^1.2.7",
     "node-fetch": "^2.6.1",
     "per-env": "^1.0.2",
     "pg": "^8.4.2",
