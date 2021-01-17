@@ -10,6 +10,12 @@ module.exports = (sequelize, DataTypes) => {
     Thread.hasMany(models.Post, { foreignKey: 'threadId' });
   };
 
+  Thread.prototype.createSeedQuestion = async function ({ body, score }) {
+    return this.createPost({ body, score, isQuestion: true, userId: this.userId });
+  };
+  Thread.prototype.createSeedAnswer = async function ({ body, score, userId }) {
+    return this.createPost({ body, score, userId, isQuestion: false });
+  };
   Thread.prototype.createQuestion = async function ({ body }) {
     return await this.createPost({ body, score: 0, isQuestion: true, userId: this.userId });
   };

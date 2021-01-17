@@ -7,7 +7,6 @@ const marked = require('marked');
 const { Post, Thread, Score } = require('../db/models');
 const { asyncHandler, requireAuth, sanitizeOptions } = require('../utils');
 
-
 const router = express.Router();
 
 router.patch('/:id', requireAuth, asyncHandler(async ({ body: { body }, session: { auth: { userId } }, params: { id } }, res) => {
@@ -22,16 +21,22 @@ router.patch('/:id', requireAuth, asyncHandler(async ({ body: { body }, session:
 }));
 
 router.post('/', csrfProtection, asyncHandler(async (req, res) => {
-  const { body: { threadId, answerInput, session: { auth: { userId } } } } = req;
-  if (res.locals.authenticated) {
-    const thread = await Thread.findByPk(threadId);
-    const { id, body } = await thread.createAnswer({
-      body: marked(sanitize(answerInput, sanitizeOptions)),
-      userId
-    });
-    res.json({ success: true, id, body });
-  } else {
-    res.json({ success: false, reason: 'anon' });
+  console.log(req);
+  try {
+    const { body: { threadId, answerInput }, session: { auth: { userId } } } = req;
+    if (res.locals.authenticated) {
+      const thread = await Thread.findByPk(threadId);
+      const { id, body } = await thread.createAnswer({
+        body: marked(sanitize(answerInput, sanitizeOptions)),
+        userId
+      });
+      res.json({ success: true, id, body });
+    } else {
+      res.json({ success: false, reason: 'anon' });
+    }
+  } catch (err) {
+    console.error(err);
+    console.error('Short:', err.toString());
   }
 }));
 

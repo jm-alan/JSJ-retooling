@@ -192,11 +192,11 @@
 
 .threadContainer .edit {
   position: absolute;
-  right: 20px;
+  right: 25px;
   top: 5px;
 }
 
-.threadContainer .edit-screen {
+.edit-screen {
   position: fixed;
   top: 0;
   left: 0;
@@ -205,7 +205,7 @@
   background-color: rgba(0,0,0,0.6);
 }
 
-.threadContainer .edit-form {
+.edit-form {
   display: flex;
   flex-direction: column;
   position: fixed;
