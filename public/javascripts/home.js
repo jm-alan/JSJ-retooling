@@ -4,8 +4,8 @@ let currentPage = 1;
 let pageMode = 'recent';
 let lastPageEl;
 
-window.addEventListener('load', async (event) => {
-  let res = await fetch(`${window.location.origin}/api/recent`);
+window.addEventListener('load', async () => {
+  let res = await window.fetch('/api/recent');
   let body = await res.json();
   let postArr = body.threads;
 
@@ -80,7 +80,7 @@ window.addEventListener('load', async (event) => {
       currentPage = 1;
       recentButton.classList.add('sortButton--selected');
       popularButton.classList.remove('sortButton--selected');
-      res = await fetch(`${window.location.origin}/api/recent`);
+      res = await window.fetch('/api/recent');
       body = await res.json();
       postArr = body.threads;
 
@@ -103,7 +103,7 @@ window.addEventListener('load', async (event) => {
       currentPage = 1;
       recentButton.classList.remove('sortButton--selected');
       popularButton.classList.add('sortButton--selected');
-      res = await fetch(`${window.location.origin}/api/popular`);
+      res = await window.fetch('/api/popular');
       body = await res.json();
       postArr = body.threads;
       const pageData = await fetchThreads(postArr, 1);

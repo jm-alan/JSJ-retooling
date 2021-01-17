@@ -1,4 +1,6 @@
 import answerSubmit from './answerSubmit.js';
+import editSubmit from './editSubmit.js';
+import editPost from './editPost.js';
 import create from './create.js';
 import createQuestionDiv from './createQuestionDiv.js';
 import deleteListen from './deleter.js';
@@ -14,6 +16,8 @@ import colorVoteButton from './colorVoteButton.js';
 
 export {
   answerSubmit,
+  editSubmit,
+  editPost,
   create,
   createQuestionDiv,
   deleteListen,
