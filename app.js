@@ -1,4 +1,3 @@
-// NPM modules
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -6,7 +5,6 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
-// Internal modules
 const { sequelize } = require('./db/models');
 const { homeRouter, usersRouter, apiRouter, questionRouter, postRouter } = require('./routes');
 const { sessionSecret } = require('./config');
@@ -42,21 +40,19 @@ app.use('/users', usersRouter);
 app.use('/api', apiRouter);
 app.use('/questions', questionRouter);
 app.use('/posts', postRouter);
-app.get('/signup', (req, res) => {
+app.get('/signup', (_req, res) => {
   res.redirect('/users/signup');
 });
-app.get('/login', (req, res) => {
+
+app.get('/login', (_req, res) => {
   res.redirect('/users/login');
 });
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use(function (_req, _res, next) {
   next(createError(404));
 });
 
-// error handler
-app.use(function (error, req, res, next) {
-  // set locals, only providing error in development
+app.use(function (error, req, res, _next) {
   res.locals.message = error.message;
   res.locals.error = req.app.get('env') === 'development' ? error : {};
   if (error.status === 404) {
