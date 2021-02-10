@@ -1,7 +1,7 @@
 # JavaScript Jungle Retooling
 
 ### This project is a retooling/updating of a group project to which I contributed.
-### Meant to be a clone of [StackOverflow](https://www.stackoverflow.com), the original can be found [here](http://javascriptjungle.herokuapp.com), while the updated project can be found [here](http://jsjredux.herokuapp.com).
+### Meant to be a clone of [StackOverflow](https://www.stackoverflow.com), the updated project can be found [here](https://jsjredux.herokuapp.com), while the original project and repo can be found [here](https://javascriptjungle.herokuapp.com) and [here](https://github.com/Giiaga/JavaScriptJungle), respectively.
 
 ### This readme will serve as a running list of changes/updates/upgrades I've performed to the original codebase and data structure.
 
