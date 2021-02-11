@@ -1,9 +1,9 @@
 # JavaScript Jungle Retooling
 
-### This project is a retooling/updating of a group project to which I contributed.
+### This project is a retooling/updating of a group project.
 ### Meant to be a clone of [StackOverflow](https://www.stackoverflow.com), the updated project can be found [here](https://jsjredux.herokuapp.com), while the original project and repo can be found [here](https://javascriptjungle.herokuapp.com) and [here](https://github.com/Giiaga/JavaScriptJungle), respectively.
 
-### This readme will serve as a running list of changes/updates/upgrades I've performed to the original codebase and data structure.
+### This readme will serve as a running list of changes/updates/upgrades performed to the original codebase and data structure.
 
 ##### 12/07/2020 - Fixed a bug where voting and delete functionality was not active on AJAX-rendered new answers to a question.
 ##### 12/07/2020 - Created a new primary site user whose account is not accessible to the public, protecting the seeded content from unnecessary modifications.
