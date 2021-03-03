@@ -20,11 +20,11 @@
     "express-session": "^1.17.1",
     "express-validator": "^6.7.0",
     "http-errors": "~1.6.3",
-    "marked": "^1.2.7",
+    "marked": "^2.0.1",
     "node-fetch": "^2.6.1",
     "per-env": "^1.0.2",
     "pg": "^8.4.2",
-    "pug": "2.0.4",
+    "pug": "^3.0.2",
     "sanitize-html": "^2.2.0",
     "sequelize": "^5.22.3",
     "sequelize-cli": "^5.5.1"
