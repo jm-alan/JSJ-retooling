@@ -14,4 +14,4 @@
 ##### 12/13/2020 - Phase 1 of abstracting many of the front-end functions into their own files to make the code more modular, and consequently more maintainable.
 ##### 12/18/2020 - Added a bit of flare to the vote buttons on hover/click, and added persistent visual indication that a given logged-in user has voted on a given post.
 ##### 01/17/2020 - Posts are now editable
-##### 01/17/2020 - The implementation of the homepage fetch functionality has been rebuilt from the ground up, with new, modular, scalable API routes.
+##### 01/17/2020 - The implementation of the homepage fetch functionality has been rebuilt from the ground up, with new, modular, scalable API routes. This has the added benefit of patching the dreaded bodyless thread homepage render fail bug mentioned earlier.
