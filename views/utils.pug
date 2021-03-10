@@ -6,3 +6,20 @@ mixin field2(fieldLabel, fieldName, fieldType, fieldValue=null, id=null, inputId
         label(for=fieldName class="formLabel")=fieldLabel
     div
         input(type=fieldType name=fieldName value=fieldValue class="textField signUpField" id=inputId)
+mixin linkCircle( faInfo, link)
+    div(class='footer-button-wrapper')
+        a(href=link target="_blank" class='footer-link')
+            div(class='footer-link-image-wrapper')
+                i(class=faInfo)
+mixin authorInfo( name, github=null, linkedIn=null, angelList=null, personalSite=null)
+    div(class='footer-user-info')
+        div(class='footer-name')=name
+        div(class='footer-button-wrapper')
+            if github
+                +linkCircle('fab fa-github fa-2x', github)
+            if linkedIn
+                +linkCircle('fab fa-linkedIn fa-2x', linkedIn)
+            if angelList
+                +linkCircle('fab fa-angelList fa-2x', angelList)
+            if personalSite
+                +linkCircle('fab fa-briefcase fa-2x', personalSite)
