@@ -8,22 +8,50 @@ html
       script(src="https://kit.fontawesome.com/0ccb37cdbe.js" crossorigin="anonymous")
       script(src="/javascripts/search.js")
   body
-    nav#navbar
-      a(href='/' id="homeButton")
-        img(id="homeButtonImage" src="../images/jsjungle_logo.png" alt="logo")
+    div(class='page-wrapper')
+      nav#navbar
+        a(href='/' id="homeButton")
+          img(id="homeButtonImage" src="../images/jsjungle_logo.png" alt="logo")
 
-      span(class="searchIcon" style="font-size: 1.6em; color: LightGreen;")
-        i(class="fas fa-search" id="searchIcon")
+        span(class="searchIcon" style="font-size: 1.6em; color: LightGreen;")
+          i(class="fas fa-search" id="searchIcon")
 
-      input(id="searchBar" type="search" placeholder="Search..." name='searchbar' class="textField" maxlength="70")
+        input(id="searchBar" type="search" placeholder="Search..." name='searchbar' class="textField" maxlength="70")
 
-      if authenticated
-        a(href='/users/' + user.id id="profileButton")
-          span(style="font-size: 2em; color: LightGreen;")
-            i(class="fas fa-user")
-      else
-        a(href='/users/login' id="logInLink")
-          span(style="font-size: 2em; color: LightGreen;")
-            i(class="fas fa-sign-in-alt")
+        if authenticated
+          a(href='/users/' + user.id id="profileButton")
+            span(style="font-size: 2em; color: LightGreen;")
+              i(class="fas fa-user")
+        else
+          a(href='/users/login' id="logInLink")
+            span(style="font-size: 2em; color: LightGreen;")
+              i(class="fas fa-sign-in-alt")
 
-    block content
+      block content
+  
+      div(id='footer-container')
+        div(id='footer')
+          div(class='footer-button-wrapper')
+            a(href='https://github.com/jpremo' target="_blank" class='footer-link')
+                div(class='footer-link-image-wrapper')
+                    i(class="fab fa-github fa-2x")
+
+
+        //-   <a href='https://www.linkedin.com/in/jacob-premo/' target="_blank" className='footer-link'>
+        //-       <div className='footer-link-image-wrapper'>
+        //-           <i className="fab fa-linkedin fa-2x"></i>
+        //-       </div>
+        //-   </a>
+        //-   <a href='https://angel.co/u/jacob-premo' target="_blank" className='footer-link'>
+        //-       <div className='footer-link-image-wrapper'>
+        //-           <i className="fab fa-angellist fa-2x"></i>
+        //-       </div>
+        //-   </a>
+        //-   <a href='https://www.jacobpremo.com/' target="_blank" className='footer-link'>
+        //-       <div className='footer-link-image-wrapper'>
+        //-           <i className="fas fa-briefcase fa-2x"></i>
+        //-       </div>
+        //-   </a>
+        //- </div>
+        //- <div className='footer-copyright'>
+        //-   copyright
