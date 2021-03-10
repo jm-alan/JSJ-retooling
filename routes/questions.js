@@ -7,7 +7,7 @@ const { Thread, User } = require('../db/models');
 const { asyncHandler, sanitizeOptions } = require('../utils');
 
 router.get('/:id(\\d+)', csrfProtection, asyncHandler(async (req, res) => {
-  const { userId } = req.session.auth ?? { userId: null };
+  const { userId } = req.session.auth ? req.session.auth : { userId: null };
   const thread = await Thread.findByPk(req.params.id);
   const { title } = thread;
   const threadPosts = await thread.getPosts({
