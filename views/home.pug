@@ -9,12 +9,16 @@ append head
 block content
   #content
     #questionsHeader
-      h2 Top Questions
-      a(href="/questions/new" class="newQuestion")
-        button.buttonHover New Question
-      #sortBar
-        button(class="sortButton sortButton--selected buttonHover" id="recent") Recent
-        button(class="sortButton buttonHover" id="popular") Popular
+      if searchTerm
+        h2.searchHeader Search Results For: #{searchTerm}
+        span#searchTerm.searchHeader #{searchTerm}
+      else
+        h2 Top Questions
+        a(href="/questions/new" class="newQuestion")
+          button.buttonHover New Question
+        #sortBar
+          button(class="sortButton sortButton--selected buttonHover" id="recent") Recent
+          button(class="sortButton buttonHover" id="popular") Popular
     #questions
     #buttonContainer
       #pageSelection
