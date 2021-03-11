@@ -6,6 +6,7 @@
   width: 100%;
   height: 60px;
   background-color: rgb(48, 141, 48);
+  border-bottom: 1px solid black;
 }
 
 .searchIcon {
@@ -64,7 +65,6 @@
 }
 
 #footer-container {
-  padding-bottom: 100px;
   margin-top: 10px;
   bottom: 0;
   z-index: -100;
@@ -76,28 +76,33 @@
   left: 0;
   right: 0;
   width: 100%;
-  height: 100px;
+  height: auto;
   position: absolute;
   bottom: 0px;
 
-  background-color: #adcbe2cc;
-  margin: 0px;
-  padding: 0px 0px;
+  background-color: rgb(48, 141, 48);
+  padding: 5px 0px;
   display: flex;
   width: 100%;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
   border-top: 1px solid black;
   border-bottom: 1px solid black;
-  align-items: center;
   box-sizing: border-box;
-  flex-direction: column;
   font-size: 18px;
 }
 
+@media only screen and (max-width: 969px) {
+  #footer {
+    justify-content: space-around;
+  }
+}
+
 .footer-link-image-wrapper{
-    min-width: 54px;
-    min-height: 54px;
-    background-color: #e0c3fc;
+    min-width: 36px;
+    min-height: 36px;
+    background-color: lightgreen;
     border-radius: 54px;
     display: flex;
     align-items: center;
@@ -109,7 +114,7 @@
 }
 
 .footer-link-image-wrapper:hover{
-    background-color: #8ec5fc;
+    background-color: rgb(123, 202, 123);
     font-size: 20px;
 }
 
@@ -130,7 +135,7 @@
 .footer-link{
     color: black;
     text-decoration: none;
-    margin: 0 20px;
+    margin: 0 8px;
 }
 
 .footer-button-wrapper{
@@ -143,4 +148,18 @@
 
 .footer-copyright{
     margin: 5px 0;
+}
+
+.footer-user-info{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 5px 15px;
+}
+
+.footer-name{
+  margin: 10px 0 0px 0;
+  font-size: 18px;
+  color: white;
+  text-shadow: 2px 2px black;
 }
