@@ -15,7 +15,7 @@ html
       span(class="searchIcon" style="font-size: 1.6em; color: LightGreen;")
         i(class="fas fa-search" id="searchIcon")
 
-      input(id="searchBar" type="search" placeholder="Search..." name='searchbar' class="textField" maxlength="70")
+      input#searchBar.textField(type="search" placeholder="Search..." name='searchbar' maxlength="70" value=searchTerm || '')
 
       if authenticated
         a(href='/users/' + user.id id="profileButton")
