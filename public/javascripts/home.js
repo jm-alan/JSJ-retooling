@@ -4,11 +4,20 @@ let currentPage = 1;
 let pageMode = 'recent';
 let lastPageEl;
 
+const highlightPage = page => {
+  document.querySelectorAll('.numberedButton').forEach(button => button.classList.remove('numberedButton--selected'));
+  document.querySelector(`#numberedButtonId__${page}`).classList.add('numberedButton--selected');
+};
+
 window.addEventListener('load', async () => {
-  const { threads } = await (await window.fetch(`/api/new/${pageMode}/${currentPage}`)).json();
+  let searchEntry = window.location.href.match(/(?<=entry=([^a-zA-Z]*))[a-zA-Z][a-zA-Z0-9- ]+(?=(.*))/);
+  if (searchEntry) {
+    searchEntry = searchEntry[0];
+    pageMode = 'search';
+  }
+  const { threads, pages: totalPages } = await (await window.fetch(`/api/new/${pageMode}/${currentPage}?entry=${searchEntry}`)).json();
   refreshPage(threads);
 
-  const totalPages = Math.ceil((await (await window.fetch('/api/threads/count')).json()).count / 10);
   const container = document.getElementById('pageSelection');
 
   if (totalPages > 1) {
@@ -20,29 +29,28 @@ window.addEventListener('load', async () => {
     lastPageEl = navButton('Next', container, lastPageEl);
   }
 
-  document.querySelectorAll('.sortButton').forEach(button => {
-    button.addEventListener('click', async ({ target }) => {
+  document.querySelectorAll('.sortButton').forEach(sortButton => {
+    sortButton.addEventListener('click', async ({ target }) => {
       const otherId = target.id === 'recent' ? 'popular' : 'recent';
       const otherButton = document.getElementById(otherId);
       pageMode = target.innerText.toLowerCase();
       target.classList.add('sortButton--selected');
       otherButton.classList.remove('sortButton--selected');
       currentPage = 1;
-      document.querySelectorAll('.numberedButton').forEach(button => button.classList.remove('numberedButton--selected'));
-      document.querySelector(`#numberedButtonId__${currentPage}`).classList.add('numberedButton--selected');
-      const { threads } = await (await window.fetch(`/api/new/${pageMode}/${currentPage}`)).json();
-      refreshPage(threads);
+      const { threads: sortThreads } = await (await window.fetch(`/api/new/${pageMode}/${currentPage}?entry=${searchEntry}`)).json();
+      refreshPage(sortThreads);
+      highlightPage(currentPage);
     });
   });
-  document.querySelectorAll('.numberedButton').forEach(button => {
-    button.addEventListener('click', async ({ target }) => {
-      document.querySelectorAll('.numberedButton').forEach(button => button.classList.remove('numberedButton--selected'));
+
+  document.querySelectorAll('.numberedButton').forEach(numberedButton => {
+    numberedButton.addEventListener('click', async ({ target }) => {
       if (target.innerText === 'Prev' && currentPage !== 1) currentPage--;
       else if (target.innerText === 'Next' && currentPage !== totalPages) currentPage++;
       else currentPage = target.innerText;
-      const { threads } = await (await window.fetch(`/api/new/${pageMode}/${currentPage}`)).json();
-      refreshPage(threads);
-      document.querySelector(`#numberedButtonId__${currentPage}`).classList.add('numberedButton--selected');
+      const { threads: numberThreads } = await (await window.fetch(`/api/new/${pageMode}/${currentPage}?entry=${searchEntry}`)).json();
+      refreshPage(numberThreads);
+      highlightPage(currentPage);
     });
   });
 });
