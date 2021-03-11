@@ -1,3 +1,4 @@
+include utils
 doctype html
 html
   head
@@ -7,23 +8,36 @@ html
       link(rel='stylesheet' href='/stylesheets/main.css')
       script(src="https://kit.fontawesome.com/0ccb37cdbe.js" crossorigin="anonymous")
       script(src="/javascripts/search.js")
+      script(src="/javascripts/footer.js")
   body
-    nav#navbar
-      a(href='/' id="homeButton")
-        img(id="homeButtonImage" src="../images/JSJungle.png" alt="logo")
+    div(class='page-wrapper')
+      nav#navbar
+        a(href='/' id="homeButton")
+          img(id="homeButtonImage" src="../images/jsjungle_logo.png" alt="logo")
 
-      span(class="searchIcon" style="font-size: 1.6em; color: LightGreen;")
-        i(class="fas fa-search" id="searchIcon")
+        span(class="searchIcon" style="font-size: 1.6em; color: LightGreen;")
+          i(class="fas fa-search" id="searchIcon")
 
       input#searchBar.textField(type="search" placeholder="Search..." name='searchbar' maxlength="70" value=searchTerm || '')
 
-      if authenticated
-        a(href='/users/' + user.id id="profileButton")
-          span(style="font-size: 2em; color: LightGreen;")
-            i(class="fas fa-user")
-      else
-        a(href='/users/login' id="logInLink")
-          span(style="font-size: 2em; color: LightGreen;")
-            i(class="fas fa-sign-in-alt")
+        if authenticated
+          a(href='/users/' + user.id id="profileButton")
+            span(style="font-size: 2em; color: LightGreen;")
+              i(class="fas fa-user")
+        else
+          a(href='/users/login' id="logInLink")
+            span(style="font-size: 2em; color: LightGreen;")
+              i(class="fas fa-sign-in-alt")
 
-    block content
+      block content
+
+      div(id='footer-container')
+        div(id='footer')
+          +authorInfo('Giiaga Agha', 'https://github.com/Giiaga', 'https://www.linkedin.com/in/giiaga-agha-a500031b3/',
+          'https://angel.co/u/giiaga-agha', null)
+          +authorInfo('Joshua Alan', 'https://github.com/jm-alan', 'https://www.linkedin.com/in/j-alan/',
+          null, 'https://jm.codes/')
+          +authorInfo('Andrew Dotterer', 'https://github.com/adotterer', 'https://www.linkedin.com/in/adotterer/',
+          'https://angel.co/u/adotterer', 'https://adotterer.github.io/')
+          +authorInfo('Jacob Premo', 'https://github.com/jpremo', 'https://www.linkedin.com/in/jacob-premo/',
+          'https://angel.co/u/jacob-premo', 'https://www.jacobpremo.com/')

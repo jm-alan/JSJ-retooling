@@ -4,7 +4,7 @@ block content
   #content
     #questionsHeader
       if logoutButton
-        h2 Hello, #{user.userName}
+        h2 Hello #{user.userName}
       else
         h2= user.userName
       if logoutButton
@@ -13,12 +13,20 @@ block content
         #sortBar
           form(method="post" action="/users/logout")
             button(id="logoutButton" type="submit") Logout
-    .profile__threadContainer
-      h2.profile__header Questions posted by #{user.userName}
-      each thread in questionThreads
-        div.profile__threads
-          a(href=`/questions/${thread.id}` class="profile__link")= thread.title
-      h2.profile__header Answers posted by #{user.userName}
-      each post in posts
-        div.profile__threads
-          a(href=`/questions/${post.threadId}` class="profile__link")= post.Thread.title
+    .side-to-side
+      .profile__threadContainer
+        if logoutButton
+          h2.profile__header Your Questions
+        else
+          h2.profile__header Questions posted by #{user.userName}
+        each thread in questionThreads
+          div.profile__threads
+            a(href=`/questions/${thread.id}` class="profile__link")= thread.title
+      .profile__threadContainer
+        if logoutButton
+          h2.profile__header Your Answers
+        else
+          h2.profile__header Answers posted by #{user.userName}
+        each post in posts
+          div.profile__threads
+            a(href=`/questions/${post.threadId}` class="profile__link")= post.Thread.title
