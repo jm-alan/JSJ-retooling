@@ -3,8 +3,10 @@ const router = express.Router();
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
+  const { query: { entry: searchTerm } } = req;
   res.render('home', {
-    title: 'Javascript Jungle'
+    title: 'Javascript Jungle',
+    searchTerm
   });
 });
 
@@ -14,11 +16,6 @@ router.get('/login', function (req, res, next) {
 
 router.get('/signup', function (req, res, next) {
   res.redirect('/users');
-});
-
-router.get('/search', function (req, res, next) {
-  const searchTerm = req.query.entry;
-  res.render('searchResults', { searchTerm });
 });
 
 module.exports = router;
