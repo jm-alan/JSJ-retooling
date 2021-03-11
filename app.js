@@ -12,6 +12,13 @@ const { restoreUser } = require('./utils');
 
 const app = express();
 
+// eslint-disable-next-line
+Array.prototype.asyncMap = async function (_$) {
+  const _ = [];
+  for (let $ = 0; $ < this.length; $++) _.push(await _$(this[$], $, this));
+  return _;
+};
+
 app.set('view engine', 'pug');
 
 if (process.env.NODE_ENV === 'development') app.use(require('morgan')('dev'));

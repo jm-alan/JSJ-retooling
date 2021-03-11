@@ -4,7 +4,6 @@ const restoreUser = require('./restoreUser');
 const loginUser = require('./loginUser');
 const logoutUser = require('./logoutUser');
 const requireAuth = require('./requireAuth');
-const searchThreads = require('./searchThreads');
 const getThreadsByIds = require('./getThreadsByIds');
 const userValidator = require('./userValidator');
 const loginValidator = require('./loginValidator');
@@ -17,7 +16,6 @@ module.exports = {
   handleValidationErrors,
   loginUser,
   logoutUser,
-  searchThreads,
   getThreadsByIds,
   userValidator,
   loginValidator,

@@ -1,6 +1,6 @@
-export default async function (question) {
-  question.timeStamp = `asked ${new Date(question.createdAt).toLocaleString({}, { timeStyle: 'short', dateStyle: 'short' }).split(',').join(' |')} by `;
+export default function (question) {
   const outerDiv = document.createElement('div');
+  question.timeStamp = `asked ${new Date(question.createdAt).toLocaleString({}, { timeStyle: 'short', dateStyle: 'short' }).split(',').join(' |')} by `;
   outerDiv.classList.add('question');
   outerDiv.innerHTML = `
     <div class='answerNumber'>
