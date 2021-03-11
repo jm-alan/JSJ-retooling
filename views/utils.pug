@@ -13,13 +13,13 @@ mixin linkCircle( faInfo, link)
                 i(class=faInfo)
 mixin authorInfo( name, github=null, linkedIn=null, angelList=null, personalSite=null)
     div(class='footer-user-info')
-        div(class='footer-name')=name
         div(class='footer-button-wrapper')
             if github
                 +linkCircle('fab fa-github fa-2x', github)
             if linkedIn
-                +linkCircle('fab fa-linkedIn fa-2x', linkedIn)
+                +linkCircle('fab fa-linkedin fa-2x', linkedIn)
             if angelList
-                +linkCircle('fab fa-angelList fa-2x', angelList)
+                +linkCircle('fab fa-angellist fa-2x', angelList)
             if personalSite
-                +linkCircle('fab fa-briefcase fa-2x', personalSite)
+                +linkCircle('fas fa-briefcase fa-2x', personalSite)
+        div(class='footer-name')=name
