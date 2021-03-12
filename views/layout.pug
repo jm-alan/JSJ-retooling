@@ -20,14 +20,14 @@ html
 
         input#searchBar.textField(type="search" placeholder="Search..." name='searchbar' maxlength="70" value=searchTerm || '')
 
-      if authenticated
-        a(href='/users/' + user.id id="profileButton")
-          span(style="font-size: 2em; color: LightGreen;")
-            i(class="fas fa-user")
-      else
-        a(href='/users/login' id="logInLink")
-          span(style="font-size: 2em; color: LightGreen;")
-            i(class="fas fa-sign-in-alt")
+        if authenticated
+          a(href='/users/' + user.id id="profileButton")
+            span(style="font-size: 2em; color: LightGreen;")
+              i(class="fas fa-user")
+        else
+          a(href='/users/login' id="logInLink")
+            span(style="font-size: 2em; color: LightGreen;")
+              i(class="fas fa-sign-in-alt")
 
       block content
 
