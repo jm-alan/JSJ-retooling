@@ -27,9 +27,7 @@ body {
 }
 
 .formLabel {
-  color: white;
-  background-color: rgba(31, 117, 42, 0.8);
+  color: rgb(37, 37, 37);
   padding: 1px;
-  text-shadow: rgb(0, 0, 0) 0px 3px 10px;
   font-size: large;
 }
