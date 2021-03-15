@@ -1,17 +1,66 @@
-# JavaScript Jungle Retooling
+# JavaScript Jungle
 
-### This project is a retooling/updating of a group project.
-### Meant to be a clone of [StackOverflow](https://www.stackoverflow.com), the updated project can be found [here](https://jsjredux.herokuapp.com), while the original project and repo can be found [here](https://javascriptjungle.herokuapp.com) and [here](https://github.com/Giiaga/JavaScriptJungle), respectively.
+_By Joshua Alan, Jacob Premo, Andrew Dotterer, and Giiaga Agha - [Visit JavaScript Jungle](https://jsjungle.herokuapp.com/)_
 
-### This readme will serve as a running list of changes/updates/upgrades performed to the original codebase and data structure.
+**Table of Contents**
 
-##### 12/07/2020 - Fixed a bug where voting and delete functionality was not active on AJAX-rendered new answers to a question.
-##### 12/07/2020 - Created a new primary site user whose account is not accessible to the public, protecting the seeded content from unnecessary modifications.
-##### 12/11/2020 - A fatal security bug allowed a potential user to submit an additional "question" to a thread via public API, and then delete that question, causing a cascade delete of the thread, effectively allowing users to delete any question they want regardless of post owner. This has been patched.
-##### 12/13/2020 - Fixed a previously unnoticed issue causing the "recent" page to display each individual page in reverse order.
-##### 12/13/2020 - Finally fixed a major, but intermittent issue that would cause threads not to delete correctly when deleting their corresponding question. Due to the way the homepage query is written, this was also causing a cascade effect where a thread existing with no posts would prevent the rendering of the entire homepage. That poor dependency has not yet been patched, but it should not present again in the immediate future.
-##### 12/13/2020 - API to post new questions now follows a more RESTful design.
-##### 12/13/2020 - Phase 1 of abstracting many of the front-end functions into their own files to make the code more modular, and consequently more maintainable.
-##### 12/18/2020 - Added a bit of flare to the vote buttons on hover/click, and added persistent visual indication that a given logged-in user has voted on a given post.
-##### 01/17/2021 - Posts are now editable
-##### 01/17/2021 - The implementation of the homepage fetch functionality has been rebuilt from the ground up, with new, modular, scalable API routes. This has the added benefit of patching the dreaded bodyless thread homepage render fail bug mentioned earlier.
+- [Application Architecture & Technologies Used](#application-architecture)
+- [Frontend Overview](#frontend-overview)
+- [Backend Overview](#backend-overview)
+- [Updates](#updates)
+
+Meant to be a clone of [StackOverflow](https://www.stackoverflow.com), the updated project can be found [here](https://jsjredux.herokuapp.com), while the original project and repo can be found [here](https://javascriptjungle.herokuapp.com) and [here](https://github.com/Giiaga/JavaScriptJungle), respectively.
+
+# Application Architecture
+
+![ApplicationArchitecture](./public/images/readme_appdesign.png)
+
+# Frontend Overview
+
+
+
+# Updates
+
+_12/07/2020_
+
+Fixed a bug where voting and delete functionality was not active on AJAX-rendered new answers to a question.
+
+_12/07/2020_
+
+Created a new primary site user whose account is not accessible to the public, protecting the seeded content from unnecessary modifications.
+
+_12/11/2020_
+
+A fatal security bug allowed a potential user to submit an additional "question" to a thread via public API, and then delete that question, causing a cascade delete of the thread, effectively allowing users to delete any question they want regardless of post owner. This has been patched.
+
+_12/13/2020_
+
+Fixed a previously unnoticed issue causing the "recent" page to display each individual page in reverse order.
+
+_12/13/2020_
+
+Finally fixed a major, but intermittent issue that would cause threads not to delete correctly when deleting their corresponding question. Due to the way the homepage query is written, this was also causing a cascade effect where a thread existing with no posts would prevent the rendering of the entire homepage. That poor dependency has not yet been patched, but it should not present again in the immediate future.
+
+_12/13/2020_
+
+API to post new questions now follows a more RESTful design.
+
+_12/13/2020_
+
+Phase 1 of abstracting many of the front-end functions into their own files to make the code more modular, and consequently more maintainable.
+
+_12/18/2020_
+
+Added a bit of flare to the vote buttons on hover/click, and added persistent visual indication that a given logged-in user has voted on a given post.
+
+_01/17/2021_
+
+Posts are now editable
+
+_01/17/2021_
+
+The implementation of the homepage fetch functionality has been rebuilt from the ground up, with new, modular, scalable API routes. This has the added benefit of patching the dreaded bodyless thread homepage render fail bug mentioned earlier.
+
+_03/15/2021_
+
+Updated Readme, CSS
