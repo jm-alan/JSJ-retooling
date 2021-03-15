@@ -55,7 +55,10 @@
   align-items: center;
   flex-direction: column;
 }
-#loginButton {
+
+input.inputButton {
+  color: rgb(14, 14, 14);
+  font-size: 1em;
   justify-self: center;
   width: 100px;
   height: 29px;
@@ -64,10 +67,24 @@
   font-size: 15px;
   font-size: large;
   background-color: rgb(222, 233, 233);
-  border: 3px solid rgb(59, 33, 3);
+  border: 1px solid rgb(59, 33, 3);
+  transition: all 0.2s ease-in;
 }
+
+input.inputButton:hover {
+  border: 1px solid rgb(3, 119, 100);
+}
+
+
 #signupLink {
   justify-self: center;
+  font-size: 1.1em;
+  padding: 8px;
+  transition: color 0.2s ease-in;
+}
+
+#signupLink:hover {
+  color:rgb(28, 119, 89);
 }
 
 .signUpField {

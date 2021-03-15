@@ -10,24 +10,23 @@ body {
 .textField {
   border-radius: 6px;
   border: 1px solid rgb(39, 39, 39);
-  background-color: rgb(235, 186, 131);
+  /* background-color: rgb(235, 186, 131); */
   color: black;
   transition: all 0.2s ease-in;
 
 }
 
 .textField:focus {
-  background-color: rgb(185, 147, 104);
-  border: 1px solid lightgreen;
+  /* background-color: rgb(185, 147, 104); */
+  border: 1px solid rgb(19, 124, 19);
   outline: 0px;
 }
 
 .textField::placeholder {
-  color: black;
+  color: rgb(32, 32, 32);
 }
 
 .formLabel {
   color: rgb(37, 37, 37);
-  padding: 1px;
   font-size: large;
 }
