@@ -1,3 +1,12 @@
+html, body, input, h1,h2,h3,h4,h5 {
+
+font-family: 'Work Sans', sans-serif;
+}
+
+h1 {
+  font-weight: 400;
+}
+
 #content {
   display: flex;
   flex-direction: column;

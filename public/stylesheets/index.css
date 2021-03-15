@@ -9,25 +9,24 @@ body {
 
 .textField {
   border-radius: 6px;
-  border: 3px solid rgb(59, 33, 3);
-  background-color: rgb(235, 186, 131);
+  border: 1px solid rgb(39, 39, 39);
+  /* background-color: rgb(235, 186, 131); */
   color: black;
+  transition: all 0.2s ease-in;
+
 }
 
 .textField:focus {
-  background-color: rgb(185, 147, 104);
-  border: 3px solid lightgreen;
+  /* background-color: rgb(185, 147, 104); */
+  border: 1px solid rgb(19, 124, 19);
   outline: 0px;
 }
 
 .textField::placeholder {
-  color: black;
+  color: rgb(32, 32, 32);
 }
 
 .formLabel {
-  color: white;
-  background-color: rgba(31, 117, 42, 0.8);
-  padding: 1px;
-  text-shadow: rgb(0, 0, 0) 0px 3px 10px;
+  color: rgb(37, 37, 37);
   font-size: large;
 }

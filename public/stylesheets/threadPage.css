@@ -55,7 +55,7 @@
   display: flex;
   flex-direction: row-reverse;
   padding: 0 10px 0 0;
-  margin: 0% auto;
+  margin: 10px auto;
   width: 90vw;
   min-width: 500px;
   max-width: 1000px;
@@ -67,6 +67,20 @@
   overflow-wrap: break-word;
   word-wrap: break-word;
   white-space: pre-wrap;
+
+}
+
+.post::-webkit-scrollbar {
+  width: 0.8em;
+}
+
+.post::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(22, 105, 5, 0.3);
+}
+
+.post::-webkit-scrollbar-thumb {
+  background-color: rgb(17, 158, 76);
+  outline: 1px solid rgb(188, 255, 214);
 }
 
 .threadContainer .post p {
@@ -96,9 +110,9 @@
 .threadContainer .questionTitle > h1 {
   margin-left: auto;
   margin-right: auto;
-  color: black;
-  font-weight: bold;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: rgb(24, 24, 24);
+  font-weight: 400;
+
 }
 
 .threadContainer .post-vote-up.voted {
@@ -169,6 +183,27 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+
+.create-answer input {
+  padding: 5px;
+  margin: 5px;
+}
+
+.create-answer button {
+  outline: 0;
+  border: 1px solid rgb(44, 44, 44);
+  background-color:rgb(236, 236, 236);
+  font-size: 1em;
+  padding: 5px;
+  margin-top: 5px;
+  font-weight: 400;
+  transition: all 0.1s linear;
+}
+
+.create-answer button:hover {
+  color: white;
+  background-color:rgb(17, 158, 76);
 }
 
 #answerInputLabel {
