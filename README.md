@@ -52,8 +52,6 @@ Express handles all routes using RESTful API and sends all information from the 
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-
 - npm
 
   ```sh
