@@ -1,6 +1,10 @@
 import { editSubmit } from './index.js';
 
-export default function ({ target }) {
+export default function (editIcon) {
+  editIcon.addEventListener('click', editPost);
+}
+
+const editPost = ({ target }) => {
   const { dataset: { backendId } } = target;
   const original = document.querySelector(`#post-${backendId} div.bodyContainer`);
   const editModal = document.createElement('div');
@@ -24,9 +28,7 @@ export default function ({ target }) {
   document.body.appendChild(screen);
   submit.addEventListener('click', editSubmit(backendId));
   [editModal, editForm, editBox].forEach(piece => {
-    piece.addEventListener('click', e => {
-      e.stopPropagation();
-    });
+    piece.addEventListener('click', e => e.stopPropagation());
   });
   const deconstruct = () => {
     screen.parentNode.removeChild(screen);
@@ -34,4 +36,4 @@ export default function ({ target }) {
   };
   screen.addEventListener('click', deconstruct);
   document.body.style.overflow = 'hidden';
-}
+};
