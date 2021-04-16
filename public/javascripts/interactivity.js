@@ -1,4 +1,4 @@
-import { prettyNumbers, voteListen, deleteListen, answerSubmit, editPost, colorVoteButton } from './index.js';
+import { prettyNumbers, voteListen, deleteListen, answerSubmit, editListen, colorVoteButton } from './index.js';
 
 window.addEventListener('DOMContentLoaded', () => {
   prettyNumbers();
@@ -10,7 +10,7 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   // Enable edit buttons
-  document.querySelectorAll('.edit').forEach(button => button.addEventListener('click', editPost));
+  document.querySelectorAll('.edit').forEach(editListen);
 
   // Enable delete buttons
   document.querySelectorAll('.delete').forEach(deleteListen);
