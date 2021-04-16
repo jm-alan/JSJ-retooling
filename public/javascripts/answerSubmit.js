@@ -1,44 +1,45 @@
-import { create, voteListen, deleteListen } from './index.js';
+import { create, editListen, voteListen, deleteListen } from './index.js';
 
 export default async function (event) {
   event.preventDefault();
   const threadId = window.location.href.match(/\d+$/)[0];
   const inputBox = document.getElementById('answerInput');
 
-  const { success, id, reason, body } = await (await window.fetch('/posts', {
+  const response = await window.fetch('/posts', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ answerInput: inputBox.value, _csrf: document.getElementById('csrf').value, threadId })
-  })).json();
+  });
+  const { success, id, reason, body } = await response.json();
 
   if (success) {
+    const scoreLabel = create('p', null, 'label');
+    const innerBody = create('div', null, 'body');
+    const bodyScore = create('div', null, 'bodyScore');
     const div = create('div', `post-${id}`, 'post', 'answer');
-    div.innerHTML = `
-      <i id="new-answer-delete-${id}" class="delete-answer delete far fa-trash-alt" data-backend-id="${id}"></i>
-      <i class="edit-answer edit fas fa-edit" data-backend-id="${id}" aria-hidden="true"></i>
-      <div class="body">
-        <div class="bodyContainer">
-          ${body}
-        </div>
-      </div>
-      <div class="bodyScore">
-        <i class="new-answer-vote-${id} post-vote-up voting-button fas fa-chevron-up" data-backend-id="${id}"></i>
-        <p class="scoreThreadPage" data-backend-id="${id}" id="score-${id}">0</p>
-        <i class="new-answer-vote-${id} post-vote-down voting-button fas fa-chevron-down" data-backend-id="${id}" aria-hidden="true"></i>
-        <p class="label">Likes</p>
-      </div>
-      `;
+    const innerBodyContainer = create('div', null, 'bodyContainer');
+    const innerScore = create('p', `score-${id}`, 'scoreThreadPage');
+    const editButton = create('i', `new-edit-${id}`, 'edit-answer', 'edit', 'fas', 'fa-edit');
+    const deleteButton = create('i', `new-answer-delete-${id}`, 'delete-answer', 'delete', 'far', 'fa-trash-alt');
+    const upVote = create('i', null, `new-answer-vote-${id}`, 'post-vote-up', 'voting-button', 'fas', 'fa-chevron-up');
+    const downVote = create('i', null, `new-answer-vote-${id}`, 'post-vote-up', 'voting-button', 'fas', 'fa-chevron-down');
+    [deleteButton, editButton, upVote, innerScore, downVote].forEach(button => button.setAttribute('data-backend-id', id));
+    [deleteButton, editButton, innerBody, bodyScore].forEach(child => div.appendChild(child));
+    [upVote, innerScore, downVote, scoreLabel].forEach(child => bodyScore.appendChild(child));
+    innerBody.appendChild(innerBodyContainer);
+    innerBodyContainer.innerHTML = body;
+    scoreLabel.innerText = 'Likes';
+    innerScore.innerText = 0;
     inputBox.value = '';
     document.querySelector('.threadContainer').appendChild(div);
-    deleteListen(document.getElementById(`new-answer-delete-${id}`));
-    document.querySelectorAll(`.new-answer-vote-${id}`).forEach(voteListen);
+    editListen(editButton);
+    deleteListen(deleteButton);
+    [upVote, downVote].forEach(voteListen);
     window.localStorage.removeItem(`draft${threadId}`);
-  } else {
-    if (reason === 'anon') {
-      window.localStorage.setItem(`draft${threadId}`, inputBox.value.split('\n').join('$$break$$'));
-      window.location = `/users/login?pref=${window.location}`;
-    }
+  } else if (reason === 'anon') {
+    window.localStorage.setItem(`draft${threadId}`, inputBox.value.split('\n').join('$$break$$'));
+    window.location = `/users/login?pref=${window.location}`;
   }
 }
