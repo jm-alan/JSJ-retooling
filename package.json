@@ -17,7 +17,6 @@
     "csurf": "^1.11.0",
     "debug": "~2.6.9",
     "express": "~4.16.1",
-    "express-session": "^1.17.1",
     "express-validator": "^6.7.0",
     "http-errors": "~1.6.3",
     "marked": "^2.0.1",
@@ -26,11 +25,10 @@
     "pg": "^8.4.2",
     "pug": "^3.0.2",
     "sanitize-html": "^2.2.0",
-    "sequelize": "^5.22.3",
-    "sequelize-cli": "^5.5.1"
+    "sequelize": "^6.6.2",
+    "sequelize-cli": "^6.2.0"
   },
   "devDependencies": {
-    "dotenv": "^8.2.0",
     "dotenv-cli": "^4.0.0",
     "faker": "^5.1.0",
     "morgan": "^1.10.0",
