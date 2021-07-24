@@ -20,7 +20,7 @@ const nameMaker = () => {
   const userName = `${firstName.toLowerCase()}.${lastName}${pNum}`;
   const email = `${userName}@website.com`;
   const hashedPassword = bcrypt.hashSync(faker.internet.password(), 10);
-  return { firstName, lastName, userName, email, hashedPassword, createdAt: new Date(), updatedAt: new Date() };
+  return { userName, email, hashedPassword, createdAt: new Date(), updatedAt: new Date() };
 };
 
 for (let i = 10000; i < 20000; i++) {

@@ -10,7 +10,6 @@ const {
   loginValidator
 } = require('../utils');
 
-console.log();
 const { User, Thread, Post, Score } = require('../db/models');
 
 const router = express.Router();
@@ -89,14 +88,12 @@ router.post('/', crsfProtection, userValidator, asyncHandler(async (req, res) =>
   const { pref } = req.query;
   const validatorErrors = validationResult(req);
   if (validatorErrors.isEmpty()) {
-    const { userName, email, password, firstName, lastName } = req.body;
+    const { userName, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({
       userName,
       email,
-      hashedPassword,
-      firstName,
-      lastName
+      hashedPassword
     });
     loginUser(req, res, user);
     if (pref) {
