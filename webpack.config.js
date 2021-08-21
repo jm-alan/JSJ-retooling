@@ -7,7 +7,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, 'build'),
-    publicPath: '.',
+    publicPath: './public',
     filename: '[name].js'
   },
   target: 'node',
