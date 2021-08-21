@@ -12,6 +12,8 @@ import throwPageError from './throwPageError.js';
 import tryCastVote from './tryCastVote.js';
 import voteListen from './voter.js';
 import colorVoteButton from './colorVoteButton.js';
+import './search.js';
+import './footer.js';
 
 export {
   answerSubmit,
