@@ -1,6 +1,6 @@
 const createError = require('http-errors');
 const express = require('express');
-const path = require('path');
+const { resolve } = require('path');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
@@ -23,9 +23,19 @@ app.set('view engine', 'pug');
 
 if (environment === 'development') app.use(require('morgan')('dev'));
 
+const resolveStaticJS = (req, res, next) => {
+  const urlMatch = req.url.match(/^\/(index|home|login|interactivity)\.js$/);
+  const filename = urlMatch && urlMatch[0].slice(1);
+  if (filename) {
+    res.sendFile(filename);
+  }
+  next();
+};
+
 const staticPath = environment === 'development'
-  ? path.join(__dirname, 'public')
-  : path.resolve(__dirname, '../public');
+  ? resolve(__dirname, 'public')
+  : resolve(__dirname, '../public');
+app.use(resolveStaticJS);
 app.use(express.static(staticPath));
 app.use(express.json());
 app.use(cookieParser(sessionSecret));
