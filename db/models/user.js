@@ -2,7 +2,7 @@
 const { Op, Model, ValidationError, ValidationErrorItem } = require('sequelize');
 const { hashSync, compareSync } = require('bcryptjs');
 
-module.exports = (sequelize, { DataTypes, fn }) => {
+module.exports = (sequelize, { DataTypes }) => {
   class User extends Model {
     validatePass (password) {
       return !!password && compareSync(password, this.password);
@@ -75,6 +75,9 @@ module.exports = (sequelize, { DataTypes, fn }) => {
       type: DataTypes.STRING,
       allowNull: false
     }
+  }, {
+    sequelize,
+    modelName: 'User'
   });
 
   return User;
