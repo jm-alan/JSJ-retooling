@@ -36,4 +36,7 @@ block content
         input(type='hidden' name='isQuestion' value='false')
         input#csrf(type='hidden' name='_csrf' value=csrfToken)
         button#answer-submit(type='submit') Submit
-  script(type='module' src='/javascripts/interactivity.js' defer)
+  if isProduction
+    script(src='/interactivity.js' type='module' defer)
+  else
+    script(type='module' src='/javascripts/interactivity.js' defer)
