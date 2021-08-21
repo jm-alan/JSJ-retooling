@@ -7,7 +7,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, 'build'),
-    publicPath: './public',
+    publicPath: '/',
     filename: '[name].js'
   },
   target: 'node',
@@ -28,6 +28,14 @@ module.exports = {
             transforms: ['imports']
           }
         }
+      },
+      {
+        test: /\.html$/,
+        loader: 'html-loader'
+      },
+      {
+        test: /\.css$/,
+        loader: 'css-loader'
       }
     ]
   }
