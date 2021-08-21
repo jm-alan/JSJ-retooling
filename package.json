@@ -6,7 +6,7 @@
     "node": ">=16.x"
   },
   "scripts": {
-    "heroku-postbuild": "npm run build && rm -rf node_modules",
+    "heroku-postbuild": "npm run build",
     "start": "per-env",
     "start:development": "nodemon --trace-warnings -r dotenv/config ./bin/www",
     "start:production": "node ./build/main.js",
