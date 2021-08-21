@@ -1,26 +1,36 @@
 'use strict';
 
-module.exports = (sequelize, DataTypes) => {
-  const Thread = sequelize.define('Thread', {
+module.exports = (sequelize, { Model, DataTypes }) => {
+  class Thread extends Model {
+    static associate ({ User, Post }) {
+      Thread.belongsTo(User, { foreignKey: 'userId' });
+      Thread.hasMany(Post, { foreignKey: 'threadId' });
+    }
+
+    async createSeedQuestion ({ body, score }) {
+      return await this.createPost({ body, score, isQuestion: true, userId: this.userId });
+    }
+
+    async createSeedAnswer ({ body, score, userId }) {
+      return await this.createPost({ body, score, userId, isQuestion: false });
+    }
+
+    async createQuestion ({ body }) {
+      return await this.createPost({ body, score: 0, isQuestion: true, userId: this.userId });
+    }
+
+    async createAnswer ({ body, userId }) {
+      return await this.createPost({ body, score: 0, isQuestion: false, userId });
+    }
+  }
+
+  Thread.init({
     title: DataTypes.STRING,
     userId: DataTypes.INTEGER
-  }, {});
-  Thread.associate = function (models) {
-    Thread.belongsTo(models.User, { foreignKey: 'userId' });
-    Thread.hasMany(models.Post, { foreignKey: 'threadId' });
-  };
+  }, {
+    sequelize,
+    modelName: 'Thread'
+  });
 
-  Thread.prototype.createSeedQuestion = async function ({ body, score }) {
-    return this.createPost({ body, score, isQuestion: true, userId: this.userId });
-  };
-  Thread.prototype.createSeedAnswer = async function ({ body, score, userId }) {
-    return this.createPost({ body, score, userId, isQuestion: false });
-  };
-  Thread.prototype.createQuestion = async function ({ body }) {
-    return await this.createPost({ body, score: 0, isQuestion: true, userId: this.userId });
-  };
-  Thread.prototype.createAnswer = async function ({ body, userId }) {
-    return await this.createPost({ body, score: 0, isQuestion: false, userId });
-  };
   return Thread;
 };
