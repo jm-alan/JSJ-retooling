@@ -1,4 +1,5 @@
 const { check } = require('express-validator');
+const { User } = require('../db/models');
 
 module.exports = [
   check('userName')
@@ -35,11 +36,5 @@ module.exports = [
       if (value !== req.body.password) {
         throw new Error('Confirm Password does not match Password');
       } else return true;
-    }),
-  check('firstName')
-    .exists({ checkFalsy: true })
-    .withMessage('Please provide a first name'),
-  check('lastName')
-    .exists({ checkFalsy: true })
-    .withMessage('Please provide a last name')
+    })
 ];

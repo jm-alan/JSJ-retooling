@@ -1,13 +1,20 @@
 'use strict';
-module.exports = (sequelize, DataTypes) => {
-  const Score = sequelize.define('Score', {
+module.exports = (sequelize, { Model, DataTypes }) => {
+  class Score extends Model {
+    static associate ({ User, Post }) {
+      Score.belongsTo(User, { foreignKey: 'userId' });
+      Score.belongsTo(Post, { foreignKey: 'postId' });
+    }
+  }
+
+  Score.init({
     isLiked: DataTypes.BOOLEAN,
     userId: DataTypes.INTEGER,
     postId: DataTypes.INTEGER
-  }, {});
-  Score.associate = function (models) {
-    Score.belongsTo(models.User, { foreignKey: 'userId' });
-    Score.belongsTo(models.Post, { foreignKey: 'postId' });
-  };
+  }, {
+    sequelize,
+    modelName: 'Score'
+  });
+
   return Score;
 };

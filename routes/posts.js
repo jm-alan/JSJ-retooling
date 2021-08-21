@@ -21,7 +21,6 @@ router.patch('/:id', requireAuth, asyncHandler(async ({ body: { body }, session:
 }));
 
 router.post('/', csrfProtection, asyncHandler(async (req, res) => {
-  console.log(req);
   try {
     const { body: { threadId, answerInput }, session: { auth: { userId } } } = req;
     if (res.locals.authenticated) {
