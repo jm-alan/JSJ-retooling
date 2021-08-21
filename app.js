@@ -26,7 +26,6 @@ if (environment === 'development') app.use(require('morgan')('dev'));
 const staticPath = environment === 'development'
   ? path.join(__dirname, 'public')
   : path.resolve(__dirname, '../public');
-console.log('FILE PATH=============', staticPath);
 app.use(express.static(staticPath));
 app.use(express.json());
 app.use(cookieParser(sessionSecret));
