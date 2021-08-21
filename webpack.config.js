@@ -28,18 +28,6 @@ module.exports = {
             transforms: ['imports']
           }
         }
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader']
-      },
-      {
-        test: /\.(png|svg|jpg|gif)$/,
-        loader: 'file-loader'
-      },
-      {
-        test: /\.pug$/,
-        loader: 'pug-loader'
       }
     ]
   }

@@ -7,7 +7,7 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const { sequelize } = require('./db/models');
 const { homeRouter, usersRouter, apiRouter, questionRouter, postRouter } = require('./routes');
-const { sessionSecret } = require('./config');
+const { sessionSecret, environment } = require('./config');
 const { restoreUser } = require('./utils');
 
 const app = express();
@@ -21,8 +21,10 @@ Array.prototype.asyncMap = async function (_$) {
 
 app.set('view engine', 'pug');
 
-if (process.env.NODE_ENV === 'development') app.use(require('morgan')('dev'));
-app.use(express.static(path.join(__dirname, 'public')));
+if (environment === 'development') app.use(require('morgan')('dev'));
+app.use(express.static(environment === 'development'
+  ? path.join(__dirname, 'public')
+  : path.resolve('../public')));
 app.use(express.json());
 app.use(cookieParser(sessionSecret));
 app.use(express.urlencoded({ extended: false }));
