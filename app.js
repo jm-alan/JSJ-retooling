@@ -22,9 +22,12 @@ Array.prototype.asyncMap = async function (_$) {
 app.set('view engine', 'pug');
 
 if (environment === 'development') app.use(require('morgan')('dev'));
-app.use(express.static(environment === 'development'
+
+const staticPath = environment === 'development'
   ? path.join(__dirname, 'public')
-  : path.resolve('../public')));
+  : path.resolve(__dirname, '../public');
+console.log('FILE PATH=============', staticPath);
+app.use(express.static(staticPath));
 app.use(express.json());
 app.use(cookieParser(sessionSecret));
 app.use(express.urlencoded({ extended: false }));
