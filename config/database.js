@@ -1,4 +1,4 @@
-const { db: { username, password, database, host } } = require('./index');
+const { db: { username, password, database, host }, environment } = require('./');
 
 module.exports = {
   development: {
@@ -11,7 +11,6 @@ module.exports = {
     logging: false
   },
   production: {
-    use_env_variable: 'DATABASE_URL',
     dialect: 'postgres',
     seederStorage: 'sequelize',
     dialectOptions: {
@@ -21,4 +20,4 @@ module.exports = {
       }
     }
   }
-};
+}[environment];

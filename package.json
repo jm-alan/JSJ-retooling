@@ -11,6 +11,7 @@
     "start:production": "node ./bin/www"
   },
   "dependencies": {
+    "@sucrase/webpack-loader": "^2.0.0",
     "bcryptjs": "^2.4.3",
     "connect-session-sequelize": "^7.0.4",
     "cookie-parser": "~1.4.4",
@@ -26,7 +27,10 @@
     "pug": "^3.0.2",
     "sanitize-html": "^2.2.0",
     "sequelize": "^6.6.2",
-    "sequelize-cli": "^6.2.0"
+    "sequelize-cli": "^6.2.0",
+    "webpack": "^5.51.1",
+    "webpack-cli": "^4.8.0",
+    "webpack-node-externals": "^3.0.0"
   },
   "devDependencies": {
     "dotenv-cli": "^4.0.0",
