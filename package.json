@@ -20,8 +20,10 @@
     "express": "~4.16.1",
     "express-session": "^1.17.2",
     "express-validator": "^6.7.0",
+    "faker": "^5.5.3",
     "http-errors": "~1.6.3",
     "marked": "^2.0.1",
+    "morgan": "^1.10.0",
     "node-fetch": "^2.6.1",
     "per-env": "^1.0.2",
     "pg": "^8.4.2",
@@ -35,8 +37,6 @@
   },
   "devDependencies": {
     "dotenv-cli": "^4.0.0",
-    "faker": "^5.1.0",
-    "morgan": "^1.10.0",
     "nodemon": "^2.0.6"
   }
 }
