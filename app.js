@@ -27,7 +27,7 @@ const resolveStaticJS = (req, res, next) => {
   const urlMatch = req.url.match(/^\/(index|home|login|interactivity)\.js$/);
   const filename = urlMatch && urlMatch[0].slice(1);
   if (filename) {
-    res.sendFile(filename);
+    res.sendFile(resolve(__dirname, filename));
   }
   next();
 };
