@@ -1,6 +1,5 @@
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
-const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -31,27 +30,17 @@ module.exports = {
         }
       },
       {
-        test: /\.html$/,
-        loader: 'html-loader',
-        options: {
-          minimize: true
-        }
-      },
-      {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
         loader: 'file-loader'
+      },
+      {
+        test: /\.pug$/,
+        loader: 'pug-loader'
       }
     ]
-  },
-  plugins: [
-    new HtmlWebPackPlugin({
-      template: './index.html',
-      filename: './index.html',
-      excludeChunks: ['main']
-    })
-  ]
+  }
 };
