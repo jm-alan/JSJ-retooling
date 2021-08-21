@@ -6,7 +6,8 @@ router.get('/', function (req, res, next) {
   const { query: { entry: searchTerm } } = req;
   res.render('home', {
     title: 'Javascript Jungle',
-    searchTerm
+    searchTerm,
+    isProduction: process.env.NODE_ENV === 'production'
   });
 });
 

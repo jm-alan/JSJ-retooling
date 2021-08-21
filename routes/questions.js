@@ -25,6 +25,7 @@ router.get('/:id(\\d+)', csrfProtection, asyncHandler(async (req, res) => {
     threadQuestion,
     threadAnswers,
     userId,
+    isProduction: process.env.NODE_ENV === 'production',
     csrfToken: req.csrfToken()
   });
 }));
@@ -34,7 +35,8 @@ router.get('/new', csrfProtection, function (req, res) {
     res.render('new-question', {
       csrfToken: req.csrfToken(),
       bodyVal: '',
-      titleVal: ''
+      titleVal: '',
+      isProduction: process.env.NODE_ENV === 'production'
     });
   } else {
     res.redirect('/users/login');
@@ -61,7 +63,8 @@ router.post('/', csrfProtection, asyncHandler(async ({ csrfToken, body: { title,
       errors,
       csrfToken: csrfToken(),
       bodyVal: body,
-      titleVal: title
+      titleVal: title,
+      isProduction: process.env.NODE_ENV === 'production'
     });
   }
 }));

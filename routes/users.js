@@ -19,7 +19,8 @@ router.get('/signup', crsfProtection, (req, res) => {
   res.render('signup', {
     title: 'Sign Up',
     csrfToken: req.csrfToken(),
-    pref: req.query.pref
+    pref: req.query.pref,
+    isProduction: process.env.NODE_ENV === 'production'
   });
 });
 
@@ -38,7 +39,8 @@ router.get('/login', crsfProtection, (req, res) => {
     res.render('login', {
       title: 'Login',
       csrfToken: req.csrfToken(),
-      pref: req.query.pref
+      pref: req.query.pref,
+      isProduction: process.env.NODE_ENV === 'production'
     });
   }
 });
@@ -78,7 +80,8 @@ router.post('/login', crsfProtection, loginValidator, asyncHandler(async (req, r
       emailAddress,
       errors,
       csrfToken: req.csrfToken(),
-      pref
+      pref,
+      isProduction: process.env.NODE_ENV === 'production'
     });
   }
 })
@@ -106,7 +109,8 @@ router.post('/', crsfProtection, userValidator, asyncHandler(async (req, res) =>
       ...req.body,
       csrfToken: req.csrfToken(),
       errors,
-      pref
+      pref,
+      isProduction: process.env.NODE_ENV === 'production'
     });
   }
 })
@@ -141,7 +145,13 @@ router.get(
       });
       // const threadIds = questionThreads.map((thread) => thread.id);
 
-      res.render('profile', { user, logoutButton, questionThreads, posts });
+      res.render('profile', {
+        user,
+        logoutButton,
+        questionThreads,
+        posts,
+        isProduction: process.env.NODE_ENV === 'production'
+      });
     } else {
       throw new Error('This user does not exist');
     }
